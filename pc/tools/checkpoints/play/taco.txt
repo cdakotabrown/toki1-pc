@@ -1,0 +1,29 @@
+# The computer club's contest game (TACO, step 144).  master_basyo_serifu_
+# main (MASTER, the 98/1/3 culture-club final, club 3) sets ret_step,
+# taco_rec |= 3 and enters step 144.  TACO's own step is now_sub_step
+# (taco_main): 0 the title (taco_main0: the blinking caption and the
+# countdown, sub-sub-step 3 waits for a press), 3 the menu
+# (taco_select_step; sub-sub-step 1 taco_select_adjust: up 0x1000 moves the
+# cursor D_8015EDF8 down by one and wraps 0 -> 4, circle 0x20 or start
+# 0x800 confirms; 901 frames on the menu go to the attract, sub-step 6),
+# then taco_menu_select_step after 65 frames: item 0 -> 10 (the game, 10
+# and 11), 4 -> 46 (taco_step_dispatch2: taco_result_save0, the card save,
+# the boot data and CD loads, taco_resume7).  taco_resume7 returns to
+# ret_step when bit 1 of taco_rec is set (MASTER's |= 3), else to the
+# title (step 18).
+# In play the d-pad moves (taco_camera, cursor_step: game bits 0x1000 /
+# 0x2000 / 0x4000 / 0x8000), circle (0x20) acts and start (0x800) ends a
+# play (play_end_set, then 45, the result, 8 / 9 / 5 and the menu again).
+# The cycle below picks the menu's first entry, moves, presses circle and
+# ends a play; after one game the menu's item 4 leaves.
+wait taco now_step=0x90 within 8000 mash {MASH}
+wait taco_title now_step=0x90 now_sub_sub_step=3 within 1500
++60 start
++60 cross
+wait taco_play now_step=0x90 now_sub_step!=0 within 3000
+wait taco_game now_step=0x90 now_sub_step=0x0b within 3000 mash circle,circle,circle,cross,right*6,circle,down*6,circle,start/15
+wait taco_menu now_step=0x90 now_sub_step=3 now_sub_sub_step=1 within 6000 mash circle,circle,circle,cross,right*6,circle,down*6,circle,start/15
++30 up
++30 circle
+wait taco_exit now_step=0x90 now_sub_step=0x2e within 600
+wait taco_done now_step!=0x90 within 6000

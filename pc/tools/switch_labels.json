@@ -1,0 +1,4 @@
+{
+ "description": "Per function: the case-label rewrite that gives the matched C the retail jump table (written by audit_switch_tables.py --write-plan, verified by re-compiling the relabeled C with the PS1 compiler). Applied only to the PC build; the matched C is never edited.",
+ "functions": {}
+}

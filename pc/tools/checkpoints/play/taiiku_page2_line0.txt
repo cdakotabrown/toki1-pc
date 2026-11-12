@@ -1,0 +1,11 @@
+# The sports festival (TAIIKU, scene 114): page 2's first event (step 14).
+# The menu and its steps: taiiku_page1_line0.txt.
+trace taiiku_state:4
+wait taiiku_menu now_step=0x72 taiiku_state=8 within 3000 mash cross/60
+point -81 89                # line 2: "another event"
+wait taiiku_another now_step=0x72 taiiku_state!=8 within 600 mash circle/30
+wait taiiku_page2 now_step=0x72 taiiku_state=10 within 1200 mash cross/60
+point -81 59
+wait taiiku_picked now_step=0x72 taiiku_state!=10 within 600 mash circle/30
+check taiiku_event_14 taiiku_state=14
+wait festival_done now_step!=0x72 within 24000 mash circle/10

@@ -1,0 +1,207 @@
+# Spring 1995 from power-on through real pad input (pc/tools/playthrough.py):
+# a club, a girl's first appearance, the sports festival's ball rolling and
+# the club's practice match.
+#
+# The new game of new_game.txt to the first school day (Tue 4 Apr 95), then:
+# - the night schedule's 雑学 (general knowledge) icon, every week;
+# - Sun 9 Apr: the holiday screen's club icon (icon 4, shown on Sundays
+#   with no club) -> the club list -> tennis (basyo_pack club 8);
+# - the third Sunday of every month (16 Apr, 21 May, 18 Jun) the club icon
+#   again -> "club activity" (holiday_club, menu 0): a sports club member
+#   who spends that Sunday elsewhere gets the answering-machine call
+#   (TEL sub-step 8, schedule_day_main) and leaves the club; the
+#   club_kept checks read the club nibble only (basyo_pack & 0xF000):
+#   the low bits are location flags the rand-decided June events set on
+#   some runs and not others (0x8100 on 11 Jun in one port run);
+# - a girl's first appearance, scene 91 (SHOUGATU; schedule type 72 from
+#   touzyou_check: 雑学 >= 36 brings girl 8, rand() % 3 per school day,
+#   not in April 95);
+# - Sat 3 Jun: the sports festival (scene 114, TAIIKU): "another event"
+#   -> ball rolling (TAMA2.TMD, drawn by GsTMDfastTG3LFG: lit, fogged)
+#   -> the partner plate -> the race, circle tapped to push;
+# - Sun 18 Jun: the club icon -> club activity -> holiday_club_exit:
+#   a sports club, the third Sunday of a month divisible by 3 ->
+#   scene 115 (RENSYU, the practice match).
+#
+# Pointer screens park the hand in the clamp corner (-150,-100) first, as
+# in new_game.txt (3 px per held frame).  Icon boxes (traced now_icon):
+# columns x -147..-129 / -123..-105 / -99..-81, rows y -46..-40,
+# -34..-22, -16..-4, 8..20, 26..32; icon 5 (雑学) is row 2 column 0.
+#
+# Between the screens it acts on, the script taps circle (`mash`) with the
+# hand on icon 5: through dialogue, through the weekday events the kernel
+# rand decides (walks home, phone calls, girls' first appearances -- the
+# port and the reference see a different rand: srand(vblnk_counter) at the
+# title), and on any holiday screen it picks 雑学 again.  Which days the
+# events fall on therefore differs between the two machines; the scripted
+# milestones do not.
+
+hold 2
+trace cursor_cw_x:2 cursor_cw_y:2 now_icon:1 reserved_date:4
+
+phase spring
+wait title_menu now_step=0x12 now_sub_step=2 now_sub_sub_step=1 within 3000
++30 start
+wait album_prompt now_step=0x13 now_sub_step=2 now_sub_sub_step=0x41 within 3000
++60 circle
+wait album_pick now_step=0x13 now_sub_step=2 now_sub_sub_step=0x45 within 600
++30 left+up*80              # park the hand in the clamp corner (-150,-100)
++82 right*10                # x=-120: album column 1
++12 down*29                 # y=-13: album 1 (menu_check_1 hit box)
++31 circle
+check album_1_chosen now_album:1=1
+wait sysfile_msg now_step=0x13 now_sub_step=2 now_sub_sub_step=0x47 within 600
++30 circle
+wait sysfile_prompt now_step=0x13 now_sub_step=2 now_sub_sub_step=0x49 within 600
++30 circle                  # create the system file: card_file_make x2 + writes
+wait surname_entry now_step=0x14 now_sub_step=1 now_sub_sub_step=1 within 1200
++30 left+up*80              # park (-150,-100)
++82 right*13                # x=-111: column 0
++15 down*20                 # y=-40: row 0
++22 circle                  # a
++10 right*5                 # x=-96: column 1
++10 circle                  # i
++10 start
+wait given_entry now_step=0x14 now_sub_step=1 now_sub_sub_step=3 within 600
++20 right*6                 # column 2
++10 circle                  # u
++10 right*5                 # column 3
++10 circle                  # e
++10 start
+wait nick_entry now_step=0x14 now_sub_step=1 now_sub_sub_step=5 within 600
++20 right*5                 # column 4
++10 circle                  # o
++10 start
+wait birthday_entry now_step=0x14 now_sub_step=1 now_sub_sub_step=7 within 600
++30 start                   # name_ent_hizuke_rand: a birthday from the kernel rand
+wait confirm now_step=0x14 now_sub_step=1 now_sub_sub_step=9 within 600
++30 start
+wait fuji_entry now_step=0x14 now_sub_step=2 now_sub_sub_step=1 within 600
++30 start
+wait fuji_confirm now_step=0x14 now_sub_step=2 now_sub_sub_step=3 within 600
++30 start
+wait prologue now_step=0x15 now_sub_step=0 now_sub_sub_step=1 within 600
++120 start
+wait schedule_ready now_step=0x34 now_sub_step=1 within 1200
+check first_day calendar:7=005f0404010000
+# the entered name is now in the player record (SJIS: a i / u e / o)
+check surname p_sei:8=82a082a200000000
+check given_name p_mei:8=82a482a600000000
+check nickname p_adana:8=82a8000000000000
+shot schedule 30
+trace basyo_pack:2 now_month:1 now_day:1 cw107_x:2 D_80128E46:2
++30 left+up*80              # park (-150,-100)
++82 right*4                 # (-138,-10): icon 5, 雑学
++6 down*30
++38 circle
+wait lesson now_step=0x40 within 600
+# The week's after-school events are the kernel rand's (GEKO, now_step
+# 0x56, waits for the pad): the event case taps circle through it.
+branch week_end within 6000
+case holiday now_step=0x46 now_sub_step=1 now_month:1=4 now_day:1=9
+case geko now_step=0x56
+  wait holiday_after_event now_step=0x46 now_sub_step=1 now_month:1=4 now_day:1=9 within 6000 mash circle/45
+end-branch
+check week_done calendar:7=005f0409060500     # Sun 9 Apr 95, 5 days passed
+# --- Sun 9 Apr: join the tennis club ---
++30 left+up*80              # park
++82 right*20                # (-90,-28): icon 4, the club
++22 down*24
++30 circle
+wait club_list now_step=0x46 now_sub_step=7 now_sub_sub_step=1 within 600
+shot club_list 30
++30 left+up*80              # park
++82 right*47                # (-9,-1): tennis (box -46..21, -7..5)
++49 down*33
++40 circle
+wait joined basyo_pack:2=0x8000 within 300
+wait night_0409 now_step=0x34 now_sub_step=1 within 2400 mash circle/60
++30 left+up*80              # park
++82 right*4                 # icon 5
++6 down*30
++38 circle
+# --- Sun 16 Apr: the club's Sunday ---
+wait club_sunday_1 now_step=0x46 now_sub_step=1 now_month:1=4 now_day:1=16 within 6000 mash circle/45
++30 left+up*80              # park
++82 right*20                # icon 4
++22 down*24
++30 circle
+wait club_menu_1 now_step=0x46 now_sub_step=6 within 600
++30 left+up*80              # park
++82 right*23                # (-81,+59): "club activity" (box -99..-39, 53..68)
++25 down*53
++55 circle
+wait club_done_1 now_step=0x34 now_sub_step=1 within 2400 mash circle/60
+check club_kept_1 basyo_pack:2&0xF000=0x8000
++30 left+up*80              # park
++82 right*4                 # icon 5
++6 down*30
++38 circle
+# --- May: a girl's first appearance ---
+wait touzyou now_step=0x5b within 24000 mash circle/45
+shot touzyou 120
+# --- Sun 21 May: the club's Sunday ---
+wait club_sunday_2 now_step=0x46 now_sub_step=1 now_month:1=5 now_day:1=21 within 12000 mash circle/45
++30 left+up*80              # park
++82 right*20                # icon 4
++22 down*24
++30 circle
+wait club_menu_2 now_step=0x46 now_sub_step=6 within 600
++30 left+up*80              # park
++82 right*23                # "club activity"
++25 down*53
++55 circle
+wait club_done_2 now_step=0x34 now_sub_step=1 within 2400 mash circle/60
+check club_kept_2 basyo_pack:2&0xF000=0x8000
++30 left+up*80              # park
++82 right*4                 # icon 5
++6 down*30
++38 circle
+# --- Sat 3 Jun: the sports festival (TAIIKU) ---
+wait taiiku now_step=0x72 now_month:1=6 now_day:1=3 within 12000 mash circle/45
+# "Which event shall I enter?" -- cross once the line is out; the event
+# menu shows the hand (cursor_cw_disp bit 7) in the same sub-step; the
+# schedule's hand is still flagged on TAIIKU's first frame
+wait taiiku_text now_step=0x72 now_sub_step=0 cursor_cw_disp:1!=0x84 within 600
+wait taiiku_menu now_step=0x72 now_sub_step=0 cursor_cw_disp:1=0x84 within 1800 mash cross/60
++30 left+up*80              # park
++82 right*23                # (-81,+89): "another event" (box -129..30, 86..98)
++25 down*63
+# taiiku_menu takes a press once its lines are out (check_end_k) and then
+# clears the hand's bit 7: tap circle until it does -- one tap only, since
+# "another event" flips the page back and forth -- and wait for page 2's
+# menu to show the hand again
+wait taiiku_another now_step=0x72 now_sub_step=0 cursor_cw_disp:1=0x04 within 1200 mash circle/30
+wait taiiku_page2 now_step=0x72 now_sub_step=0 cursor_cw_disp:1=0x84 within 600
++30 left+up*80              # park
++82 right*23                # (-81,+74): page 2's ball rolling (box 68..80)
++25 down*58
+wait taiiku_ball now_step=0x72 cursor_cw_disp:1=0x04 within 1200 mash circle/30
+wait ball_partner now_step=0x72 now_sub_step=2 now_sub_sub_step=2 within 2400
++30 down*20                 # the hand to (-60,+60), on the partner plates' row
++30 left*20
+wait ball_picked now_step=0x72 now_sub_step=2 now_sub_sub_step=3 within 3000 mash circle/20
+wait ball_race now_step=0x72 now_sub_step=3 within 1200
+shot ball_1 300
+shot ball_2 300
+shot ball_3 600
+wait jun4 now_step=0x46 now_sub_step=1 now_month:1=6 now_day:1=4 within 12000 mash circle/10
++30 left+up*80              # park (the festival moved the hand)
++82 right*4                 # icon 5
++6 down*30
++38 circle
+# --- Sun 18 Jun: the club's Sunday -> the practice match (RENSYU) ---
+wait club_sunday_3 now_step=0x46 now_sub_step=1 now_month:1=6 now_day:1=18 within 12000 mash circle/45
+check club_kept_3 basyo_pack:2&0xF000=0x8000
++30 left+up*80              # park
++82 right*20                # icon 4
++22 down*24
++30 circle
+wait club_menu_3 now_step=0x46 now_sub_step=6 within 600
++30 left+up*80              # park
++82 right*23                # "club activity"
++25 down*53
++55 circle
+wait rensyu now_step=0x73 within 1200
+shot rensyu 300
+end 600

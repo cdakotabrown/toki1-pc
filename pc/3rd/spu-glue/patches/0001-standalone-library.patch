@@ -1,0 +1,75 @@
+0001 standalone library: SPU::GenerateSamples (synthesize N frames without
+the tick scheduler) and SPU::SetExternalOutputStream (a host-owned output
+stream).  This project's own change to the upstream files; applied by
+pc/3rd/spu-glue/fetch.sh, described in pc/3rd/SPU-CORE.md "Local patches".
+
+--- a/upstream/spu.h
++++ b/upstream/spu.h
+@@ -6,6 +6,7 @@
+ #include "types.h"
+ 
+ #include <array>
++#include <memory>
+ 
+ class StateWrapper;
+ 
+@@ -38,6 +39,14 @@
+ // Executes the SPU, generating any pending samples.
+ void GeneratePendingSamples();
+ 
++// Standalone-library extension: directly synthesize N output frames. Bypasses
++// the tick-event scheduler so callers that don't run a real CPU clock can
++// still get audio out. Each frame = 1 sample at SAMPLE_RATE (44100Hz stereo).
++// Calls SPU::Execute internally with the equivalent CPU-tick count, so all
++// downstream bookkeeping (ADSR, reverb, capture buffer, key-on/key-off)
++// runs exactly as during normal emulation.
++void GenerateSamples(u32 num_frames);
++
+ /// Access to SPU RAM.
+ const std::array<u8, RAM_SIZE>& GetRAM();
+ std::array<u8, RAM_SIZE>& GetWritableRAM();
+@@ -50,4 +59,6 @@
+ AudioStream* GetOutputStream();
+ void RecreateOutputStream();
+ 
++void SetExternalOutputStream(std::unique_ptr<AudioStream> stream);
++
+ }; // namespace SPU
+--- a/upstream/spu.cpp
++++ b/upstream/spu.cpp
+@@ -1627,6 +1627,35 @@
+   return s_state.audio_stream.get();
+ }
+ 
++void SPU::SetExternalOutputStream(std::unique_ptr<AudioStream> stream)
++{
++  s_state.audio_stream = std::move(stream);
++}
++
++// Standalone-library extension: directly synthesize N output frames.
++// We feed SPU::Execute enough CPU ticks for exactly num_frames of output
++// (plus any carry left over from last call). Clears ticks_carry first so the
++// math lines up, then restores a zero carry afterward — callers who mix this
++// with the real tick_event will experience at most 1-frame rounding error.
++void SPU::GenerateSamples(u32 num_frames)
++{
++  if (num_frames == 0)
++    return;
++
++  // Make sure any transfer work pending on the FIFO lands in RAM before we
++  // start synthesizing — matches what GeneratePendingSamples does.
++  if (s_state.transfer_event.IsActive())
++    s_state.transfer_event.InvokeEarly();
++
++  // Execute() consumes (ticks + ticks_carry) CPU ticks. To produce exactly
++  // num_frames SPU frames, hand it num_frames * SYSCLK_TICKS_PER_SPU_TICK
++  // CPU ticks and reset the carry so no rounding error sneaks in.
++  s_state.ticks_carry = 0;
++  const TickCount ticks = static_cast<TickCount>(num_frames) *
++                          static_cast<TickCount>(SYSCLK_TICKS_PER_SPU_TICK);
++  SPU::Execute(nullptr, ticks, 0);
++}
++
+ void SPU::Voice::KeyOn()
+ {
+   current_address = regs.adpcm_start_address & ~u16(1);

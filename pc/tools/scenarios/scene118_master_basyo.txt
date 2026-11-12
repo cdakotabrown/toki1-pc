@@ -1,0 +1,7 @@
+# Step 118: MASTER, the culture-club contest (master_basyo_init).
+# master_sub_step_dispatch calls game_reset unless the club is 0..5 (a
+# culture club).  The game reaches it in 1997 from schedule type 39.
+start album
+album date=97/6/1 club=literature para_bun=200
+do goto 118
+expect now_step=118 within 900 hold 300

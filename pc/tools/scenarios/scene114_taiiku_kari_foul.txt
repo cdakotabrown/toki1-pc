@@ -1,0 +1,43 @@
+# Step 114: TAIIKU, the borrowing race (借り物競走) ending in a foul: the
+# stamp 失格 ("DISQUALIFIED", src/patch/art/KARI).  The event menu's page 1,
+# line 2 (y +68) is the borrowing race; while the instruction slip is up
+# (114/3/1, taiiku_race3 sub-sub 1) the player enters the KONAMI CODE
+# (up up down down left right left right x o: konami_command_check sets
+# 0x800BA1EC) and taiiku_ouen_cue arms the foul mode (taiiku_konami_mode
+# 0x8012B374 = 1, SE 1550).  Picking the front-row girl (the seat
+# taiiku_kari_gseat) is then the foul; the pointer pick is replaced by a
+# SEEDED poke of the pick latch (D_801493F9 = 1, what that pick writes)
+# so the run does not depend on the hand's seat geometry.  With the mode
+# still 1, taiiku_goal_check2 forces last place and taiiku_result5 drops
+# the stamp (class_w[112], 114/5/3).
+# For the visual sweep and gate (docs/translation/VISUAL-SWEEP.md,
+# config/patch/visual_reference.json):
+#   python3 pc/tools/scenario.py pc/tools/scenarios/scene114_taiiku_kari_foul.txt \
+#       --set TOKI_LANG=en --set PC_SWEEP_DIR=$PWD/build/sweep/runs/kari
+start album
+album date=95/10/8
+do poke 0x8012B3A8:8 0
+do poke 0x800EF6D4:1 1
+do goto 114
+do when now_step=114 now_sub_step=3 now_sub_sub_step=1 do echo slip
+do after 200 poke 0x801493F9:1 1
+input wait taiiku now_step=114 within 1500
+input +420 circle
+input wait menu now_step=114 cursor_cw_disp:1=0x84 within 1800 mash cross/60
+input point 60 68
+input wait run now_step=114 now_sub_step=2 now_sub_sub_step=2 within 3000 mash circle/30
+input wait slip now_step=114 now_sub_step=3 now_sub_sub_step=1 within 4000 mash circle/6
+input +40 up*3
+input +7 up*3
+input +7 down*3
+input +7 down*3
+input +7 left*3
+input +7 right*3
+input +7 left*3
+input +7 right*3
+input +7 cross*3
+input +3 circle*3
+input wait foul now_step=114 taiiku_konami_mode:4=1 within 200
+input wait picked now_step=114 now_sub_sub_step!=1 within 400
+input wait result now_step=114 now_sub_step=5 within 6000 mash circle/6
+expect now_step=114 now_sub_step=5 now_sub_sub_step=3 within 1500 hold 20

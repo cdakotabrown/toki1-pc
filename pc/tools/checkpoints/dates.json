@@ -1,0 +1,859 @@
+{
+ "group": "dates",
+ "doc": "A reserved date with each girl who can be dated (girls 0..10), on the planning night the week before: the reservation tel_dialog20 writes (reserve), her gauges at the \"best\" mood the date events read, met with her number; the segment plays the week, takes the holiday screen's heart icon on the date day, plays the date (its choices by DATE_MASH) and its date event (step 94, docs/pc-port/COVERAGE-INVENTORY.md 3.4), home to the night planner.  Places: the ones open from a new game or in the vacations (3.3).",
+ "checkpoints": [
+  {
+   "id": "date_shiori_park",
+   "date": "96/10/13",
+   "activity": 5,
+   "reserve": {
+    "girl": 0,
+    "place": 0,
+    "day": "96/10/20"
+   },
+   "mood": "best",
+   "choice": 0,
+   "segment": {
+    "kind": "date",
+    "waits": [
+     [
+      "date_event",
+      "now_step=0x5e now_girl:1=0",
+      6000,
+      false
+     ]
+    ]
+   },
+   "set": {
+    "girl.shiori.flags": "|0x0a",
+    "girl.shiori.tokimeki": 128,
+    "girl.shiori.yuukou": 128,
+    "girl.shiori.bomb": 0
+   },
+   "covers": [
+    "DATE 80 with shiori at the neighbourhood park (0) on 96/10/20; date event 2 (Au, zs < 2, zh 0) -> DATE 94"
+   ]
+  },
+  {
+   "id": "date_mio_library",
+   "date": "96/11/3",
+   "activity": 5,
+   "reserve": {
+    "girl": 1,
+    "place": 8,
+    "day": "96/11/10"
+   },
+   "mood": "best",
+   "choice": 0,
+   "segment": {
+    "kind": "date",
+    "waits": [
+     [
+      "date_event",
+      "now_step=0x5e now_girl:1=1",
+      6000,
+      false
+     ]
+    ]
+   },
+   "set": {
+    "girl.mio.flags": "|0x0a",
+    "girl.mio.tokimeki": 128,
+    "girl.mio.yuukou": 128,
+    "girl.mio.bomb": 0
+   },
+   "covers": [
+    "DATE 80 with mio at the library (8) on 96/11/10; date event 11 (Au) -> DATE 94"
+   ]
+  },
+  {
+   "id": "date_yuina_arcade",
+   "date": "96/9/22",
+   "activity": 5,
+   "reserve": {
+    "girl": 2,
+    "place": 9,
+    "day": "96/9/29"
+   },
+   "mood": "best",
+   "choice": 0,
+   "segment": {
+    "kind": "date",
+    "waits": [
+     [
+      "date_event",
+      "now_step=0x5e now_girl:1=2",
+      6000,
+      false
+     ]
+    ]
+   },
+   "set": {
+    "girl.yuina.flags": "|0x0a",
+    "girl.yuina.tokimeki": 128,
+    "girl.yuina.yuukou": 128,
+    "girl.yuina.bomb": 0
+   },
+   "covers": [
+    "DATE 80 with yuina at the arcade (9) on 96/9/29; date event 17 (Au, year >= 96) -> DATE 94"
+   ]
+  },
+  {
+   "id": "date_ayako_beach",
+   "date": "96/7/28",
+   "activity": 5,
+   "reserve": {
+    "girl": 3,
+    "place": 17,
+    "day": "96/8/4"
+   },
+   "mood": "best",
+   "choice": 0,
+   "segment": {
+    "kind": "date",
+    "waits": [
+     [
+      "date_event",
+      "now_step=0x5e now_girl:1=3",
+      6000,
+      false
+     ]
+    ]
+   },
+   "set": {
+    "girl.ayako.flags": "|0x0a",
+    "girl.ayako.tokimeki": 128,
+    "girl.ayako.yuukou": 128,
+    "girl.ayako.bomb": 0
+   },
+   "covers": [
+    "DATE 80 with ayako at the beach (17) on 96/8/4; date event 23 (Su, summer vacation) -> DATE 94"
+   ]
+  },
+  {
+   "id": "date_saki_shopping",
+   "date": "97/1/19",
+   "activity": 5,
+   "reserve": {
+    "girl": 4,
+    "place": 2,
+    "day": "97/1/26"
+   },
+   "mood": "best",
+   "choice": 0,
+   "segment": {
+    "kind": "date",
+    "waits": [
+     [
+      "date_event",
+      "now_step=0x5e now_girl:1=4",
+      6000,
+      false
+     ]
+    ],
+    "answers": [
+     {
+      "at": "1/2",
+      "value": 1
+     }
+    ]
+   },
+   "set": {
+    "girl.saki.flags": "|0x0a",
+    "girl.saki.tokimeki": 128,
+    "girl.saki.yuukou": 128,
+    "girl.saki.bomb": 0
+   },
+   "covers": [
+    "DATE 80 with saki at the shopping street (2) on 97/1/26; date event 31 (Wi, serifu_no 1: the first menu answered with value 1) -> DATE 94"
+   ]
+  },
+  {
+   "id": "date_yukari_ski",
+   "date": "96/12/22",
+   "activity": 5,
+   "reserve": {
+    "girl": 5,
+    "place": 20,
+    "day": "96/12/29"
+   },
+   "mood": "best",
+   "choice": 0,
+   "segment": {
+    "kind": "date",
+    "waits": [
+     [
+      "date_event",
+      "now_step=0x5e now_girl:1=5",
+      6000,
+      false
+     ]
+    ]
+   },
+   "set": {
+    "girl.yukari.flags": "|0x0a",
+    "girl.yukari.tokimeki": 128,
+    "girl.yukari.yuukou": 128,
+    "girl.yukari.bomb": 0
+   },
+   "covers": [
+    "DATE 80 with yukari at the ski slope (20) on 96/12/29; date event 38 (Wi, winter vacation) -> DATE 94"
+   ]
+  },
+  {
+   "id": "date_nozomi_beach",
+   "date": "97/7/27",
+   "activity": 5,
+   "reserve": {
+    "girl": 6,
+    "place": 17,
+    "day": "97/8/3"
+   },
+   "mood": "best",
+   "choice": 0,
+   "segment": {
+    "kind": "date",
+    "waits": [
+     [
+      "date_event",
+      "now_step=0x5e now_girl:1=6",
+      6000,
+      false
+     ]
+    ]
+   },
+   "set": {
+    "girl.nozomi.flags": "|0x0a",
+    "girl.nozomi.tokimeki": 128,
+    "girl.nozomi.yuukou": 128,
+    "girl.nozomi.bomb": 0,
+    "para_un": 110
+   },
+   "covers": [
+    "DATE 80 with nozomi at the beach (17) on 97/8/3; date event 42 (Su, best, para_un >= 100) -> DATE 94"
+   ]
+  },
+  {
+   "id": "date_mira_beach",
+   "date": "95/7/30",
+   "activity": 5,
+   "reserve": {
+    "girl": 7,
+    "place": 17,
+    "day": "95/8/6"
+   },
+   "mood": "best",
+   "choice": 0,
+   "segment": {
+    "kind": "date",
+    "waits": [
+     [
+      "date_event",
+      "now_step=0x5e now_girl:1=7",
+      6000,
+      false
+     ]
+    ]
+   },
+   "set": {
+    "girl.mira.flags": "|0x0a",
+    "girl.mira.tokimeki": 128,
+    "girl.mira.yuukou": 128,
+    "girl.mira.bomb": 0
+   },
+   "covers": [
+    "DATE 80 with mira at the beach (17) on 95/8/6; date event 48 (Su, repeatable) -> DATE 94"
+   ]
+  },
+  {
+   "id": "date_yuko_arcade",
+   "date": "96/5/5",
+   "activity": 5,
+   "reserve": {
+    "girl": 8,
+    "place": 9,
+    "day": "96/5/12"
+   },
+   "mood": "best",
+   "choice": 0,
+   "segment": {
+    "kind": "date",
+    "waits": [
+     [
+      "date_event",
+      "now_step=0x5e now_girl:1=8",
+      6000,
+      false
+     ]
+    ]
+   },
+   "set": {
+    "girl.yuko.flags": "|0x0a",
+    "girl.yuko.tokimeki": 128,
+    "girl.yuko.yuukou": 128,
+    "girl.yuko.bomb": 0
+   },
+   "covers": [
+    "DATE 80 with yuko at the arcade (9) on 96/5/12; date event 55 (Sp) -> DATE 94"
+   ]
+  },
+  {
+   "id": "date_megumi_zoo",
+   "date": "97/11/2",
+   "activity": 5,
+   "reserve": {
+    "girl": 9,
+    "place": 4,
+    "day": "97/11/9"
+   },
+   "mood": "best",
+   "choice": 0,
+   "segment": {
+    "kind": "date",
+    "waits": [
+     [
+      "date_event",
+      "now_step=0x5e now_girl:1=9",
+      6000,
+      false
+     ]
+    ]
+   },
+   "set": {
+    "girl.megumi.flags": "|0x0a",
+    "girl.megumi.tokimeki": 128,
+    "girl.megumi.yuukou": 128,
+    "girl.megumi.bomb": 0
+   },
+   "covers": [
+    "DATE 80 with megumi at the zoo (4) on 97/11/9; date event 64 (Au) -> DATE 94"
+   ]
+  },
+  {
+   "id": "date_yumi_amusement",
+   "date": "97/5/4",
+   "activity": 5,
+   "reserve": {
+    "girl": 10,
+    "place": 12,
+    "day": "97/5/11"
+   },
+   "mood": "best",
+   "choice": 0,
+   "segment": {
+    "kind": "date",
+    "waits": [
+     [
+      "date_event",
+      "now_step=0x5e now_girl:1=10",
+      6000,
+      false
+     ]
+    ]
+   },
+   "set": {
+    "girl.yumi.flags": "|0x0a",
+    "girl.yumi.tokimeki": 128,
+    "girl.yumi.yuukou": 128,
+    "girl.yumi.bomb": 0
+   },
+   "covers": [
+    "DATE 80 with yumi at the amusement park (12) on 97/5/11; date event 69 (Sp) -> DATE 94"
+   ]
+  },
+  {
+   "id": "date_shiori_pool",
+   "date": "97/8/3",
+   "activity": 5,
+   "reserve": {
+    "girl": 0,
+    "place": 16,
+    "day": "97/8/10"
+   },
+   "mood": "best",
+   "choice": 0,
+   "segment": {
+    "kind": "date",
+    "waits": [
+     [
+      "date_event",
+      "now_step=0x5e now_girl:1=0",
+      6000,
+      false
+     ]
+    ]
+   },
+   "set": {
+    "girl.shiori.flags": "|0x0a",
+    "girl.shiori.tokimeki": 128,
+    "girl.shiori.yuukou": 128,
+    "girl.shiori.bomb": 0,
+    "girl.shiori.spot.29": 1
+   },
+   "covers": [
+    "DATE 80 with shiori at the pool (16) on 97/8/10; date event 5 (Su, year >= 96, zs < 3, zh < 2, flags[29]) -> DATE 94"
+   ]
+  },
+  {
+   "id": "date_yuko_concert",
+   "date": "97/10/19",
+   "activity": 5,
+   "reserve": {
+    "girl": 8,
+    "place": 15,
+    "day": "97/10/26"
+   },
+   "mood": "best",
+   "choice": 1,
+   "segment": {
+    "kind": "date",
+    "waits": [
+     [
+      "date_event",
+      "now_step=0x5e now_girl:1=8",
+      6000,
+      false
+     ]
+    ]
+   },
+   "set": {
+    "girl.yuko.flags": "|0x0a",
+    "girl.yuko.tokimeki": 128,
+    "girl.yuko.yuukou": 128,
+    "girl.yuko.bomb": 0
+   },
+   "covers": [
+    "DATE 80 with yuko at the concert hall (15) on 97/10/26; date event 57 (Au) -> DATE 94"
+   ]
+  },
+  {
+   "id": "date_megumi_skating",
+   "date": "97/12/21",
+   "activity": 5,
+   "reserve": {
+    "girl": 9,
+    "place": 19,
+    "day": "97/12/28"
+   },
+   "mood": "best",
+   "choice": 0,
+   "segment": {
+    "kind": "date",
+    "waits": [
+     [
+      "date_event",
+      "now_step=0x5e now_girl:1=9",
+      6000,
+      false
+     ]
+    ]
+   },
+   "set": {
+    "girl.megumi.flags": "|0x0a",
+    "girl.megumi.tokimeki": 128,
+    "girl.megumi.yuukou": 128,
+    "girl.megumi.bomb": 0,
+    "para_un": 100
+   },
+   "covers": [
+    "DATE 80 with megumi at the skating rink (19) on 97/12/28; date event 65 (Wi, best, para_un >= 80) -> DATE 94"
+   ]
+  },
+  {
+   "id": "date_ayako_karaoke",
+   "date": "97/4/13",
+   "activity": 5,
+   "reserve": {
+    "girl": 3,
+    "place": 11,
+    "day": "97/4/20"
+   },
+   "mood": "best",
+   "choice": 0,
+   "segment": {
+    "kind": "date",
+    "waits": [
+     [
+      "date_event",
+      "now_step=0x5e now_girl:1=3",
+      6000,
+      false
+     ]
+    ]
+   },
+   "set": {
+    "girl.ayako.flags": "|0x0a",
+    "girl.ayako.tokimeki": 128,
+    "girl.ayako.yuukou": 128,
+    "girl.ayako.bomb": 0,
+    "spot.11": 1
+   },
+   "covers": [
+    "DATE 80 with ayako at the karaoke box (11) on 97/4/20; date event 22 (Sp, year 97; karaoke open) -> DATE 94"
+   ]
+  },
+  {
+   "id": "date_yuina_karaoke",
+   "date": "97/4/6",
+   "activity": 5,
+   "reserve": {
+    "girl": 2,
+    "place": 11,
+    "day": "97/4/13"
+   },
+   "mood": "best",
+   "choice": 0,
+   "segment": {
+    "kind": "date",
+    "waits": [
+     [
+      "date2_song",
+      "now_step=0x5c",
+      6000,
+      false
+     ],
+     [
+      "song_menu",
+      "now_step=0x5c now_sub_sub_step=7 step_mode=1",
+      3000,
+      false
+     ],
+     [
+      "song_back",
+      "now_step=0x50",
+      12000,
+      false,
+      "left+up*95,right+down*37,right*16,down*16,circle/45"
+     ]
+    ],
+    "konami": "0/45"
+   },
+   "set": {
+    "girl.yuina.flags": "|0x0a",
+    "girl.yuina.tokimeki": 128,
+    "girl.yuina.yuukou": 128,
+    "girl.yuina.bomb": 0,
+    "spot.11": 1
+   },
+   "covers": [
+    "DATE 80 with yuina at the karaoke box (11) on 97/4/13; the Konami command at the greeting: date_pattern 2 -> DATE2 92, the song"
+   ]
+  },
+  {
+   "id": "date_shiori_central",
+   "date": "96/4/7",
+   "activity": 5,
+   "reserve": {
+    "girl": 0,
+    "place": 1,
+    "day": "96/4/14"
+   },
+   "mood": "best",
+   "choice": 0,
+   "segment": {
+    "kind": "date",
+    "waits": [
+     [
+      "date_event",
+      "now_step=0x5e now_girl:1=0",
+      6000,
+      false
+     ]
+    ]
+   },
+   "set": {
+    "girl.shiori.flags": "|0x0a",
+    "girl.shiori.tokimeki": 128,
+    "girl.shiori.yuukou": 128,
+    "girl.shiori.bomb": 0,
+    "spot.1": 1
+   },
+   "covers": [
+    "DATE 80 with shiori at Central Park (1) on 96/4/14; date event 3 (Sp, Central Park open) -> DATE 94"
+   ]
+  },
+  {
+   "id": "date_yukari_botanical",
+   "date": "97/5/11",
+   "activity": 5,
+   "reserve": {
+    "girl": 5,
+    "place": 5,
+    "day": "97/5/18"
+   },
+   "mood": "best",
+   "choice": 0,
+   "segment": {
+    "kind": "date",
+    "waits": [
+     [
+      "date_event",
+      "now_step=0x5e now_girl:1=5",
+      6000,
+      false
+     ]
+    ]
+   },
+   "set": {
+    "girl.yukari.flags": "|0x0a",
+    "girl.yukari.tokimeki": 128,
+    "girl.yukari.yuukou": 128,
+    "girl.yukari.bomb": 0,
+    "spot.5": 1
+   },
+   "covers": [
+    "DATE 80 with yukari at the botanical garden (5) on 97/5/18; date event 35 (Sp, year 97, open) -> DATE 94"
+   ]
+  },
+  {
+   "id": "date_yukari_aquarium",
+   "date": "97/6/29",
+   "activity": 5,
+   "reserve": {
+    "girl": 5,
+    "place": 3,
+    "day": "97/7/6"
+   },
+   "mood": "best",
+   "choice": 0,
+   "segment": {
+    "kind": "date",
+    "waits": [
+     [
+      "date_event",
+      "now_step=0x5e now_girl:1=5",
+      6000,
+      false
+     ]
+    ]
+   },
+   "set": {
+    "girl.yukari.flags": "|0x0a",
+    "girl.yukari.tokimeki": 128,
+    "girl.yukari.yuukou": 128,
+    "girl.yukari.bomb": 0,
+    "spot.3": 1
+   },
+   "covers": [
+    "DATE 80 with yukari at the aquarium (3) on 97/7/6; date event 36 (Su, year >= 97, open) -> DATE 94"
+   ]
+  },
+  {
+   "id": "date_ayako_museum",
+   "date": "97/9/21",
+   "activity": 5,
+   "reserve": {
+    "girl": 3,
+    "place": 7,
+    "day": "97/9/28"
+   },
+   "mood": "best",
+   "choice": 0,
+   "segment": {
+    "kind": "date",
+    "waits": [
+     [
+      "date_event",
+      "now_step=0x5e now_girl:1=3",
+      6000,
+      false
+     ]
+    ]
+   },
+   "set": {
+    "girl.ayako.flags": "|0x0a",
+    "girl.ayako.tokimeki": 128,
+    "girl.ayako.yuukou": 128,
+    "girl.ayako.bomb": 0,
+    "spot.7": 1
+   },
+   "covers": [
+    "DATE 80 with ayako at the art museum (7) on 97/9/28; date event 24 (Au, open; autumn 97, the exhibition (date_event_set: D_8015B644)) -> DATE 94"
+   ]
+  },
+  {
+   "id": "date_ayako_planetarium",
+   "date": "97/2/2",
+   "activity": 5,
+   "reserve": {
+    "girl": 3,
+    "place": 6,
+    "day": "97/2/9"
+   },
+   "mood": "best",
+   "choice": 0,
+   "segment": {
+    "kind": "date",
+    "waits": [
+     [
+      "date_event",
+      "now_step=0x5e now_girl:1=3",
+      6000,
+      false
+     ]
+    ]
+   },
+   "set": {
+    "girl.ayako.flags": "|0x0a",
+    "girl.ayako.tokimeki": 128,
+    "girl.ayako.yuukou": 128,
+    "girl.ayako.bomb": 0,
+    "spot.6": 1
+   },
+   "covers": [
+    "DATE 80 with ayako at the planetarium (6) on 97/2/9; date event 25 (Wi, zs < 2, zh 0, open) -> DATE 94"
+   ]
+  },
+  {
+   "id": "date_nozomi_bowling",
+   "date": "96/12/8",
+   "activity": 5,
+   "reserve": {
+    "girl": 6,
+    "place": 10,
+    "day": "96/12/15"
+   },
+   "mood": "best",
+   "choice": 0,
+   "segment": {
+    "kind": "date",
+    "waits": [
+     [
+      "date_event",
+      "now_step=0x5e now_girl:1=6",
+      6000,
+      false
+     ]
+    ]
+   },
+   "set": {
+    "girl.nozomi.flags": "|0x0a",
+    "girl.nozomi.tokimeki": 128,
+    "girl.nozomi.yuukou": 128,
+    "girl.nozomi.bomb": 0,
+    "spot.10": 1
+   },
+   "covers": [
+    "DATE 80 with nozomi at the bowling alley (10) on 96/12/15; date event 44 (Wi, open) -> DATE 94"
+   ]
+  },
+  {
+   "id": "date_shiori_stadium",
+   "date": "96/5/12",
+   "activity": 5,
+   "reserve": {
+    "girl": 0,
+    "place": 13,
+    "day": "96/5/19"
+   },
+   "mood": "best",
+   "choice": 0,
+   "segment": {
+    "kind": "date"
+   },
+   "set": {
+    "girl.shiori.flags": "|0x0a",
+    "girl.shiori.tokimeki": 128,
+    "girl.shiori.yuukou": 128,
+    "girl.shiori.bomb": 0,
+    "spot.13": 1,
+    "mouse_pad_st": "|0x4000"
+   },
+   "covers": [
+    "DATE 80 with shiori at the stadium (13) on 96/5/19: tel_spot_menu_set offers 13 when spot[13] is open and, reserved in the current month, SpotFlags b14 is set"
+   ]
+  },
+  {
+   "id": "date_mio_cinema",
+   "date": "96/6/9",
+   "activity": 5,
+   "reserve": {
+    "girl": 1,
+    "place": 14,
+    "day": "96/6/16"
+   },
+   "mood": "best",
+   "choice": 0,
+   "segment": {
+    "kind": "date"
+   },
+   "set": {
+    "girl.mio.flags": "|0x0a",
+    "girl.mio.tokimeki": 128,
+    "girl.mio.yuukou": 128,
+    "girl.mio.bomb": 0,
+    "spot.14": 1,
+    "mouse_pad_st": "|0x4000"
+   },
+   "covers": [
+    "DATE 80 with mio at the cinema (14) on 96/6/16: spot[14] open and SpotFlags b14 (reserved in the current month)"
+   ]
+  },
+  {
+   "id": "date_shiori_shrine95",
+   "date": "95/7/30",
+   "activity": 5,
+   "reserve": {
+    "girl": 0,
+    "place": 18,
+    "day": "95/8/6"
+   },
+   "mood": "best",
+   "choice": 0,
+   "segment": {
+    "kind": "date",
+    "waits": [
+     [
+      "en_nichi",
+      "now_step=0x82",
+      6000,
+      false
+     ]
+    ]
+   },
+   "set": {
+    "girl.shiori.flags": "|0x0a",
+    "girl.shiori.tokimeki": 128,
+    "girl.shiori.yuukou": 128,
+    "girl.shiori.bomb": 0,
+    "mouse_pad_st": "|0x8000"
+   },
+   "covers": [
+    "DATE 80 with shiori at the shrine festival (18) on 95/8/6 -> EN_NICHI 130 (now_year 95: en_nichi_sub_main); tel_spot_menu_set offers 18 with SpotFlags b15, an August reservation in days 1..7"
+   ]
+  },
+  {
+   "id": "date_shiori_shrine96",
+   "date": "96/7/28",
+   "activity": 5,
+   "reserve": {
+    "girl": 0,
+    "place": 18,
+    "day": "96/8/4"
+   },
+   "mood": "best",
+   "choice": 0,
+   "segment": {
+    "kind": "date",
+    "waits": [
+     [
+      "en_nichi",
+      "now_step=0x82",
+      6000,
+      false
+     ]
+    ]
+   },
+   "set": {
+    "girl.shiori.flags": "|0x0a",
+    "girl.shiori.tokimeki": 128,
+    "girl.shiori.yuukou": 128,
+    "girl.shiori.bomb": 0,
+    "mouse_pad_st": "|0x8000"
+   },
+   "covers": [
+    "DATE 80 with shiori at the shrine festival (18) on 96/8/4 -> EN_NICHI 130 (now_year 96: en_nichi_sub_dispatch)"
+   ]
+  }
+ ]
+}

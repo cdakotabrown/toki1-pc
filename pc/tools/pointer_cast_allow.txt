@@ -1,0 +1,26 @@
+# pc/tools/audit_ps1_pointer_casts.py --allow: live rows left, each with its
+# reason.  `function:SHAPE` (or a bare function for every shape).  The list
+# may only shrink: fix a function (src/main/pc-port override, an
+# adapt_ps1_cells.py list in pc/Makefile, or the overlay generator) and
+# delete its line.  REACHED = entered by new_game.txt / date_save.txt / the
+# 300-frame matrix with a reach-instrumented binary (2026-10-31); every
+# "unreached" re-verified the same day with spring_events.txt and every
+# pc/tools/scenarios file (TACO, scenes 91/93/94/115/117/118) added.
+
+# --- unreached game code of the CELL-READ / RECORD-PTR class (fix when a route reaches it) ---
+TACO_taco_quad_spin:RECORD-PTR               # unreached; latent: record/cell read at host width, not entered by the playthroughs or matrix (pc/src/overlay_TACO.c)
+normal_date_two_select:RECORD-PTR            # unreached; latent: record/cell read at host width, not entered by the playthroughs or matrix (src/main/archive/normal_date_two_select_painted.c)
+
+
+# --- SDK internals the HAL replaces ---
+DMACallback:RECORD-PTR                       # unreached; libgpu/libetc internal records (graph_jtb, interrupt context); HAL lane (src/main/matched/DMACallback.c)
+GetODE:RECORD-PTR                            # unreached; libgpu/libetc internal records (graph_jtb, interrupt context); HAL lane (src/main/matched/GetODE.c)
+SetGraphReverse:RECORD-PTR                   # unreached; libgpu/libetc internal records (graph_jtb, interrupt context); HAL lane (src/main/matched/SetGraphReverse.c)
+func_8009F9A4:RECORD-PTR                     # unreached; libgpu/libetc internal records (graph_jtb, interrupt context); HAL lane (src/main/semi-matched/func_8009F9A4.c)
+startIntr:RECORD-PTR                         # unreached; libgpu/libetc internal records (graph_jtb, interrupt context); HAL lane (src/main/matched/startIntr.c)
+
+# --- movie lane ---
+strSetDefDecEnv:RECORD-PTR                   # REACHED; movie_state record (movie lane; see wide_access_allow.txt movie_main) (src/main/matched/strSetDefDecEnv.c)
+
+# --- false positives: host records in pc-port code ---
+hal_bios_deliver_event:RECORD-PTR            # host record (the PC BIOS event table, native pointers): not PS1 memory (src/main/pc-port/bios_trampolines.c)

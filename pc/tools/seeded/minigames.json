@@ -1,0 +1,105 @@
+{
+ "group": "minigames",
+ "comment": "Minigame scenes the Continue path reaches slowly or not at all.  Base: an album crafted with checkpoints.craft (the typical profile at the date, plus `set`), loaded by the title's Continue.  Hand-built fields cite the C they were read from.  ret_step/ret_sub_step/ret_sub_sub_step is the return triple each caller writes before its goto_step (the calling step); here the planner the defined point sits on, 52/1/0, as master_basyo_serifu_main writes for TACO (DEBUG-TOOLS.md, scenario taco).",
+ "starts": [
+  {"id": "rpg_bat", "scene": 129, "overlay": "RPG_BAT", "base": "album",
+   "album": {"date": "96/6/2", "set": {"girl.yuina.flags": "|0x0A", "girl.yuina.tokimeki": 60}},
+   "fields": [
+    {"name": "now_girl:1", "value": 2, "why": "rpg_bat_init.c latches now_girl into D_8015EC18/D_8015EB9C; date_step129_goto.c sets now_girl = girl_no (Yuina, girl 2, the robot battles)"},
+    {"name": "ret_step:1", "value": 52, "why": "geko_goto_step81.c / shugaku_step81_goto.c: ret_* = the calling step before goto_step(129); rpg_bat_exit returns through it"},
+    {"name": "ret_sub_step:1", "value": 1, "why": "as ret_step"},
+    {"name": "ret_sub_sub_step:1", "value": 0, "why": "as ret_step"}
+   ],
+   "variants": {
+    "b1": {"fields": [{"name": "rpg_bat_arg:4", "value": 1, "why": "rpg_bat_init.c: switch (rpg_bat_arg) 1..7 picks the battle (D_8015EB98); shugaku_step81_goto.c sets 1..3"}]},
+    "b2": {"fields": [{"name": "rpg_bat_arg:4", "value": 2, "why": "rpg_bat_init.c battle 2 (shugaku_step81_goto.c, place 0)"}]},
+    "b3": {"fields": [{"name": "rpg_bat_arg:4", "value": 3, "why": "rpg_bat_init.c battle 3 (shugaku_step81_goto.c, other places)"}]},
+    "b4": {"fields": [{"name": "rpg_bat_arg:4", "value": 4, "why": "rpg_bat_init.c battle 4 (D_8015EB98 0x100000)"}]},
+    "b5": {"fields": [{"name": "rpg_bat_arg:4", "value": 5, "why": "rpg_bat_init.c battle 5 (D_8015EC1C = 1, D_8015EB98 0x100000)"}]},
+    "b6": {"fields": [{"name": "rpg_bat_arg:4", "value": 6, "why": "rpg_bat_init.c battle 6; geko_goto_step81.c sets 6"}]},
+    "b7": {"fields": [{"name": "rpg_bat_arg:4", "value": 7, "why": "rpg_bat_init.c battle 7 (the default arm)"}]}
+   },
+   "input": {"kind": "explore", "seeds": [1], "vblanks": 9000},
+   "covers": ["RPG_BAT 129: the seven battles of rpg_bat_init's rpg_bat_arg switch, random input"]},
+  {"id": "en_nichi", "scene": 130, "overlay": "EN_NICHI", "base": "album",
+   "album": {"date": "96/7/28", "set": {"girl.yuina.flags": "|0x0A"}},
+   "fields": [
+    {"name": "ret_step:1", "value": 52, "why": "en_nichi_main2.c: goto_step(ret_step[0]), goto_sub_step(ret_step[1]), goto_sub_sub_step(ret_step[2]) at the end"},
+    {"name": "ret_sub_step:1", "value": 1, "why": "as ret_step"},
+    {"name": "ret_sub_sub_step:1", "value": 0, "why": "as ret_step"}
+   ],
+   "variants": {
+    "shiori": {"fields": [{"name": "now_girl:1", "value": 0, "why": "date_basyo18_step130_goto.c: the date's girl (the shrine, place 18) is now_girl"}]},
+    "yuina": {"fields": [{"name": "now_girl:1", "value": 2, "why": "as shiori, girl 2"}]}
+   },
+   "input": {"kind": "explore", "seeds": [1, 2], "vblanks": 9000},
+   "covers": ["EN_NICHI 130: the festival stall game, entered as from the shrine date, random input"]},
+  {"id": "tt", "scene": 208, "overlay": "TT", "base": "album",
+   "album": {"date": "96/10/27", "set": {"club": "computer"}},
+   "fields": [
+    {"name": "ret_step:1", "value": 52, "why": "game_main case 208 -> func_80079628 runs TT.EXN synchronously and returns to D_800EEE80..82 (KONAMI-DEBUG-FACILITIES.md section 6)"},
+    {"name": "ret_sub_step:1", "value": 1, "why": "as ret_step"},
+    {"name": "ret_sub_sub_step:1", "value": 0, "why": "as ret_step"}
+   ],
+   "input": {"kind": "explore", "seeds": [1, 2, 3], "vblanks": 9000},
+   "covers": ["TT 208: the TT game, random input (booth 3 of BUNKAKEN enters it in the suite)"]},
+  {"id": "taco", "scene": 144, "overlay": "TACO", "base": "album",
+   "album": {"date": "97/6/1", "set": {"club": "computer"}},
+   "fields": [
+    {"name": "ret_step:1", "value": 52, "why": "master_basyo_serifu_main.c: ret_* = 0x34/1/0 before goto_step(144) (scenario taco)"},
+    {"name": "ret_sub_step:1", "value": 1, "why": "as ret_step"},
+    {"name": "ret_sub_sub_step:1", "value": 0, "why": "as ret_step"}
+   ],
+   "input": {"kind": "explore", "seeds": [1, 2, 3], "vblanks": 12000},
+   "covers": ["TACO 144: title, game and exit, random input"]},
+  {"id": "taco_operations", "scene": 144, "overlay": "TACO", "base": "album",
+   "album": {"date": "97/6/1", "set": {"club": "computer"}},
+   "fields": [
+    {"name": "ret_step:1", "value": 52, "why": "master_basyo_serifu_main.c: ret_* = 0x34/1/0 before goto_step(144) (scenario taco)"},
+    {"name": "ret_sub_step:1", "value": 1, "why": "as ret_step"},
+    {"name": "ret_sub_sub_step:1", "value": 0, "why": "as ret_step"}
+   ],
+   "input": {"kind": "script", "lines": [
+     "wait attract now_step=144 now_sub_step=1 within 3000",
+     "+30 start",
+     "wait title now_step=144 now_sub_step=2 within 600",
+     "+40 start",
+     "wait menu now_step=144 now_sub_step=3 within 600",
+     "+40 up",
+     "+12 up",
+     "+20 circle",
+     "wait operations now_step=144 now_sub_step=7 within 600",
+     "wait page1 now_step=144 now_sub_step=7 now_sub_sub_step=1 within 600",
+     "shot p1_a 40",
+     "shot p1_b 60",
+     "shot p1_c 60",
+     "shot p1_d 60",
+     "shot p1_e 60",
+     "shot p1_f 60",
+     "shot p1_g 60",
+     "shot p1_h 60",
+     "wait page2 now_step=144 now_sub_step=7 now_sub_sub_step=2 within 4000",
+     "shot p2_a 40",
+     "shot p2_b 80",
+     "shot p2_c 80",
+     "shot p2_d 80",
+     "shot p2_e 80",
+     "shot p2_f 80",
+     "shot p2_g 80",
+     "shot p2_h 80",
+     "shot p2_i 80",
+     "shot p2_j 80",
+     "shot p2_k 80",
+     "shot p2_l 80",
+     "shot p2_m 80",
+     "shot p2_n 80",
+     "wait page_end now_step=144 now_sub_step=7 now_sub_sub_step=3 within 4000",
+     "wait back_title now_step=144 now_sub_step=2 within 600"]},
+   "comment": "From TACO's attract flight: Start to the title (sub-step 2), Start to the menu (3), Up twice (taco_select_step wraps 0 -> 4 -> 3, OPERATIONS) and Circle.  Sub-sub-step 0 (taco_cd_image_load) decodes 3D_1.BS; 1 and 2 (taco_main7_main1 / main2) scroll the two TACOTEX pages while the narration plays XA entries 0..2 and 3..9 of D_8015F450; 3 (taco_cmd_advance) goes back to the title.  Shots: page 1 every 60 frames, page 2 every 80 (the scroll moves a line every 2 frames, then every 4).",
+   "covers": ["TACO 144/7: the OPERATIONS screen (3D_1.BS backdrop, both TACOTEX tutorial pages with their XA narration, back to the title), shot every 40..80 frames on both machines (docs/pc-port/RENDER-PARITY-HANDOFF.md 2026-11-06)"]},
+  {"id": "taiiku", "scene": 114, "overlay": "TAIIKU", "base": "album",
+   "album": {"date": "96/6/2"},
+   "input": {"kind": "explore", "seeds": [1], "vblanks": 9000},
+   "covers": ["TAIIKU 114: the sports festival entered directly (schedule_day_main case 32), random input"]}
+ ]
+}

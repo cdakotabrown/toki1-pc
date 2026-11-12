@@ -1,0 +1,5 @@
+# (a) A scenario that starts from a save state: the state date_in_progress
+# ends with (run that scenario first; a state loads only into the binary
+# that wrote it).  The date runs on from the saved frame.
+start state @date_in_progress
+expect now_step=80 within 60 hold 300

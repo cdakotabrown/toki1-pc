@@ -1,0 +1,111 @@
+# New game from power-on through real pad input (pc/tools/playthrough.py).
+#
+# title -> START -> NAME_ENT "no data, create an album?" -> album slot 1 ->
+# create the system file (memory card writes) -> surname / given name /
+# nickname on the kana grid -> random birthday (START) -> confirm -> Shiori's
+# birthday (START) -> confirm -> skip the prologue (START) -> the first
+# school day's schedule screen -> pick the first study icon -> the week's
+# lessons -> the holiday screen.  Then a reboot (same card): the title now
+# finds the album.
+#
+# Buttons are PSX: circle confirms on these screens (the game's pad word is
+# the PSX word byte-swapped: circle 0x2000 -> 0x20), START takes the
+# defaults.  The hand cursor moves 3 px per held frame and clamps at
+# (-150,-100); each pointer screen first parks it there, so the moves do not
+# depend on where the screen left it (the title's cursor_select sets it on
+# retail, and is a stub on the PC).  The holds then land on the cell centres
+# (name_ent_cell_set: x -120 + 16*col, y -48 + 16*row).
+
+hold 2
+trace cursor_cw_x:2 cursor_cw_y:2 now_icon:1
+
+phase new_game
+wait title_menu now_step=0x12 now_sub_step=2 now_sub_sub_step=1 within 3000
++30 start
+wait album_prompt now_step=0x13 now_sub_step=2 now_sub_sub_step=0x41 within 3000
++60 circle
+wait album_pick now_step=0x13 now_sub_step=2 now_sub_sub_step=0x45 within 600
++30 left+up*80              # park the hand in the clamp corner (-150,-100)
++82 right*10                # x=-120: album column 1
++12 down*29                 # y=-13: album 1 (menu_check_1 hit box)
++31 circle
+check album_1_chosen now_album:1=1
+wait sysfile_msg now_step=0x13 now_sub_step=2 now_sub_sub_step=0x47 within 600
++30 circle
+wait sysfile_prompt now_step=0x13 now_sub_step=2 now_sub_sub_step=0x49 within 600
++30 circle                  # create the system file: card_file_make x2 + writes
+wait surname_entry now_step=0x14 now_sub_step=1 now_sub_sub_step=1 within 1200
++30 left+up*80              # park (-150,-100)
++82 right*13                # x=-111: column 0
++15 down*20                 # y=-40: row 0
++22 circle                  # a
++10 right*5                 # x=-96: column 1
++10 circle                  # i
++10 start
+wait given_entry now_step=0x14 now_sub_step=1 now_sub_sub_step=3 within 600
++20 right*6                 # column 2
++10 circle                  # u
++10 right*5                 # column 3
++10 circle                  # e
++10 start
+wait nick_entry now_step=0x14 now_sub_step=1 now_sub_sub_step=5 within 600
++20 right*5                 # column 4
++10 circle                  # o
++10 start
+wait birthday_entry now_step=0x14 now_sub_step=1 now_sub_sub_step=7 within 600
++30 start                   # name_ent_hizuke_rand: a birthday from the kernel rand
+wait confirm now_step=0x14 now_sub_step=1 now_sub_sub_step=9 within 600
++30 start
+wait fuji_entry now_step=0x14 now_sub_step=2 now_sub_sub_step=1 within 600
++30 start
+wait fuji_confirm now_step=0x14 now_sub_step=2 now_sub_sub_step=3 within 600
++30 start
+wait prologue now_step=0x15 now_sub_step=0 now_sub_sub_step=1 within 600
++120 start
+wait schedule_ready now_step=0x34 now_sub_step=1 within 1200
+check first_day calendar:7=005f0404010000
+# the entered name is now in the player record (SJIS: a i / u e / o)
+check surname p_sei:8=82a082a200000000
+check given_name p_mei:8=82a482a600000000
+check nickname p_adana:8=82a8000000000000
+shot schedule 30
++30 left+up*80              # park (-150,-100)
++82 right*4                 # (-138,-40): the first study icon (row 0, column 0)
++6 down*20
++22 circle
+wait lesson now_step=0x40 within 600
+# The week's after-school events are the kernel rand's (GEKO, now_step
+# 0x56: the first day's walk home on the port since timing round 6, whose
+# rand calls per frame follow the frame timing); an event waits for the
+# pad, so the event case taps circle through it to the holiday.
+branch week_end within 6000
+case holiday now_step=0x46 now_sub_step=1
+case geko now_step=0x56
+  wait holiday_after_event now_step=0x46 now_sub_step=1 within 6000 mash circle/45
+end-branch
+check week_done calendar:7=005f0409060500     # Sun 9 Apr 95, 5 days passed (retail: same)
+shot holiday 30
+end 60
+
+card new_game BISLPS-000650 BISLPS-000651
+
+phase reboot keep-card
+wait title_menu_2 now_step=0x12 now_sub_step=2 now_sub_sub_step=1 within 3000
++30 start
+wait album_list now_step=0x13 now_sub_step=2 now_sub_sub_step=2 within 3000
+shot album_list 30
++30 left+up*80              # park (-150,-100)
++82 right*24                # (-78,-73): the load button
++26 down*9
++11 circle                  # load mode: the hand returns to album 1
+wait load_mode now_step=0x13 now_sub_step=2 now_sub_sub_step=1 within 600
+wait load_pick now_step=0x13 now_sub_step=2 now_sub_sub_step=2 within 600
++40 circle                  # load album 1 (card_file_read)
+wait album_loaded now_step=0x14 now_sub_step=1 now_sub_sub_step=1 within 1200
+shot album_loaded 30
+end 60
+
+# the album was written when it was created (before the name was entered),
+# so loading it resumes at surname entry with the state saved then
+same player surname_entry album_loaded
+same calendar surname_entry album_loaded

@@ -1,0 +1,28 @@
+{
+  "_doc": "pc/tools/ps1_source_edits.py: K&R variadic functions of the game image whose matched body reads its arguments as consecutive words above its last named parameter (`s32 va_alist; ap = &va_alist;`), which the console's calling convention makes contiguous and x86-64's does not.  The PC build gives them an ANSI `...` prototype and collects the arguments through stdarg, full width (pc/src/ps1_varargs.c); the matched source is not edited.  edits: [old, new(, count)] exact replacements, line count kept.  A stale entry stops the build.  Negative control: test_ps1_source_edits.py VarArgs.",
+  "functions": {
+    "main/sprintf": {
+      "source": "src/main/matched/sprintf.c",
+      "why": "the in-image sprintf (func_800B48D0) walks ap = &va_alist as s32 words; on x86-64 the second variadic argument and the upper half of a pointer are frame garbage. Found by the checkpoint suite (g01_mio, SHOUGATU first meeting): msg_str_disp's %F, sprintf(tmpBuf, msg_str_disp_str7, p_name, pp_name), faulted reading the second %s at 0x20c098ff. %s/%n pointers go through ps1_va_ptr (a sign-extended PS1 address is zero-extended). The words are long long, a pointer's width on LP64 Linux and LLP64 Windows alike (a 32-bit Windows long cut a pointer argument).",
+      "edits": [
+        [
+          "s32 sprintf(dst, fmt, va_alist)\nchar *dst;\ns8 *fmt;\ns32 va_alist;\n",
+          "s32 sprintf(char *dst, s8 *fmt, ...)\n/* PC build (pc/tools/varargs_plan.json): the arguments */\n/* come through stdarg, full width, into pc_va[]; the */\n/* console read them as words above its third argument */\n"
+        ],
+        [
+          "    s32 *ap;\n",
+          "    long long *ap; long long pc_va[32]; extern int ps1_va_count(); extern void *ps1_va_ptr(long long);\n"
+        ],
+        [
+          "    ap = &va_alist;\n",
+          "    { __builtin_va_list va; int i, k = ps1_va_count(fmt); __builtin_va_start(va, fmt); for (i = 0; i < k && i < 32; i++) pc_va[i] = __builtin_va_arg(va, long long); __builtin_va_end(va); } ap = pc_va;\n"
+        ],
+        [
+          "            p = (s8 *)*ap++;\n",
+          "            p = (s8 *)ps1_va_ptr(*ap++);\n",
+          2
+        ]
+      ]
+    }
+  }
+}

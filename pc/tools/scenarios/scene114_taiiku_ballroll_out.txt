@@ -1,0 +1,34 @@
+# Step 114: TAIIKU, the ball roll PLAYED until the ball leaves the course:
+# the event menu, "Enter a different event" (line 3, y +89), page 2's ball
+# roll (line 2, y +68), the instruction panel, the partner pick, then the
+# race.  Six hundred frames in, a SEEDED poke puts the ball's lateral
+# offset (s16 at 0x80149B6E, D_80149B58 + 22) past the course edge; the
+# game's own runner_move sees it (>= 97), sets the course-out state
+# (D_80149B80 = 1) and plays the course-out banner (TAMA.BIN: コース /
+# アウト, English "BALL" / "OUT!").  Pushing the ball out by play was tried
+# (one-sided pushes, a lone runner): the partner corrects it every time.
+# For the visual sweep and gate (docs/translation/VISUAL-SWEEP.md,
+# config/patch/visual_reference.json):
+#   python3 pc/tools/scenario.py pc/tools/scenarios/scene114_taiiku_ballroll_out.txt \
+#       --set TOKI_LANG=en --set PC_SWEEP_DIR=$PWD/build/sweep/runs/taiiku
+start album
+album date=95/10/8
+do poke 0x8012B3A8:8 0
+do poke 0x800EF6D4:1 1
+do goto 114
+do when now_step=114 now_sub_step=3 now_sub_sub_step=4 do echo race
+do after 600 poke 0x80149B6E:2 100
+input wait taiiku now_step=114 within 1500
+input +420 circle
+input wait menu now_step=114 cursor_cw_disp:1=0x84 within 1800 mash cross/60
+input point 60 89
+input wait another now_step=114 now_sub_step=0 cursor_cw_disp:1=0x04 within 1200 mash circle/30
+input wait page2 now_step=114 now_sub_step=0 cursor_cw_disp:1=0x84 within 600
+input point 60 68
+input wait ball now_step=114 cursor_cw_disp:1=0x04 within 1200 mash circle/30
+input wait ball_partner now_step=114 now_sub_step=2 now_sub_sub_step=2 within 2400
+input +120 down*20
+input +30 left*20
+input wait ball_picked now_step=114 now_sub_step=2 now_sub_sub_step=3 within 3000 mash circle/20
+input wait ball_race now_step=114 now_sub_step=3 within 1200
+expect now_step=114 within 300 hold 300

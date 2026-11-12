@@ -1,0 +1,28 @@
+# Step 94: DATE, a girl's date event (date_girl_main).  It switches on the
+# girl event_girl_no (0..11) and then the event slot work_tarao
+# (date_girl0_dispatch takes 3..6 for Shiori); anything else resets.  The
+# game reaches it only from inside a date (step 80): date_event_sched, at
+# the date's sub-sub-step 15, sets work_tarao = slot, ret_step = 80,
+# ret_sub_step = 0, ret_sub_sub_step = 16, event_girl_no = girl,
+# date_disp_flag |= 2 and calls goto_step(94); the date resumes from ret_*
+# afterwards.  So: the date of date_in_progress.txt, then, once its scene
+# is up (the greeting, 80/0/45), that event entry for Shiori, slot 3.
+start album
+album date=95/10/15 reserved.0=0x200FABE0 girl.shiori.yuukou=40   # Shiori, Sun 15 Oct 95, place 0
+do poke reserved_date:4 0x200FABE0
+do poke schedule_cursor:1 0
+do poke schedule_buf hex:80000000      # {type 128, a = girl 0, b = place 0, c}
+do poke machiawase_basyo:1 0
+do poke machiawase_mode:1 0
+do poke now_girl:1 0
+do poke girl_no:1 0
+do poke machiawase_flag:1 0            # reserved_date bit 24
+do goto 80
+do when now_step=0x50 now_sub_step=0 now_sub_sub_step=45 do poke work_tarao:4 3
+do poke event_girl_no:4 0
+do poke ret_step:1 0x50
+do poke ret_sub_step:1 0
+do poke ret_sub_sub_step:1 16
+do poke date_disp_flag:4 2
+do goto 94
+expect now_step=94 within 1500 hold 300

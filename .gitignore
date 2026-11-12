@@ -1,0 +1,48 @@
+# Nothing made from the disc is ever committed.
+
+# Build output
+/build/
+/pc/build/
+/pc/build-*/
+*.o
+*.exe
+
+# Generated from toki1-decomp on the first build
+/pc/src/overlay_[A-Z]*.c
+
+# Your disc, the game data extracted from it, saves
+/disks/
+/pc/assets
+/pc/assets-en
+*.bin
+*.BIN
+*.cue
+*.iso
+*.chd
+saves/
+*.mcr
+*.mcd
+*.sstate
+*.ppm
+
+# Fetched third-party sources (pc/3rd/SPU-CORE.md, THIRD-PARTY.md)
+/pc/3rd/spu-core/
+/pc/3rd/mednafen-gpu/*
+!/pc/3rd/mednafen-gpu/README.md
+!/pc/3rd/mednafen-gpu/shim/
+/pc/3rd/mednafen-gpu/shim/*
+!/pc/3rd/mednafen-gpu/shim/mdfn_gpu_shim.h
+
+# Local reference-emulator tooling
+/local/
+
+# Python, editors, OS
+.venv
+__pycache__/
+*.pyc
+.pytest_cache/
+.vscode/
+.idea/
+*.swp
+*~
+.DS_Store

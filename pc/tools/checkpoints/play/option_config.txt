@@ -1,0 +1,61 @@
+# The title's OPTION (step 32, option_main) and its extras menu.  Read from
+# src/overlay/OPTION:
+#
+# - the title menu (cursor_select): with a pad (pad_type != 0) down picks
+#   item 1, start takes it (title_exit: goto_step(32));
+# - option_cursor2 (sub-step 0, sub-sub-step 2): menu 0's eight rows
+#   (option_row_pos_set: x -120..-24, y -88 + 20 r, 20 high); circle on row
+#   r goes to sub-step r + 1 (row 2 only with a mouse, row 3 only with a
+#   pad); cross puts the hand's row on 7; row 7 leaves (option_main8 ->
+#   option_exit_fade: goto_step(18), the title);
+# - row 6 (option_main7): option_menu_in builds the extras menu (menu 1:
+#   rows at x -64..31, y 24 + 16 i, 16 high), each row enabled by the
+#   system file: 0 bunkaken_flags bit 0 or taco_rec bit 0 (the
+#   sub-games), 1 / 2 get_option_count (mascot_flag[] / screen_w.got[]),
+#   3 opt_flag (etc_rec_collect after a clear);
+# - each config screen leaves on cross (option_menu_dispatch-style
+#   handlers: 0x40 back).
+# With a pad (pad_type 1) the hand snaps to a row (x -28, y -80 + 20 r,
+# measured on the port) and the d-pad steps the rows, so each tap waits for
+# the row's index (now_icon for menu 0, menu_csr for menu 1) under a mash
+# of down presses.
+trace menu_csr:1 now_icon:1 opt_flag:1 bunkaken_flags:1 taco_rec:4
++30 down
++30 start
+wait opt_cfg now_step=0x20 now_sub_step=0 now_sub_sub_step=2 within 1500
+wait hand_r0 now_icon:1=0 within 900 mash down/20
++20 circle
+wait opt_r0 now_step=0x20 now_sub_step=1 within 600
+wait opt_back_r0 now_step=0x20 now_sub_step=0 now_sub_sub_step=2 within 3000 mash cross/30
+wait hand_r1 now_icon:1=1 within 900 mash down/20
++20 circle
+wait opt_r1 now_step=0x20 now_sub_step=2 within 600
+wait opt_back_r1 now_step=0x20 now_sub_step=0 now_sub_sub_step=2 within 3000 mash cross/30
+wait hand_r3 now_icon:1=3 within 900 mash down/20
++20 circle
+wait opt_r3 now_step=0x20 now_sub_step=4 within 600
+wait opt_back_r3 now_step=0x20 now_sub_step=0 now_sub_sub_step=2 within 3000 mash cross/30
+wait hand_r4 now_icon:1=4 within 900 mash down/20
++20 circle
+wait opt_r4 now_step=0x20 now_sub_step=5 within 600
+wait opt_back_r4 now_step=0x20 now_sub_step=0 now_sub_sub_step=2 within 3000 mash cross/30
+wait hand_r5 now_icon:1=5 within 900 mash down/20
++20 circle
+wait opt_r5 now_step=0x20 now_sub_step=6 within 600
+wait opt_back_r5 now_step=0x20 now_sub_step=0 now_sub_sub_step=2 within 3000 mash cross/30
+wait hand_extras now_icon:1=6 within 900 mash down/20
++20 circle
+wait opt_extras now_step=0x20 now_sub_step=7 within 600
+wait x_menu now_step=0x20 now_sub_step=7 now_sub_sub_step=1 within 600
+wait hand_xtalk menu_csr:1=1 within 900 mash down/20
++20 circle
+wait x_talk now_step=0x20 now_sub_step=7 now_sub_sub_step=20 within 600
+wait x_back_talk now_step=0x20 now_sub_step=7 now_sub_sub_step=1 within 3000 mash cross/30
+wait hand_xselect menu_csr:1=2 within 900 mash down/20
++20 circle
+wait x_select now_step=0x20 now_sub_step=7 now_sub_sub_step=30 within 600
+wait x_back_select now_step=0x20 now_sub_step=7 now_sub_sub_step=1 within 3000 mash cross/30
+wait opt_back_extras now_step=0x20 now_sub_step=0 now_sub_sub_step=2 within 3000 mash cross/30
+wait hand_exit now_icon:1=7 within 900 mash down/20
++20 circle
+wait title_again now_step=0x12 now_sub_step=2 now_sub_sub_step=1 within 3000

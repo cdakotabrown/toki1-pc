@@ -1,0 +1,282 @@
+# The sports festival (TAIIKU, scene 114): page 1, line 1 -- the relay with
+# the cheering cue (event 13, taiiku_main step taiiku_state = 13).
+#
+# The menu as play/taiiku_page1_line0.txt: line 1's hit box is y 68..80.
+# The race runs in taiiku_race3; its case 1 (now_sub_step 3, now_sub_sub_step
+# 1) calls taiiku_ouen_cue every frame and waits, with no time limit, until
+# D_801493F8[1] (D_801493F9) is set.  taiiku_ouen_cue
+# (src/overlay/TAIIKU/taiiku_ouen_cue.c) evaluates a circle (pad_trig 0x20)
+# only when D_801493FF, a u8 that taiiku_runner_count_inc raises once a race
+# frame, is >= 41, and resets it to 0 after every evaluated circle: a tap
+# every 10 frames is evaluated once per 41 frames.  The hand (Yubi(106):
+# class_w[106].f38 = cursor_cw_x, f42 = cursor_cw_y) picks a seat: row by
+# y (-48..-1 -> 0, -64..-49 -> 10, -80..-65 -> 20), column i when
+# -160+32i < x+11 < -128+32i (row 10: +16).  The circle hits when that seat
+# equals D_801493FA, runner 0's seat (byte 2 of its 36-byte record, 0..29:
+# taiiku_seat_walk reads it as column s%10, row s/10), or, once the cheer
+# has started (taiiku_konami_mode == 1), D_801493C8.  A player sees the runner's
+# seat; the branch reads the byte.  Each case waits for the hand to stand on
+# the seat and for the counter to reach 64 (the mask 0xC0: >= 41), then
+# taps.  One retry if the tap missed (the counter reset to 0).  Seat
+# positions: the column's centre on the 3-px grid of `point` (row 10's
+# column 9 at x 138, the clamp is 140).
+trace taiiku_state:4 D_801493F8:8 D_801493FA:1 D_801493FF:1
+wait taiiku_menu now_step=0x72 taiiku_state=8 within 3000 mash cross/60
+point -81 74
+wait taiiku_picked now_step=0x72 taiiku_state!=8 within 600 mash circle/30
+check taiiku_event_13 taiiku_state=13
+# the relay up to the cue: circle every 10 frames
+wait cue now_step=0x72 now_sub_step=3 now_sub_sub_step=1 within 12000 mash circle/10
++90 left+up*100
+branch cue1 within 120
+case cue1_seat0 D_801493FA:1=0
+  point -150 -25
+  wait cue1_ready0 cursor_cw_x:2=-150 cursor_cw_y:2=-25 D_801493FF:1&0xC0!=0 within 400
+  +2 circle
+case cue1_seat1 D_801493FA:1=1
+  point -123 -25
+  wait cue1_ready1 cursor_cw_x:2=-123 cursor_cw_y:2=-25 D_801493FF:1&0xC0!=0 within 400
+  +2 circle
+case cue1_seat2 D_801493FA:1=2
+  point -90 -25
+  wait cue1_ready2 cursor_cw_x:2=-90 cursor_cw_y:2=-25 D_801493FF:1&0xC0!=0 within 400
+  +2 circle
+case cue1_seat3 D_801493FA:1=3
+  point -60 -25
+  wait cue1_ready3 cursor_cw_x:2=-60 cursor_cw_y:2=-25 D_801493FF:1&0xC0!=0 within 400
+  +2 circle
+case cue1_seat4 D_801493FA:1=4
+  point -27 -25
+  wait cue1_ready4 cursor_cw_x:2=-27 cursor_cw_y:2=-25 D_801493FF:1&0xC0!=0 within 400
+  +2 circle
+case cue1_seat5 D_801493FA:1=5
+  point 6 -25
+  wait cue1_ready5 cursor_cw_x:2=6 cursor_cw_y:2=-25 D_801493FF:1&0xC0!=0 within 400
+  +2 circle
+case cue1_seat6 D_801493FA:1=6
+  point 36 -25
+  wait cue1_ready6 cursor_cw_x:2=36 cursor_cw_y:2=-25 D_801493FF:1&0xC0!=0 within 400
+  +2 circle
+case cue1_seat7 D_801493FA:1=7
+  point 69 -25
+  wait cue1_ready7 cursor_cw_x:2=69 cursor_cw_y:2=-25 D_801493FF:1&0xC0!=0 within 400
+  +2 circle
+case cue1_seat8 D_801493FA:1=8
+  point 102 -25
+  wait cue1_ready8 cursor_cw_x:2=102 cursor_cw_y:2=-25 D_801493FF:1&0xC0!=0 within 400
+  +2 circle
+case cue1_seat9 D_801493FA:1=9
+  point 132 -25
+  wait cue1_ready9 cursor_cw_x:2=132 cursor_cw_y:2=-25 D_801493FF:1&0xC0!=0 within 400
+  +2 circle
+case cue1_seat10 D_801493FA:1=10
+  point -138 -55
+  wait cue1_ready10 cursor_cw_x:2=-138 cursor_cw_y:2=-55 D_801493FF:1&0xC0!=0 within 400
+  +2 circle
+case cue1_seat11 D_801493FA:1=11
+  point -108 -55
+  wait cue1_ready11 cursor_cw_x:2=-108 cursor_cw_y:2=-55 D_801493FF:1&0xC0!=0 within 400
+  +2 circle
+case cue1_seat12 D_801493FA:1=12
+  point -75 -55
+  wait cue1_ready12 cursor_cw_x:2=-75 cursor_cw_y:2=-55 D_801493FF:1&0xC0!=0 within 400
+  +2 circle
+case cue1_seat13 D_801493FA:1=13
+  point -42 -55
+  wait cue1_ready13 cursor_cw_x:2=-42 cursor_cw_y:2=-55 D_801493FF:1&0xC0!=0 within 400
+  +2 circle
+case cue1_seat14 D_801493FA:1=14
+  point -12 -55
+  wait cue1_ready14 cursor_cw_x:2=-12 cursor_cw_y:2=-55 D_801493FF:1&0xC0!=0 within 400
+  +2 circle
+case cue1_seat15 D_801493FA:1=15
+  point 21 -55
+  wait cue1_ready15 cursor_cw_x:2=21 cursor_cw_y:2=-55 D_801493FF:1&0xC0!=0 within 400
+  +2 circle
+case cue1_seat16 D_801493FA:1=16
+  point 54 -55
+  wait cue1_ready16 cursor_cw_x:2=54 cursor_cw_y:2=-55 D_801493FF:1&0xC0!=0 within 400
+  +2 circle
+case cue1_seat17 D_801493FA:1=17
+  point 84 -55
+  wait cue1_ready17 cursor_cw_x:2=84 cursor_cw_y:2=-55 D_801493FF:1&0xC0!=0 within 400
+  +2 circle
+case cue1_seat18 D_801493FA:1=18
+  point 117 -55
+  wait cue1_ready18 cursor_cw_x:2=117 cursor_cw_y:2=-55 D_801493FF:1&0xC0!=0 within 400
+  +2 circle
+case cue1_seat19 D_801493FA:1=19
+  point 138 -55
+  wait cue1_ready19 cursor_cw_x:2=138 cursor_cw_y:2=-55 D_801493FF:1&0xC0!=0 within 400
+  +2 circle
+case cue1_seat20 D_801493FA:1=20
+  point -150 -73
+  wait cue1_ready20 cursor_cw_x:2=-150 cursor_cw_y:2=-73 D_801493FF:1&0xC0!=0 within 400
+  +2 circle
+case cue1_seat21 D_801493FA:1=21
+  point -123 -73
+  wait cue1_ready21 cursor_cw_x:2=-123 cursor_cw_y:2=-73 D_801493FF:1&0xC0!=0 within 400
+  +2 circle
+case cue1_seat22 D_801493FA:1=22
+  point -90 -73
+  wait cue1_ready22 cursor_cw_x:2=-90 cursor_cw_y:2=-73 D_801493FF:1&0xC0!=0 within 400
+  +2 circle
+case cue1_seat23 D_801493FA:1=23
+  point -60 -73
+  wait cue1_ready23 cursor_cw_x:2=-60 cursor_cw_y:2=-73 D_801493FF:1&0xC0!=0 within 400
+  +2 circle
+case cue1_seat24 D_801493FA:1=24
+  point -27 -73
+  wait cue1_ready24 cursor_cw_x:2=-27 cursor_cw_y:2=-73 D_801493FF:1&0xC0!=0 within 400
+  +2 circle
+case cue1_seat25 D_801493FA:1=25
+  point 6 -73
+  wait cue1_ready25 cursor_cw_x:2=6 cursor_cw_y:2=-73 D_801493FF:1&0xC0!=0 within 400
+  +2 circle
+case cue1_seat26 D_801493FA:1=26
+  point 36 -73
+  wait cue1_ready26 cursor_cw_x:2=36 cursor_cw_y:2=-73 D_801493FF:1&0xC0!=0 within 400
+  +2 circle
+case cue1_seat27 D_801493FA:1=27
+  point 69 -73
+  wait cue1_ready27 cursor_cw_x:2=69 cursor_cw_y:2=-73 D_801493FF:1&0xC0!=0 within 400
+  +2 circle
+case cue1_seat28 D_801493FA:1=28
+  point 102 -73
+  wait cue1_ready28 cursor_cw_x:2=102 cursor_cw_y:2=-73 D_801493FF:1&0xC0!=0 within 400
+  +2 circle
+case cue1_seat29 D_801493FA:1=29
+  point 132 -73
+  wait cue1_ready29 cursor_cw_x:2=132 cursor_cw_y:2=-73 D_801493FF:1&0xC0!=0 within 400
+  +2 circle
+end-branch
+branch cue1_result within 200
+case cue1_hit now_sub_sub_step!=1
+case cue1_miss D_801493FF:1&0xC0=0
+  +60 left+up*100
+  branch cue2 within 120
+  case cue2_seat0 D_801493FA:1=0
+    point -150 -25
+    wait cue2_ready0 cursor_cw_x:2=-150 cursor_cw_y:2=-25 D_801493FF:1&0xC0!=0 within 400
+    +2 circle
+  case cue2_seat1 D_801493FA:1=1
+    point -123 -25
+    wait cue2_ready1 cursor_cw_x:2=-123 cursor_cw_y:2=-25 D_801493FF:1&0xC0!=0 within 400
+    +2 circle
+  case cue2_seat2 D_801493FA:1=2
+    point -90 -25
+    wait cue2_ready2 cursor_cw_x:2=-90 cursor_cw_y:2=-25 D_801493FF:1&0xC0!=0 within 400
+    +2 circle
+  case cue2_seat3 D_801493FA:1=3
+    point -60 -25
+    wait cue2_ready3 cursor_cw_x:2=-60 cursor_cw_y:2=-25 D_801493FF:1&0xC0!=0 within 400
+    +2 circle
+  case cue2_seat4 D_801493FA:1=4
+    point -27 -25
+    wait cue2_ready4 cursor_cw_x:2=-27 cursor_cw_y:2=-25 D_801493FF:1&0xC0!=0 within 400
+    +2 circle
+  case cue2_seat5 D_801493FA:1=5
+    point 6 -25
+    wait cue2_ready5 cursor_cw_x:2=6 cursor_cw_y:2=-25 D_801493FF:1&0xC0!=0 within 400
+    +2 circle
+  case cue2_seat6 D_801493FA:1=6
+    point 36 -25
+    wait cue2_ready6 cursor_cw_x:2=36 cursor_cw_y:2=-25 D_801493FF:1&0xC0!=0 within 400
+    +2 circle
+  case cue2_seat7 D_801493FA:1=7
+    point 69 -25
+    wait cue2_ready7 cursor_cw_x:2=69 cursor_cw_y:2=-25 D_801493FF:1&0xC0!=0 within 400
+    +2 circle
+  case cue2_seat8 D_801493FA:1=8
+    point 102 -25
+    wait cue2_ready8 cursor_cw_x:2=102 cursor_cw_y:2=-25 D_801493FF:1&0xC0!=0 within 400
+    +2 circle
+  case cue2_seat9 D_801493FA:1=9
+    point 132 -25
+    wait cue2_ready9 cursor_cw_x:2=132 cursor_cw_y:2=-25 D_801493FF:1&0xC0!=0 within 400
+    +2 circle
+  case cue2_seat10 D_801493FA:1=10
+    point -138 -55
+    wait cue2_ready10 cursor_cw_x:2=-138 cursor_cw_y:2=-55 D_801493FF:1&0xC0!=0 within 400
+    +2 circle
+  case cue2_seat11 D_801493FA:1=11
+    point -108 -55
+    wait cue2_ready11 cursor_cw_x:2=-108 cursor_cw_y:2=-55 D_801493FF:1&0xC0!=0 within 400
+    +2 circle
+  case cue2_seat12 D_801493FA:1=12
+    point -75 -55
+    wait cue2_ready12 cursor_cw_x:2=-75 cursor_cw_y:2=-55 D_801493FF:1&0xC0!=0 within 400
+    +2 circle
+  case cue2_seat13 D_801493FA:1=13
+    point -42 -55
+    wait cue2_ready13 cursor_cw_x:2=-42 cursor_cw_y:2=-55 D_801493FF:1&0xC0!=0 within 400
+    +2 circle
+  case cue2_seat14 D_801493FA:1=14
+    point -12 -55
+    wait cue2_ready14 cursor_cw_x:2=-12 cursor_cw_y:2=-55 D_801493FF:1&0xC0!=0 within 400
+    +2 circle
+  case cue2_seat15 D_801493FA:1=15
+    point 21 -55
+    wait cue2_ready15 cursor_cw_x:2=21 cursor_cw_y:2=-55 D_801493FF:1&0xC0!=0 within 400
+    +2 circle
+  case cue2_seat16 D_801493FA:1=16
+    point 54 -55
+    wait cue2_ready16 cursor_cw_x:2=54 cursor_cw_y:2=-55 D_801493FF:1&0xC0!=0 within 400
+    +2 circle
+  case cue2_seat17 D_801493FA:1=17
+    point 84 -55
+    wait cue2_ready17 cursor_cw_x:2=84 cursor_cw_y:2=-55 D_801493FF:1&0xC0!=0 within 400
+    +2 circle
+  case cue2_seat18 D_801493FA:1=18
+    point 117 -55
+    wait cue2_ready18 cursor_cw_x:2=117 cursor_cw_y:2=-55 D_801493FF:1&0xC0!=0 within 400
+    +2 circle
+  case cue2_seat19 D_801493FA:1=19
+    point 138 -55
+    wait cue2_ready19 cursor_cw_x:2=138 cursor_cw_y:2=-55 D_801493FF:1&0xC0!=0 within 400
+    +2 circle
+  case cue2_seat20 D_801493FA:1=20
+    point -150 -73
+    wait cue2_ready20 cursor_cw_x:2=-150 cursor_cw_y:2=-73 D_801493FF:1&0xC0!=0 within 400
+    +2 circle
+  case cue2_seat21 D_801493FA:1=21
+    point -123 -73
+    wait cue2_ready21 cursor_cw_x:2=-123 cursor_cw_y:2=-73 D_801493FF:1&0xC0!=0 within 400
+    +2 circle
+  case cue2_seat22 D_801493FA:1=22
+    point -90 -73
+    wait cue2_ready22 cursor_cw_x:2=-90 cursor_cw_y:2=-73 D_801493FF:1&0xC0!=0 within 400
+    +2 circle
+  case cue2_seat23 D_801493FA:1=23
+    point -60 -73
+    wait cue2_ready23 cursor_cw_x:2=-60 cursor_cw_y:2=-73 D_801493FF:1&0xC0!=0 within 400
+    +2 circle
+  case cue2_seat24 D_801493FA:1=24
+    point -27 -73
+    wait cue2_ready24 cursor_cw_x:2=-27 cursor_cw_y:2=-73 D_801493FF:1&0xC0!=0 within 400
+    +2 circle
+  case cue2_seat25 D_801493FA:1=25
+    point 6 -73
+    wait cue2_ready25 cursor_cw_x:2=6 cursor_cw_y:2=-73 D_801493FF:1&0xC0!=0 within 400
+    +2 circle
+  case cue2_seat26 D_801493FA:1=26
+    point 36 -73
+    wait cue2_ready26 cursor_cw_x:2=36 cursor_cw_y:2=-73 D_801493FF:1&0xC0!=0 within 400
+    +2 circle
+  case cue2_seat27 D_801493FA:1=27
+    point 69 -73
+    wait cue2_ready27 cursor_cw_x:2=69 cursor_cw_y:2=-73 D_801493FF:1&0xC0!=0 within 400
+    +2 circle
+  case cue2_seat28 D_801493FA:1=28
+    point 102 -73
+    wait cue2_ready28 cursor_cw_x:2=102 cursor_cw_y:2=-73 D_801493FF:1&0xC0!=0 within 400
+    +2 circle
+  case cue2_seat29 D_801493FA:1=29
+    point 132 -73
+    wait cue2_ready29 cursor_cw_x:2=132 cursor_cw_y:2=-73 D_801493FF:1&0xC0!=0 within 400
+    +2 circle
+  end-branch
+  wait cue2_hit now_sub_sub_step!=1 within 200
+end-branch
+# the rest of the race and the result: circle every 10 frames
+wait festival_done now_step!=0x72 within 24000 mash circle/10

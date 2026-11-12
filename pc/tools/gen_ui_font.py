@@ -1,0 +1,156 @@
+#!/usr/bin/env python3
+# SPDX-License-Identifier: GPL-3.0-or-later
+"""gen_ui_font.py -- compile the PC layer's UI font into C tables.
+
+The UI font is pc/font/latin12.txt -- the English patch's hand-authored
+12-px proportional Latin font (tools/patch/font/latin12.txt, toki1-english),
+kept in pc/font as an exact copy so the port builds without the English
+patch (docs/REPO-SPLIT-PLAN.md; pc/tools/test_ui_font.py fails when the two
+differ) -- plus the PC-only symbols of pc/font/ui_extra12.txt (same format;
+code points U+0080 and up only).  The build regenerates the tables whenever
+either text file or the generator changes (pc/Makefile).
+
+    python3 pc/tools/gen_ui_font.py --out BUILD/gen/ui_font_data.c [--json M.json]
+           [--latin PATH] [--extra PATH]
+
+Output (pc/include/pc_ui.h reads it through pc/hal/ui_font.c):
+    const int ui_font_count;
+    const unsigned int ui_font_cp[];            code points, ascending
+    const unsigned char ui_font_adv[];          advance (box width + 1)
+    const unsigned short ui_font_rows[][12];    bit 15 = leftmost pixel
+--json writes the same metrics ({"U+0041": {"adv": 7, "rows": [...]}}) for
+the tests (pc/tools/test_ui_font.py).
+"""
+import argparse
+import json
+import sys
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[2]
+LATIN = ROOT / 'pc/font/latin12.txt'
+EXTRA = ROOT / 'pc/font/ui_extra12.txt'
+HEIGHT = 12
+FIRST, COUNT = 0x20, 95          # latin12: printable ASCII, every one
+
+
+def parse_latin(src):
+    """latin12.txt: "glyph <char> adv N" ("space" names 0x20) and 12 rows of
+    '.'/'#' no wider than adv -- the rules of tools/patch/fontgen.py parse()."""
+    glyphs = {}
+    lines = Path(src).read_text(encoding='utf-8').splitlines()
+    i = 0
+    while i < len(lines):
+        line = lines[i]
+        i += 1
+        if not line.strip() or line.startswith('#'):
+            continue
+        parts = line.split()
+        if len(parts) != 4 or parts[0] != 'glyph' or parts[2] != 'adv':
+            raise SystemExit(f'{src}:{i}: expected "glyph <char> adv N", got {line!r}')
+        ch = ' ' if parts[1] == 'space' else parts[1]
+        if len(ch) != 1 or not FIRST <= ord(ch) < FIRST + COUNT:
+            raise SystemExit(f'{src}:{i}: bad glyph name {parts[1]!r}')
+        adv = int(parts[3])
+        if not 1 <= adv <= 16:
+            raise SystemExit(f'{src}:{i}: adv {adv} out of range')
+        rows = []
+        for _ in range(HEIGHT):
+            if i >= len(lines):
+                raise SystemExit(f'{src}: glyph {ch!r} truncated')
+            row = lines[i]
+            i += 1
+            if any(c not in '.#' for c in row) or len(row) > adv:
+                raise SystemExit(f'{src}:{i}: bad row {row!r} in glyph {ch!r}')
+            rows.append(sum(1 << (15 - x) for x, c in enumerate(row) if c == '#'))
+        if ch in glyphs:
+            raise SystemExit(f'{src}: duplicate glyph {ch!r}')
+        glyphs[ch] = (adv, rows)
+    missing = [chr(c) for c in range(FIRST, FIRST + COUNT) if chr(c) not in glyphs]
+    if missing:
+        raise SystemExit(f'{src}: missing glyphs: {"".join(missing)!r}')
+    return glyphs
+
+
+def parse_extra(src):
+    """ui_extra12.txt: latin12's format, glyphs named U+XXXX (>= U+0080)."""
+    glyphs = {}
+    lines = Path(src).read_text(encoding='utf-8').splitlines()
+    i = 0
+    while i < len(lines):
+        line = lines[i]
+        i += 1
+        if not line.strip() or line.startswith('#'):
+            continue
+        parts = line.split()
+        if len(parts) != 4 or parts[0] != 'glyph' or parts[2] != 'adv':
+            raise SystemExit(f'{src}:{i}: expected "glyph U+XXXX adv N", got {line!r}')
+        if not parts[1].startswith('U+'):
+            raise SystemExit(f'{src}:{i}: glyph names are U+XXXX here')
+        cp = int(parts[1][2:], 16)
+        if cp < 0x80:
+            raise SystemExit(f'{src}:{i}: U+{cp:04X} is ASCII: latin12.txt owns it')
+        adv = int(parts[3])
+        if not 1 <= adv <= 16:
+            raise SystemExit(f'{src}:{i}: adv {adv} out of range')
+        rows = []
+        for _ in range(HEIGHT):
+            if i >= len(lines):
+                raise SystemExit(f'{src}: glyph U+{cp:04X} truncated')
+            row = lines[i]
+            i += 1
+            if any(c not in '.#' for c in row) or len(row) > adv:
+                raise SystemExit(f'{src}:{i}: bad row {row!r} in U+{cp:04X}')
+            rows.append(sum(1 << (15 - x) for x, c in enumerate(row) if c == '#'))
+        if cp in glyphs:
+            raise SystemExit(f'{src}: duplicate glyph U+{cp:04X}')
+        glyphs[cp] = (adv, rows)
+    return glyphs
+
+
+def build(latin=LATIN, extra=EXTRA):
+    """{code point: (adv, [12 rows])}"""
+    out = {ord(ch): (adv, rows) for ch, (adv, rows) in parse_latin(latin).items()}
+    for cp, g in parse_extra(extra).items():
+        out[cp] = g
+    return out
+
+
+def emit_c(glyphs, path):
+    cps = sorted(glyphs)
+    L = ['/* GENERATED by pc/tools/gen_ui_font.py from pc/font/latin12.txt',
+         '   and pc/font/ui_extra12.txt -- do not edit.  The PC layer\'s UI font',
+         '   (pc/hal/ui_font.c). */',
+         f'const int ui_font_count = {len(cps)};',
+         'const unsigned int ui_font_cp[] = {']
+    for k in range(0, len(cps), 10):
+        L.append('    ' + ', '.join(f'0x{c:04X}' for c in cps[k:k + 10]) + ',')
+    L.append('};')
+    L.append('const unsigned char ui_font_adv[] = {')
+    for k in range(0, len(cps), 20):
+        L.append('    ' + ', '.join(str(glyphs[c][0]) for c in cps[k:k + 20]) + ',')
+    L.append('};')
+    L.append('const unsigned short ui_font_rows[][12] = {')
+    for c in cps:
+        L.append(f'    /* U+{c:04X} */ {{ ' + ', '.join(f'0x{r:04X}' for r in glyphs[c][1]) + ' },')
+    L.append('};')
+    Path(path).write_text('\n'.join(L) + '\n')
+
+
+def main():
+    ap = argparse.ArgumentParser(description=__doc__.split('\n\n')[0])
+    ap.add_argument('--out', required=True)
+    ap.add_argument('--json')
+    ap.add_argument('--latin', default=str(LATIN))
+    ap.add_argument('--extra', default=str(EXTRA))
+    a = ap.parse_args()
+    glyphs = build(a.latin, a.extra)
+    Path(a.out).parent.mkdir(parents=True, exist_ok=True)
+    emit_c(glyphs, a.out)
+    if a.json:
+        Path(a.json).write_text(json.dumps(
+            {f'U+{c:04X}': {'adv': g[0], 'rows': g[1]} for c, g in sorted(glyphs.items())}, indent=0))
+    return 0
+
+
+if __name__ == '__main__':
+    sys.exit(main())

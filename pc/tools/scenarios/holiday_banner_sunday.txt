@@ -1,0 +1,6 @@
+# The holiday screen (step 70) on a Sunday: the calendar banner's weekday
+# cell is frame now_youbi + 82 of D_800CFC5C (hizuke_init); Sunday = 88.
+start album
+album date=95/4/16
+do goto 70
+expect now_step=70 within 900 hold 300

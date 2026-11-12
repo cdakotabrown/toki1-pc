@@ -1,0 +1,401 @@
+0003 enhanced sound quality (2026-11-03): cubic / sinc interpolation,
+floating-point reverb, SoundFont injection, the voice-on mask.  This
+project's own change; described in pc/3rd/SPU-CORE.md "Local patches".
+
+--- a/upstream/spu.cpp
++++ b/upstream/spu.cpp
+@@ -23,6 +23,7 @@
+ #include "common/log.h"
+ #include "common/path.h"
+ 
++#include <cmath>
+ #include <memory>
+ 
+ Log_SetChannel(SPU);
+@@ -461,6 +462,46 @@
+ static PcSplit s_pc_split;
+ static void PcSwapShadowReverb();
+ 
++// ---- tokimeki-pc patch: enhanced sound quality and the SoundFont input ----
++// (README.md "PC patches"; pc/hal/spu.c, pc/hal/soundfont.c.)  All of it is
++// off by default and under the parity profile; off, every added branch is
++// skipped and the output is the unpatched computation.
++//   interp     0 the console's 4-tap Gaussian, 1 4-point cubic (Catmull-Rom,
++//              same taps and latency), 2 8-tap Kaiser-windowed sinc (two
++//              samples later, cutoff scaled with the pitch)
++//   reverb_hq  a second reverb unit in floating point -- the same algorithm,
++//              addresses and 22.05 kHz rate, without the 16-bit storage and
++//              truncation -- replaces the reverb in the OUTPUT; the real unit
++//              still runs on SPU RAM, so the device state does not change
++//   inject     frames from the host (dry L, dry R, wet L, wet R as s32 per
++//              frame) added to the split's rest mix, the wet pair also to the
++//              rest's reverb input: the SoundFont renderer's song, which then
++//              takes the main volume and the reverb as the voices it replaces
++//              did.  Only with the split on; never reaches the real unit.
++struct PcHqReverb
++{
++  float* ram;           // RAM_SIZE / 2 floats, allocated on first use, never freed
++  std::array<std::array<float, 128>, 2> downsample;
++  std::array<std::array<float, 64>, 2> upsample;
++  u32 position;
++  u32 current_address;
++  u32 base;             // the work area it was primed for (mBASE)
++  bool primed;
++};
++struct PcQuality
++{
++  u8 interp;
++  bool reverb_hq;
++  const s32* inject;    // the current GenerateSamples call's frames, or null
++  PcHqReverb hq;
++};
++static PcQuality s_pc_quality;
++// The 8 newest samples of the previous ADPCM block per voice (the sinc
++// filter's history beyond the 3 the voice keeps); zero at a key-on.
++static s16 s_pc_hist[NUM_VOICES][8];
++static s32 PcInterpolate(const Voice& v);
++static void PcProcessReverbHQ(float left_in, float right_in, float* left_out, float* right_out);
++
+ } // namespace SPU
+ 
+ extern "C" void ds_spu_music_split(int on, u32 voice_mask, int replace)
+@@ -490,6 +531,33 @@
+   SPU::s_pc_split.music = music_frames;
+ }
+ 
++extern "C" void ds_spu_set_quality(int interp, int reverb_hq)
++{
++  using namespace SPU;
++  s_pc_quality.interp = static_cast<u8>(interp < 0 || interp > 2 ? 0 : interp);
++  if (reverb_hq && !s_pc_quality.reverb_hq)
++  {
++    if (!s_pc_quality.hq.ram)
++      s_pc_quality.hq.ram = new float[RAM_SIZE / 2];
++    s_pc_quality.hq.primed = false;
++  }
++  s_pc_quality.reverb_hq = reverb_hq != 0;
++}
++
++extern "C" void ds_spu_inject(const s32* frames)
++{
++  SPU::s_pc_quality.inject = frames;
++}
++
++extern "C" u32 ds_spu_voice_on_mask(void)
++{
++  u32 mask = 0;
++  for (u32 i = 0; i < SPU::NUM_VOICES; i++)
++    if (SPU::s_state.voices[i].IsOn())
++      mask |= 1u << i;
++  return mask;
++}
++
+ void SPU::PcSwapShadowReverb()
+ {
+   std::swap(s_pc_split.shadow.downsample, s_state.reverb_downsample_buffer);
+@@ -1960,6 +2028,16 @@
+   static constexpr std::array<s32, 5> filter_table_pos = {{0, 60, 115, 98, 122}};
+   static constexpr std::array<s32, 5> filter_table_neg = {{0, 0, -52, -55, -60}};
+ 
++  // tokimeki-pc patch: the sinc filter's longer history (s_pc_hist)
++  {
++    s16* hist = s_pc_hist[this - s_state.voices.data()];
++    if (is_first_block)
++      std::memset(hist, 0, sizeof(s_pc_hist[0]));
++    else
++      std::memcpy(hist, &current_block_samples[NUM_SAMPLES_FROM_LAST_ADPCM_BLOCK + NUM_SAMPLES_PER_ADPCM_BLOCK - 8],
++                  sizeof(s_pc_hist[0]));
++  }
++
+   // store samples needed for interpolation
+   current_block_samples[2] = current_block_samples[NUM_SAMPLES_FROM_LAST_ADPCM_BLOCK + NUM_SAMPLES_PER_ADPCM_BLOCK - 1];
+   current_block_samples[1] = current_block_samples[NUM_SAMPLES_FROM_LAST_ADPCM_BLOCK + NUM_SAMPLES_PER_ADPCM_BLOCK - 2];
+@@ -2057,6 +2135,10 @@
+     0x5997, 0x599E, 0x59A4, 0x59A9, 0x59AD, 0x59B0, 0x59B2, 0x59B3  //
+   }};
+ 
++  // tokimeki-pc patch: the enhanced interpolators (s_pc_quality.interp)
++  if (s_pc_quality.interp != 0) [[unlikely]]
++    return PcInterpolate(*this);
++
+   const u8 i = counter.interpolation_index;
+   const u32 s = NUM_SAMPLES_FROM_LAST_ADPCM_BLOCK + ZeroExtend32(counter.sample_index.GetValue());
+ 
+@@ -2067,6 +2149,222 @@
+   return out >> 15;
+ }
+ 
++// ---- tokimeki-pc patch: the enhanced interpolators ------------------------
++// Sinc: 8 taps (s-7 .. s) around s-4 + frac, i.e. two samples after the
++// Gaussian's point, Kaiser window (beta 6), normalised to unity gain per
++// phase.  The cutoff follows the pitch so a voice played above its rate is
++// band-limited before it is resampled: 0.9 x Nyquist / the bucket's top
++// ratio.  Tables are built once, deterministically (double precision,
++// rounded to Q15), the first time the mode is chosen.
++namespace SPU {
++enum : u32
++{
++  PC_SINC_BUCKETS = 7,
++  PC_SINC_TAPS = 8
++};
++static const double s_pc_sinc_top[PC_SINC_BUCKETS] = {1.0, 1.25, 1.6, 2.0, 2.5, 3.2, 4.0};
++static s32 s_pc_sinc[PC_SINC_BUCKETS][256][PC_SINC_TAPS];
++static bool s_pc_sinc_ready;
++
++static double PcBesselI0(double x)
++{
++  double sum = 1.0, term = 1.0;
++  for (int k = 1; k < 40; k++)
++  {
++    term *= (x / (2.0 * k)) * (x / (2.0 * k));
++    sum += term;
++  }
++  return sum;
++}
++
++static void PcBuildSinc()
++{
++  static constexpr double PI = 3.14159265358979323846, BETA = 6.0;
++  if (s_pc_sinc_ready)
++    return;
++  const double i0b = PcBesselI0(BETA);
++  for (u32 b = 0; b < PC_SINC_BUCKETS; b++)
++  {
++    const double c = 0.9 / s_pc_sinc_top[b];
++    for (u32 p = 0; p < 256; p++)
++    {
++      double h[PC_SINC_TAPS], sum = 0.0;
++      for (u32 k = 0; k < PC_SINC_TAPS; k++)
++      {
++        const double d = double(k) - 3.0 - double(p) / 256.0;
++        const double r = d / 4.0;
++        const double w = (r <= -1.0 || r >= 1.0) ? 0.0 : PcBesselI0(BETA * std::sqrt(1.0 - r * r)) / i0b;
++        const double x = PI * c * d;
++        h[k] = c * (d == 0.0 ? 1.0 : std::sin(x) / x) * w;
++        sum += h[k];
++      }
++      s32 acc = 0;
++      for (u32 k = 0; k < PC_SINC_TAPS; k++)
++      {
++        s_pc_sinc[b][p][k] = static_cast<s32>(std::floor(h[k] / sum * 32768.0 + 0.5));
++        acc += s_pc_sinc[b][p][k];
++      }
++      s_pc_sinc[b][p][3] += 32768 - acc;   // exact unity gain after rounding
++    }
++  }
++  s_pc_sinc_ready = true;
++}
++} // namespace SPU
++
++extern "C" void ds_spu_prepare_quality(int interp)
++{
++  if (interp == 2)
++    SPU::PcBuildSinc();
++}
++
++s32 SPU::PcInterpolate(const Voice& v)
++{
++  const u32 i = v.counter.interpolation_index;
++  const s32 s = s32(NUM_SAMPLES_FROM_LAST_ADPCM_BLOCK) + s32(v.counter.sample_index.GetValue());
++  if (s_pc_quality.interp == 1 || !s_pc_sinc_ready)
++  {
++    // Catmull-Rom through s-3 .. s at s-2 + i/256
++    const s32 p0 = v.current_block_samples[s - 3], p1 = v.current_block_samples[s - 2];
++    const s32 p2 = v.current_block_samples[s - 1], p3 = v.current_block_samples[s];
++    const s32 f = s32(i);
++    const s32 a = 3 * (p1 - p2) + p3 - p0;
++    const s32 b = 2 * p0 - 5 * p1 + 4 * p2 - p3;
++    const s32 c = p2 - p0;
++    const s64 x = ((((((s64(a) * f) >> 8) + b) * f) >> 8) + c) * f;
++    return Clamp16(p1 + s32(x >> 9));
++  }
++  const s16* hist = s_pc_hist[&v - s_state.voices.data()];
++  const u32 step = v.regs.adpcm_sample_rate;
++  u32 b = 0;
++  while (b + 1 < PC_SINC_BUCKETS && double(step) > s_pc_sinc_top[b] * 4096.0)
++    b++;
++  const s32* h = s_pc_sinc[b][i];
++  s64 acc = 0;
++  for (s32 k = 0; k < s32(PC_SINC_TAPS); k++)
++  {
++    const s32 idx = s - 7 + k;
++    acc += s64(h[k]) * (idx >= 0 ? v.current_block_samples[idx] : hist[idx + 5]);
++  }
++  return Clamp16(s32((acc + 0x4000) >> 15));
++}
++
++// ---- tokimeki-pc patch: the floating-point reverb unit ---------------------
++// ProcessReverb below, statement for statement, in float: the same
++// registers, work-area addresses (its own float copy of the area), 39-tap
++// half-band resamplers and 22.05 kHz processing, without the 16-bit storage,
++// the Clamp16 at every stage and the truncating shifts.  Its input is what
++// the output's reverb would get; it starts from silence when turned on or
++// when the game moves the work area (mBASE).
++namespace SPU {
++static u32 PcHqAddr(u32 address)
++{
++  static constexpr u32 MASK = (RAM_SIZE - 1) / 2;
++  u32 offset = s_pc_quality.hq.current_address + (address & MASK);
++  offset += s_state.reverb_base_address & ((s32)(offset << 13) >> 31);
++  return offset & MASK;
++}
++} // namespace SPU
++
++void SPU::PcProcessReverbHQ(float left_in, float right_in, float* left_out, float* right_out)
++{
++  static constexpr float h39[39] = {
++    -1.0f, 0.0f, 2.0f, 0.0f, -10.0f, 0.0f, 35.0f, 0.0f, -103.0f, 0.0f, 266.0f, 0.0f, -616.0f, 0.0f,
++    1332.0f, 0.0f, -2960.0f, 0.0f, 10246.0f, 16384.0f, 10246.0f, 0.0f, -2960.0f, 0.0f, 1332.0f, 0.0f,
++    -616.0f, 0.0f, 266.0f, 0.0f, -103.0f, 0.0f, 35.0f, 0.0f, -10.0f, 0.0f, 2.0f, 0.0f, -1.0f};
++  static constexpr float h20[20] = {-1.0f,    2.0f,     -10.0f,  35.0f,   -103.0f, 266.0f,  -616.0f,
++                                    1332.0f,  -2960.0f, 10246.0f, 10246.0f, -2960.0f, 1332.0f, -616.0f,
++                                    266.0f,   -103.0f,  35.0f,   -10.0f,  2.0f,    -1.0f};
++  PcHqReverb& q = s_pc_quality.hq;
++  const ReverbRegisters& R = s_state.reverb_registers;
++  if (!q.primed || q.ram == nullptr || q.base != s_state.reverb_base_address)
++  {
++    if (q.ram)
++      std::fill_n(q.ram, RAM_SIZE / 2, 0.0f);
++    for (auto& a : q.downsample)
++      a.fill(0.0f);
++    for (auto& a : q.upsample)
++      a.fill(0.0f);
++    q.position = 0;
++    q.current_address = q.base = s_state.reverb_base_address;
++    q.primed = q.ram != nullptr;
++    if (!q.primed)
++    {
++      *left_out = *right_out = 0.0f;
++      return;
++    }
++  }
++  auto rd = [&](u32 address, s32 offset = 0) { return q.ram[PcHqAddr((address << 2) + offset)]; };
++  auto wr = [&](u32 address, float v) { q.ram[PcHqAddr(address << 2)] = v; };
++  const auto iiasm = [&](float x) {
++    return R.IIR_ALPHA == -32768 ? x * -65536.0f : x * float(32768 - R.IIR_ALPHA);
++  };
++  const auto neg = [](s32 v) { return float(v == -32768 ? 0x7FFF : -v); };
++
++  q.downsample[0][q.position | 0x00] = q.downsample[0][q.position | 0x40] = left_in;
++  q.downsample[1][q.position | 0x00] = q.downsample[1][q.position | 0x40] = right_in;
++
++  float out[2];
++  if (q.position & 1u)
++  {
++    float down[2];
++    for (u32 ch = 0; ch < 2; ch++)
++    {
++      const float* src = &q.downsample[ch][(q.position - 38) & 0x3F];
++      float acc = 0.0f;
++      for (u32 k = 0; k < 39; k++)
++        acc += h39[k] * src[k];
++      down[ch] = acc / 32768.0f;
++    }
++    for (u32 ch = 0; ch < 2; ch++)
++    {
++      if (s_state.SPUCNT.reverb_master_enable)
++      {
++        const float in_a = ((rd(R.IIR_SRC_A[ch ^ 0]) * R.IIR_COEF) / 16384.0f +
++                            (down[ch] * R.IN_COEF[ch]) / 16384.0f) * 0.5f;
++        const float in_b = ((rd(R.IIR_SRC_B[ch ^ 1]) * R.IIR_COEF) / 16384.0f +
++                            (down[ch] * R.IN_COEF[ch]) / 16384.0f) * 0.5f;
++        const float iir_a = ((in_a * R.IIR_ALPHA) / 16384.0f + iiasm(rd(R.IIR_DEST_A[ch], -1)) / 16384.0f) * 0.5f;
++        const float iir_b = ((in_b * R.IIR_ALPHA) / 16384.0f + iiasm(rd(R.IIR_DEST_B[ch], -1)) / 16384.0f) * 0.5f;
++        wr(R.IIR_DEST_A[ch], iir_a);
++        wr(R.IIR_DEST_B[ch], iir_b);
++      }
++      const float acc = (rd(R.ACC_SRC_A[ch]) * R.ACC_COEF_A) / 16384.0f +
++                        (rd(R.ACC_SRC_B[ch]) * R.ACC_COEF_B) / 16384.0f +
++                        (rd(R.ACC_SRC_C[ch]) * R.ACC_COEF_C) / 16384.0f +
++                        (rd(R.ACC_SRC_D[ch]) * R.ACC_COEF_D) / 16384.0f;
++      const float fb_a = rd(R.MIX_DEST_A[ch] - R.FB_SRC_A);
++      const float fb_b = rd(R.MIX_DEST_B[ch] - R.FB_SRC_B);
++      const float mda = (acc + (fb_a * neg(R.FB_ALPHA)) / 16384.0f) * 0.5f;
++      const float mdb = fb_a + (((mda * R.FB_ALPHA) / 16384.0f) + ((fb_b * neg(R.FB_X)) / 16384.0f)) * 0.5f;
++      q.upsample[ch][(q.position >> 1) | 0x20] = q.upsample[ch][q.position >> 1] = fb_b + (mdb * R.FB_X) / 32768.0f;
++      if (s_state.SPUCNT.reverb_master_enable)
++      {
++        wr(R.MIX_DEST_A[ch], mda);
++        wr(R.MIX_DEST_B[ch], mdb);
++      }
++    }
++    q.current_address = (q.current_address + 1) & 0x3FFFFu;
++    q.current_address = (q.current_address == 0) ? s_state.reverb_base_address : q.current_address;
++    for (u32 ch = 0; ch < 2; ch++)
++    {
++      const float* src = &q.upsample[ch][((q.position >> 1) - 19) & 0x1F];
++      float acc = 0.0f;
++      for (u32 k = 0; k < 20; k++)
++        acc += h20[k] * src[k];
++      out[ch] = acc / 16384.0f;
++    }
++  }
++  else
++  {
++    const u32 idx = (((q.position >> 1) - 19) & 0x1F) + 9;
++    out[0] = q.upsample[0][idx];
++    out[1] = q.upsample[1][idx];
++  }
++  q.position = (q.position + 1) & 0x3F;
++  *left_out = out[0] * R.vLOUT / 32768.0f;
++  *right_out = out[1] * R.vROUT / 32768.0f;
++}
++
+ void SPU::ReadADPCMBlock(u16 address, ADPCMBlock* block)
+ {
+   u32 ram_address = (ZeroExtend32(address) * 8) & RAM_MASK;
+@@ -2527,9 +2825,25 @@
+         }
+       }
+ 
++      // tokimeki-pc patch: the host's SoundFont frames join the rest mix
++      // (dry sum, and the wet pair the rest's reverb input), muted with the
++      // voices; the real reverb unit never sees them.
++      if (const s32* in = s_pc_quality.inject) [[unlikely]]
++      {
++        s_pc_quality.inject += 4;
++        if (split && s_state.SPUCNT.mute_n)
++        {
++          rest_left += in[0] + in[2];
++          rest_right += in[1] + in[3];
++          rest_reverb_in_left += in[2];
++          rest_reverb_in_right += in[3];
++        }
++      }
++
+       // Compute reverb.
+       s32 reverb_out_left, reverb_out_right;
+       ProcessReverb(Clamp16(reverb_in_left), Clamp16(reverb_in_right), &reverb_out_left, &reverb_out_right);
++      s32 rest_reverb_used_left = 0, rest_reverb_used_right = 0;
+ 
+       // Mix in reverb.
+       left_sum += reverb_out_left;
+@@ -2548,6 +2862,8 @@
+         PcSwapShadowReverb();
+         rest_left += rest_reverb_out_left;
+         rest_right += rest_reverb_out_right;
++        rest_reverb_used_left = rest_reverb_out_left;
++        rest_reverb_used_right = rest_reverb_out_right;
+         if (s_pc_split.music)
+         {
+           *(s_pc_split.music++) = static_cast<s16>(Clamp16(left_sum - rest_left));
+@@ -2560,6 +2876,19 @@
+         }
+       }
+ 
++      // tokimeki-pc patch: the floating-point reverb replaces the output's
++      // reverb (the real unit, or the rest's shadow unit when replacing).
++      if (s_pc_quality.reverb_hq) [[unlikely]]
++      {
++        const bool rest_out = split && s_pc_split.replace;
++        float hq_left, hq_right;
++        PcProcessReverbHQ(static_cast<float>(rest_out ? rest_reverb_in_left : reverb_in_left),
++                          static_cast<float>(rest_out ? rest_reverb_in_right : reverb_in_right), &hq_left, &hq_right);
++        left_sum += static_cast<s32>(std::floor(hq_left + 0.5f)) - (rest_out ? rest_reverb_used_left : reverb_out_left);
++        right_sum +=
++          static_cast<s32>(std::floor(hq_right + 0.5f)) - (rest_out ? rest_reverb_used_right : reverb_out_right);
++      }
++
+       // Apply main volume after clamping. A maximum volume should not overflow here because both are 16-bit values.
+       *(output_frame++) = static_cast<s16>(ApplyVolume(Clamp16(left_sum), s_state.main_volume_left.current_level));
+       *(output_frame++) = static_cast<s16>(ApplyVolume(Clamp16(right_sum), s_state.main_volume_right.current_level));

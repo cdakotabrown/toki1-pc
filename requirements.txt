@@ -1,0 +1,5 @@
+# Python packages for the PC port's tools and tests (pc/tools).
+pyelftools>=0.30    # object/ELF reading in the audits
+capstone>=5.0       # MIPS disassembly (the switch-table audit, through toki1-decomp's tools)
+Pillow>=10.0        # screenshots, sweep pictures, art checks
+numpy>=1.24         # screenshot / audio analysis

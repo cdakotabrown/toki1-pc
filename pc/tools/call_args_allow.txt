@@ -1,0 +1,31 @@
+# pc/tools/audit_ps1_call_args.py --allow: live SHORT-READ calls left, each
+# with its reason.  `caller:callee` (or a bare caller for every callee).  The
+# list may only shrink: give the caller a PC override that passes what the
+# console passes (src/main/pc-port/, pc/src/overlay/<OV>/) and delete its
+# line.  REACHED = entered by new_game / date_save / spring_events, the
+# 300-frame matrix or a pc/tools/scenarios file (TACO, scenes 91/93/94/115/
+# 117/118) with a reach-instrumented binary (2026-10-31).  "listing"
+# is a linear backward read of the retail jal's argument registers: it does
+# not follow branches, so read the listing per path before fixing (the TACO
+# actor callers read "CLOBBERED" from another case's call; their exit path
+# keeps the slot in $a0).
+
+# --- left (2026-10-31: every other row fixed through pc/tools/call_args_plan.json,
+#     a pc-port override, or by dropping stale dead bodies from the link) ---
+GsSortObject4:TmdTF4                             # REACHED; false positive by path: switch 1 runs with GsNDIV = field = 0 and TmdTF4 reads arg7 only when GsNDIV != 0 (retail stores no arg7 there either: no `sw s5,28(sp)` in switch 1, see the matched header) (src/main/pc-port/GsSortObject4.c)
+GsSortObject4:TmdG4                              # REACHED; false positive by path: as TmdTF4 (arg7 forwarded only to the GsNDIV != 0 subdivision builders) (src/main/pc-port/GsSortObject4.c)
+GsSortObject4:TmdTG4                             # REACHED; false positive by path: as TmdTF4 (arg7 forwarded only to the GsNDIV != 0 subdivision builders) (src/main/pc-port/GsSortObject4.c)
+_SpuInit:_spu_init                               # false positive: _spu_init(mode, rxx) assigns rxx = _spu_RXX before any read (the parameter is a local); retail likewise passes a call-clobbered a1 (src/main/matched/_SpuInit.c)
+
+# --- 2026-11-01: rows the audit could not see before (a call through a
+#     header macro, sony_bios_alias.h's strncat -> func_800B48B0, was located
+#     in the header and skipped); not a relaxation of the list ---
+album_info_disp:func_800B48B0                    # open: the blood-type strncat(buf104, tbl1[...]) passes two arguments.  On the console a2 is what the previous call left: path 1, the BIOS strncat(buf136, club, 13) (SCPH-5500 0xBFC03200 decrements a2 per byte copied: 13 - strlen(club)) then a BIOS strcpy (no a2 write); path 2, whatever set_kanji_string -> load_string left.  Not reproduced yet; the blood string is 2..4 bytes (src/main/matched/album_info_disp.c)
+
+# --- 2026-11-06: rows the audit could not see before (an overlay's call of
+#     its own function by the address name, `func_8015368C()`, links to
+#     overlay_symtab.c's trampoline: no definition carried the name, so the
+#     call was never judged; TACO taco_main7_main1 / main2 were found the
+#     same way and are fixed in call_args_plan.json); not a relaxation.
+#     Its one row, TACO_taco_panel_main:func_8015368C, is fixed in
+#     call_args_plan.json too (the value measured on the reference) ---

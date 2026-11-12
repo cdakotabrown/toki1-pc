@@ -1,0 +1,36 @@
+{
+ "group": "title",
+ "comment": "Scenes entered from the title menu (base `title`: a freshly formatted card, the defined point is the title menu 18/2/1 waiting for input), as scene_matrix.py's SCENE_NAV does on the port alone; here on both machines and with input.",
+ "starts": [
+  {"id": "option32", "scene": 32, "overlay": "OPTION", "base": "title",
+   "input": {"kind": "explore", "seeds": [1, 2], "vblanks": 8000},
+   "covers": ["OPTION 32: the option menu as a new player has it (title_exit.c goto_step(32))"]},
+  {"id": "option32_open", "scene": 32, "overlay": "OPTION", "base": "title",
+   "fields": [
+    {"name": "bunkaken_flags:1", "value": 1, "why": "option_menu_in.c: entry 0 (the minigames) is hidden while !(bunkaken_flags & 1) && !(taco_rec & 1)"},
+    {"name": "taco_rec:4", "value": 1, "why": "option_menu_in.c, option_subgame_init.c: bit 0 opens the subgame entries"},
+    {"name": "opt_flag:1", "value": 1, "why": "option_menu_in.c: entry 3 is hidden while opt_flag == 0"},
+    {"name": "0x800F0204:14", "value": "hex:0101010101010101010101010101", "why": "get_option_count.c: counts album_work[0x14 + i] != 0, i < 14 (album_work 0x800F01F0); 0 hides entries 1 and 2 (option_menu_in.c)"}
+   ],
+   "input": {"kind": "explore", "seeds": [1, 2, 3], "vblanks": 9000},
+   "covers": ["OPTION 32 with every menu entry open (the system-file flags the menu reads), random input"]},
+  {"id": "option33", "scene": 33, "overlay": "OPTION", "base": "title",
+   "input": {"kind": "explore", "seeds": [1, 2], "vblanks": 8000},
+   "covers": ["OPTION 33: the sound test (option_cursor2.c goto_step(33) under the debug flag)"]},
+  {"id": "option34", "scene": 34, "overlay": "OPTION", "base": "title",
+   "input": {"kind": "explore", "seeds": [1, 2], "vblanks": 8000},
+   "covers": ["OPTION 34: the parameter editor and its scene warp page (option_cursor2.c / return_schedule.c goto_step(34))"]},
+  {"id": "name17", "scene": 17, "overlay": "NAME_ENT", "base": "title",
+   "input": {"kind": "explore", "seeds": [1], "vblanks": 8000},
+   "covers": ["NAME_ENT 17: the opening (title_main.c goto_step(17))"]},
+  {"id": "name19", "scene": 19, "overlay": "NAME_ENT", "base": "title",
+   "input": {"kind": "explore", "seeds": [1, 2], "vblanks": 8000},
+   "covers": ["NAME_ENT 19: the file select on a blank card (title_exit.c goto_step(19))"]},
+  {"id": "name20", "scene": 20, "overlay": "NAME_ENT", "base": "title",
+   "input": {"kind": "explore", "seeds": [1, 2], "vblanks": 8000},
+   "covers": ["NAME_ENT 20: the name entry (continue_game_init.c goto_step(20)), random kana"]},
+  {"id": "name21", "scene": 21, "overlay": "NAME_ENT", "base": "title",
+   "input": {"kind": "explore", "seeds": [1], "vblanks": 8000},
+   "covers": ["NAME_ENT 21: the prologue (name_ent_fade_out.c goto_step(21))"]}
+ ]
+}

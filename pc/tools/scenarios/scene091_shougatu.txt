@@ -1,0 +1,17 @@
+# Step 91: SHOUGATU, a girl's first-meeting scene (shougatu_main5b).
+# shougatu_scene_init reads the girl from schedule_buf[schedule_cursor].a
+# (screen_w + 1693 + 4 * cursor) and the event from work_tarao; girl 0, 9
+# or above 10 resets the game (the title boot has 0 there).  The game gets
+# here from schedule type 72, which schedule_day_main handles as:
+#   now_girl = .a; girl_tbl[girl] +2 = 50, +6 = 0; work_tarao = .b;
+#   goto_step(91).  These pokes are that, for girl 1 (Mio), event 0.
+start album
+album date=95/5/15
+do poke schedule_cursor:1 0
+do poke schedule_buf hex:48010000      # {type 72, a = girl 1, b = event 0, c}
+do poke now_girl:1 1
+do poke girl_tbl+58:2 50               # girl 1 record +2
+do poke girl_tbl+62:2 0                # girl 1 record +6
+do poke work_tarao:4 0
+do goto 91
+expect now_step=91 within 900 hold 300

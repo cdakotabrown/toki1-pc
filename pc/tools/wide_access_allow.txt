@@ -1,0 +1,89 @@
+# pc/tools/audit_ps1_wide_access.py --allow: live 8-byte POINTER/LONG
+# accesses to PS1 cells that are NOT fixed yet, each with the reason it is
+# left.  This list may only shrink: fix a function (a PS1-width override,
+# src/main/pc-port/<f>.c) and delete its line.  "unreached" = not entered by
+# the scripted playthroughs (new_game.txt, date_save.txt, spring_events.txt),
+# the 300-frame scene matrix nor any pc/tools/scenarios file with a
+# --build-reach binary (2026-10-31, re-verified late that day); pc/hal is not
+# instrumented and boot-time functions run before the reach list is armed.
+# Lines were added on 2026-10-31 only because the audit started to see
+# indexed reads through a lea'd base register (WIDE-INDEX).
+# Format: `function` or `object:function`, then `# reason`.
+
+# --- audio lane (libspu / libsnd / sound driver; files owned elsewhere) ---
+CdComstr                # D_800E2B0C command-name strings (libcd debug printer); unreached
+CdIntstr                # D_800E2B8C interrupt-name strings (libcd debug printer); unreached
+_spu_interruptDMA       # _spu_RXX, _spu_transferCallback (audio lane)
+_SpuIsInAllocateArea    # _SpuMemList (audio lane)
+_print                  # _SpuMemList (audio lane)
+SsUtGetVVol             # libsnd_spu_regs_ptr (audio lane)
+SsUtKeyOn               # spuVmMaxVoice+56/+64 (audio lane)
+SsUtKeyOnV              # spuVmMaxVoice+56/+64 (audio lane)
+vmNoiseOff              # libsnd_spu_regs_ptr (audio lane)
+vmNoiseOn               # libsnd_spu_regs_ptr (audio lane)
+vmNoiseOn2              # libsnd_spu_regs_ptr (audio lane)
+bg_read_sub2            # libsnd_spu_regs_ptr (audio lane)
+_SsTrapIntrVSync        # _snd_vsync_cb (audio lane)
+SD_BranchCTRL           # libcd_dma_exec_dpcr_ptr/9C, sound driver (audio lane)
+dma_execute             # libcd_dma_exec_dpcr_ptr/9C, sound driver (audio lane)
+
+# --- geometry lane ---
+get_dstack              # GsDSTACK[i].coord (GsCOORD stack record, pointer member at +8: libgs coordinate stack); unreached
+get_dstack2             # GsDSTACK[i].coord store, as get_dstack; unreached
+GsSetFlatLight          # REACHED: GsLIGHTWSMATRIX is a MATRIX, `long t[3]` 8 bytes on LP64 (record layout; geometry lane)
+
+# --- reached, consistent 8-byte use, latent (left; reasons measured) ---
+movie_main              # REACHED: movie_state (0x8012DCB8) = 0x80180000 stored 8 bytes over StCdIntrFlag; every reader (strInit, strSetDefDecEnv, strNext, strCallback, DecDCTout) reads 8 bytes, high half = StCdIntrFlag, which stays 0 on the PC (StCdInterrupt is a no-op in pc/hal/libpress.c).  A fix moves all six to u32 together.
+strInit                 # REACHED: movie_state, see movie_main
+strSetDefDecEnv         # REACHED: movie_state, see movie_main
+strNext                 # REACHED: movie_state, see movie_main (pc-port)
+strCallback             # REACHED: movie_state, see movie_main (pc-port)
+DecDCTout               # movie_state, see movie_main (pc/hal/libpress.c)
+scene_entry_set         # REACHED: game_mode_step (0x8012B5F0) holds a HOST function pointer (game_main calls it); the high half lands on the unnamed word 0x8012B5F4, which nothing else names.  game_system_init's u32 store relies on it staying 0.
+ending_main             # REACHED: game_mode_step, see scene_entry_set (it also stores D_8013E830, an empty pc/src/missing_funcs.c stub, where retail jumps to TT tt_main 0x8013E830)
+
+# --- libgpu / libetc interrupt and MDEC SDK internals (HAL-replaced on the PC) ---
+_addque2                # GPU_status/libgpu_dma2_chcr_ptr; unreached (GPU HAL)
+_ctl                    # GPU_status; unreached
+_cwb                    # GPU_status/libgpu_gp0_reg_ptr; unreached
+_cwc                    # GPU_status/libgpu_dma2_madr_ptr..18; unreached
+_drs                    # GPU_status/libgpu_gp0_reg_ptr..18; unreached
+_dws                    # GPU_status/libgpu_gp0_reg_ptr..18; unreached
+_exeque                 # GPU_status/libgpu_dma2_chcr_ptr/libgpu_drawsync_callback; unreached
+_otc                    # libgpu_dma6_bcr_ptr..28/_qlog; unreached
+_param                  # GPU_status/libgpu_gp0_reg_ptr; unreached
+_reset                  # GPU_status/libgpu_gp0_reg_ptr..28; unreached
+_status                 # GPU_status; unreached
+_sync                   # GPU_status/libgpu_dma2_chcr_ptr; unreached
+get_alarm               # GPU_status/libgpu_dma2_madr_ptr/18; unreached
+DrawPrim                # graph_jtb; unreached
+GetODE                  # graph_jtb; unreached
+SetGraphQueue           # graph_jtb; unreached
+SetGraphReverse         # graph_jtb; unreached
+func_8009F9A4           # graph_jtb; unreached
+hal_gpu_init            # graph_jtb = &g_gpu_state (host pointer) over libgpu_resetgraph_trace_fmt; pc/hal/gpu.c, its readers above are unreached
+DMACallback             # libetc_intr_vtbl_ptr; unreached (pc/hal/sdk_irq.c replaces libetc)
+startIntr               # libetc_intr_vtbl_ptr/libapi_intr_jmpbuf_sp; not called on the PC (ResetCallback is pc/hal/sdk_irq.c)
+startIntrVSync          # libapi_rcnt1_mode_reg_ptr; unreached (sdk_irq.c)
+startIntrDMA            # libetc_dma_dicr_ptr; unreached
+setIntr                 # _mask; unreached
+setIntrDMA              # libetc_dma_dicr_ptr; unreached
+stopIntr                # libapi_trapintr_stat_reg_ptr/_mask; unreached
+trapIntr                # libapi_trapintr_stat_reg_ptr/_mask; unreached
+trapIntrDMA             # libetc_dma_dicr_ptr; unreached
+dma_intr_stop           # libetc_dma_dicr_ptr; unreached
+exit_function           # VB; unreached
+MDEC_in                 # libpress_dma0_madr_reg_ptr..; unreached (movies use the baked FMV path)
+MDEC_out                # libpress_dma1_madr_reg_ptr..; unreached
+MDEC_report             # libpress_dma0_madr_reg_ptr..; unreached
+MDEC_reset              # libpress_dma0_chcr_reg_ptr..; unreached
+MDEC_status             # libpress_mdec_ctrl_reg_ptr; unreached
+MDEC_vlc2               # libpress_ivlc_bs_read_ptr; unreached
+ivlc_dct_dc_size        # libpress_ivlc_bs_read_ptr; unreached
+data_ready_callback     # StFunc1/StRingAddr/libcd_dataready_index_reg_ptr/4C; unreached (libstr)
+
+# --- game code, same class, unreached so far (next to fix: the date path) ---
+card_file_save          # card_file_save_tbl0/2, the card_file_write class; DEAD: no caller in the retail image (no jal and no address word 0x80055064 in SLPS_000.65 or any EXN), so never entered
+normal_date_bg_in_sub   # libcd_reg_index_ptr.. (archive tier); unreached
+ETC_etc_menu_dispatch          # D_8014EA34+164 read as a pointer; unreached
+OPTION_option_menu1_main1      # D_8013E7D4 string table read 8 bytes wide (lea'd base); unreached (option menu 1)

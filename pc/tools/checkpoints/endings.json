@@ -1,0 +1,322 @@
+{
+ "group": "endings",
+ "doc": "The last planning night (98/2/22) on the typical profile with one ending's conditions met (docs/game-flows/ENDINGS-GUIDE.md 4, 9, 10, 12.2); the segment plays the entrance exams, the Feb-26 check, Feb 28 and graduation to the ending, and on to the staff roll / save / title. checkpoints.py checks each recipe against the guide's scoring model. Yoshio's ending is months.json m98_03.",
+ "checkpoints": [
+  {
+   "id": "end_00_shiori",
+   "date": "98/2/22",
+   "activity": 5,
+   "segment": {
+    "kind": "ending",
+    "girl": 0
+   },
+   "set": {
+    "para_gei": 135,
+    "girl.shiori.tokimeki": 112,
+    "girl.shiori.yuukou": 112,
+    "girl.shiori.bomb": 0
+   },
+   "expect_ending": 0,
+   "covers": [
+    "END-00 Shiori: icon >= 85, bun/ri/gei/un >= 130, zat >= 120, you/kon >= 100, healthy, >= 8 dates (14 on the typical profile), bomb < 51 -> 785"
+   ]
+  },
+  {
+   "id": "end_00_shiori_sys",
+   "date": "98/2/22",
+   "activity": 5,
+   "segment": {
+    "kind": "ending",
+    "girl": 0,
+    "to_title": true
+   },
+   "set": {
+    "para_gei": 135,
+    "girl.shiori.tokimeki": 112,
+    "girl.shiori.yuukou": 112,
+    "girl.shiori.bomb": 0
+   },
+   "expect_ending": 0,
+   "light_trace": true,
+   "covers": [
+    "END-00 Shiori as end_00_shiori, on through the staff roll and ETC: album 1 saved on the save screen (save_file_slot; save_sys_set writes the system file with Shiori's mascot_flag), the fade and the title; the cleared base of ev_option"
+   ]
+  },
+  {
+   "id": "end_01_mio",
+   "date": "98/2/22",
+   "activity": 5,
+   "segment": {
+    "kind": "ending",
+    "girl": 1
+   },
+   "set": {
+    "girl.mio.flags": "|0xA",
+    "girl.mio.tokimeki": 110,
+    "girl.mio.yuukou": 110,
+    "girl.mio.bomb": 0,
+    "girl.mio.spot.3": 5,
+    "girl.mio.spot.9": 4,
+    "para_ri": 148,
+    "para_bun": 148,
+    "para_gei": 148
+   },
+   "expect_ending": 1,
+   "covers": [
+    "END-01 Mio: met, gauges high, liked stats >= 140, 9 ordinary dates, bomb 0"
+   ]
+  },
+  {
+   "id": "end_02_yuina",
+   "date": "98/2/22",
+   "activity": 5,
+   "segment": {
+    "kind": "ending",
+    "girl": 2
+   },
+   "set": {
+    "girl.yuina.flags": "|0xA",
+    "girl.yuina.tokimeki": 110,
+    "girl.yuina.yuukou": 110,
+    "girl.yuina.bomb": 0,
+    "girl.yuina.spot.3": 5,
+    "girl.yuina.spot.9": 4,
+    "para_bun": 148,
+    "para_ri": 148,
+    "para_str": 6
+   },
+   "expect_ending": 2,
+   "covers": [
+    "END-02 Yuina: met, gauges high, liked stats >= 140, 9 ordinary dates, bomb 0",
+    "Yuina: stress < 10 (+100); 98/2/28 Himoo's robot -> RPG_BAT 129 (she is the strict top)"
+   ]
+  },
+  {
+   "id": "end_03_ayako",
+   "date": "98/2/22",
+   "activity": 5,
+   "segment": {
+    "kind": "ending",
+    "girl": 3
+   },
+   "set": {
+    "girl.ayako.flags": "|0xA",
+    "girl.ayako.tokimeki": 110,
+    "girl.ayako.yuukou": 110,
+    "girl.ayako.bomb": 0,
+    "girl.ayako.spot.3": 5,
+    "girl.ayako.spot.9": 4,
+    "para_bun": 148,
+    "para_ri": 148
+   },
+   "expect_ending": 3,
+   "covers": [
+    "END-03 Ayako: met, gauges high, liked stats >= 140, 9 ordinary dates, bomb 0"
+   ]
+  },
+  {
+   "id": "end_04_saki",
+   "date": "98/2/22",
+   "activity": 5,
+   "segment": {
+    "kind": "ending",
+    "girl": 4
+   },
+   "set": {
+    "girl.saki.flags": "|0xA",
+    "girl.saki.tokimeki": 110,
+    "girl.saki.yuukou": 110,
+    "girl.saki.bomb": 0,
+    "girl.saki.spot.3": 5,
+    "girl.saki.spot.9": 4,
+    "para_gei": 148,
+    "para_kon": 148
+   },
+   "expect_ending": 4,
+   "covers": [
+    "END-04 Saki: met, gauges high, liked stats >= 140, 9 ordinary dates, bomb 0"
+   ]
+  },
+  {
+   "id": "end_05_yukari",
+   "date": "98/2/22",
+   "activity": 5,
+   "segment": {
+    "kind": "ending",
+    "girl": 5
+   },
+   "set": {
+    "girl.yukari.flags": "|0xA",
+    "girl.yukari.tokimeki": 110,
+    "girl.yukari.yuukou": 110,
+    "girl.yukari.bomb": 0,
+    "girl.yukari.spot.3": 5,
+    "girl.yukari.spot.9": 4,
+    "para_gei": 148,
+    "para_bun": 148,
+    "para_kon": 148
+   },
+   "expect_ending": 5,
+   "covers": [
+    "END-05 Yukari: met, gauges high, liked stats >= 140, 9 ordinary dates, bomb 0"
+   ]
+  },
+  {
+   "id": "end_06_nozomi",
+   "date": "98/2/22",
+   "activity": 5,
+   "segment": {
+    "kind": "ending",
+    "girl": 6
+   },
+   "set": {
+    "girl.nozomi.flags": "|0xA",
+    "girl.nozomi.tokimeki": 110,
+    "girl.nozomi.yuukou": 110,
+    "girl.nozomi.bomb": 0,
+    "girl.nozomi.spot.3": 5,
+    "girl.nozomi.spot.9": 4,
+    "para_gei": 148,
+    "para_kon": 148
+   },
+   "expect_ending": 6,
+   "covers": [
+    "END-06 Nozomi: met, gauges high, liked stats >= 140, 9 ordinary dates, bomb 0"
+   ]
+  },
+  {
+   "id": "end_07_mira",
+   "date": "98/2/22",
+   "activity": 5,
+   "segment": {
+    "kind": "ending",
+    "girl": 7
+   },
+   "set": {
+    "girl.mira.flags": "|0xA",
+    "girl.mira.tokimeki": 110,
+    "girl.mira.yuukou": 110,
+    "girl.mira.bomb": 0,
+    "girl.mira.spot.3": 5,
+    "girl.mira.spot.9": 4,
+    "para_bun": 148,
+    "para_ri": 148,
+    "para_un": 148
+   },
+   "expect_ending": 7,
+   "covers": [
+    "END-07 Mira: met, gauges high, liked stats >= 140, 9 ordinary dates, bomb 0"
+   ]
+  },
+  {
+   "id": "end_08_yuko",
+   "date": "98/2/22",
+   "activity": 5,
+   "segment": {
+    "kind": "ending",
+    "girl": 8
+   },
+   "set": {
+    "girl.yuko.flags": "|0xA",
+    "girl.yuko.tokimeki": 110,
+    "girl.yuko.yuukou": 110,
+    "girl.yuko.bomb": 0,
+    "girl.yuko.spot.3": 5,
+    "girl.yuko.spot.9": 4,
+    "para_ri": 148,
+    "para_bun": 148,
+    "para_gei": 148
+   },
+   "expect_ending": 8,
+   "covers": [
+    "END-08 Yuko: met, gauges high, liked stats >= 140, 9 ordinary dates, bomb 0"
+   ]
+  },
+  {
+   "id": "end_09_megumi",
+   "date": "98/2/22",
+   "activity": 5,
+   "segment": {
+    "kind": "ending",
+    "girl": 9
+   },
+   "set": {
+    "girl.megumi.flags": "|0xA",
+    "girl.megumi.tokimeki": 110,
+    "girl.megumi.yuukou": 110,
+    "girl.megumi.bomb": 0,
+    "girl.megumi.spot.3": 5,
+    "girl.megumi.spot.9": 4,
+    "para_bun": 148,
+    "para_ri": 148,
+    "para_un": 148,
+    "para_zat": 148,
+    "para_you": 148
+   },
+   "expect_ending": 9,
+   "covers": [
+    "END-09 Megumi: met, gauges high, liked stats >= 140, 9 ordinary dates, bomb 0"
+   ]
+  },
+  {
+   "id": "end_10_yumi",
+   "date": "98/2/22",
+   "activity": 5,
+   "segment": {
+    "kind": "ending",
+    "girl": 10
+   },
+   "set": {
+    "girl.yumi.flags": "|0xA",
+    "girl.yumi.tokimeki": 110,
+    "girl.yumi.yuukou": 110,
+    "girl.yumi.bomb": 0,
+    "girl.yumi.spot.3": 5,
+    "girl.yumi.spot.9": 4,
+    "para_ri": 148
+   },
+   "expect_ending": 10,
+   "covers": [
+    "END-10 Yumi: met, gauges high, liked stats >= 140, 9 ordinary dates, bomb 0"
+   ]
+  },
+  {
+   "id": "end_11_miharu",
+   "date": "98/2/22",
+   "activity": 5,
+   "segment": {
+    "kind": "ending",
+    "rand": [
+     11,
+     13
+    ]
+   },
+   "set": {
+    "girl.miharu.flags": "|0xA00",
+    "ev_flag.0x4c": 1,
+    "ev_flag.0x4e": 1
+   },
+   "expect_ending": 13,
+   "covers": [
+    "END-11 Miharu: nobody >= 500, f = 5, ev_flag4c/4e set, ev_flag4d 0: a 41 % dice roll (rand), else Yoshio"
+   ]
+  },
+  {
+   "id": "end_12_rei",
+   "date": "98/2/22",
+   "activity": 5,
+   "segment": {
+    "kind": "ending",
+    "girl": 12
+   },
+   "set": {
+    "girl.rei.flags": "|0x46000000",
+    "ev_flag.0x4f": 2
+   },
+   "expect_ending": 12,
+   "covers": [
+    "END-12 Rei: denwa_cnt 70 (record 12 +15), ev_flag4f 2 (kidnapping accepted), Shiori's 785 not met"
+   ]
+  }
+ ]
+}

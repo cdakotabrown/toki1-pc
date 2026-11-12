@@ -1,0 +1,18 @@
+# TACO gameplay.  TACO.EXN is the overlay loader's default (overlay_load_init
+# lists every other step) and scene_entry_set's default entry 0x80132000
+# (taco_main): the game enters it as step 144, from the OPTION sub-game
+# menu (option_subgame_main: device_cmd_send(1281), class_clear_all,
+# text_sys_init, goto_step(144)) and from the computer club's contest
+# (master_basyo_serifu_main, club 3: it sets ret_step first).  The pokes are
+# the latter's.  Sub-step 0 is TACO's title (taco_main0: the blinking
+# caption and the countdown); after it the game proper runs as sub-step 1.
+start album
+album date=97/6/1 club=computer
+do poke ret_step:1 0x34
+do poke ret_sub_step:1 1
+do poke ret_sub_sub_step:1 0
+do goto 144
+input wait taco_title now_step=144 now_sub_sub_step=3 within 1500
+input +60 start
+input +60 cross
+expect now_step=144 now_sub_step!=0 within 3000 hold 600

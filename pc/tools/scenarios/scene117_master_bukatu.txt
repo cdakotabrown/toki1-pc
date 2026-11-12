@@ -1,0 +1,8 @@
+# Step 117: MASTER, the sports-club tournament (master_bukatu_init).
+# master_sub_step_dispatch3 calls game_reset unless the club is 7..10 (a
+# sports club other than baseball).  The game reaches it in 1997 from
+# schedule type 38 (schedule_make; schedule_day_main goto_step(117)).
+start album
+album date=97/6/1 club=soccer para_tai=200
+do goto 117
+expect now_step=117 within 900 hold 300

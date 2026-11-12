@@ -1,0 +1,16 @@
+# The sports club's practice match (RENSYU, scene 115): a sports-club
+# member who spends the third Sunday of March, June, September or December
+# on "club activity" (holiday_club_exit) plays it.  The week runs on the
+# press cycle to that Sunday's holiday screen (step 0x46/1, the 18th: 95/6/18; the cycle's tap
+# on icon 5 would pick 雑学, so the wait stops it first), then the club icon
+# (icon 4, (-90,-28)), the club menu (0x46/6) and its first line "club
+# activity" ((-81,+59), box -99..-39 x 53..68), as in
+# pc/tools/playthrough/spring_events.txt.  The match is talk: circle.
+wait club_sunday now_step=0x46 now_sub_step=1 now_day:1=18 within 16000 mash {MASH}
+point -90 -28               # icon 4, the club
++30 circle
+wait club_menu now_step=0x46 now_sub_step=6 within 600
+point -81 59                # "club activity"
++55 circle
+wait rensyu now_step=0x73 within 1200
+wait rensyu_done now_step!=0x73 within 20000 mash circle/20

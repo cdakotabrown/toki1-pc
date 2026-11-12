@@ -1,0 +1,30 @@
+# The night schedule's save (step 52 = 0x34, sub-step 3) carried through:
+# the save/load icon, "save", album 1, overwrite yes -- the pointer moves
+# of pc/tools/playthrough/date_save.txt.  While the card is written the
+# save icon (bottom right of the icon grid) shows the red badge セーブ中
+# (MAINROM.NBN page 5; English SAVE).  For the visual sweep and gate
+# (docs/translation/VISUAL-SWEEP.md, config/patch/visual_reference.json):
+#   python3 pc/tools/scenario.py pc/tools/scenarios/scene052_save_badge.txt \
+#       --set TOKI_LANG=en --set PC_SWEEP_DIR=$PWD/build/sweep/runs/save
+start album
+album date=96/8/10
+do after 2400 echo done
+input wait sched now_step=0x34 now_sub_step=1 within 1500
+input +30 left+up*80
+input +82 right*20
+input +22 down*44
+input +50 circle
+input wait save_menu now_step=0x34 now_sub_step=3 now_sub_sub_step=2 within 1200
+input +30 left+up*80
+input +82 right*30
+input +32 down*30
+input +34 circle
+input wait save_slot now_step=0x34 now_sub_step=3 now_sub_sub_step=4 within 1200
+input +30 left+up*80
+input +82 right*11
+input +13 down*13
+input +22 circle
+input wait save_confirm now_step=0x34 now_sub_step=3 now_sub_sub_step=5 within 600
+input +60 circle
+input wait saved now_step=0x34 now_sub_step=1 within 1200
+expect now_step=0x34 within 600 hold 30

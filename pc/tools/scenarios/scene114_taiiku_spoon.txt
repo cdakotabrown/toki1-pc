@@ -1,0 +1,19 @@
+# Step 114: TAIIKU, sports day, held at its first line ("Which event should
+# I enter?").  The state is where the instruction panels are one menu pick
+# away (spoon relay / scavenger race on page 1, three-legged race / giant
+# ball roll on page 2 behind "Enter a different event"; the pick itself is
+# the pointer route of pc/tools/playthrough/spring_events.txt).  The
+# panels are mod/srn tile maps (TAIIKU/*SETU.BIN, English art in
+# src/patch/art).  Make the state in the language you want to see: TAIIKU
+# loads the panel file before the menu, so a Japanese state keeps the
+# Japanese panel in RAM.  The pokes are coverage item mg.taiiku.*'s
+# (config/patch/coverage_plan.json): clear the event record (taiiku_reset)
+# and select the digital pad.
+start album
+album date=95/10/8
+do poke 0x8012B3A8:8 0
+do poke 0x800EF6D4:1 1
+do goto 114
+input wait taiiku now_step=114 within 1500
+input +420 circle
+expect now_step=114 within 300 hold 420

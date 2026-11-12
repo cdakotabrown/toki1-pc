@@ -1,0 +1,167 @@
+# The on-line help (OLH, step 58), every page: the planner's help spot
+# (step34_disp -> hotspot_step_check: x 65..79, y -31..-17, circle) opens
+# it.  olh_init's topic menu has eight lines (x -96, y -60 + 16 i; line 7
+# leaves); topic t runs as sub-step 16 (t + 1) with its own page menu at
+# sub-sub-step 1 (olh_page10_init and siblings: x -80..112, y -50 + 16 i,
+# line 7 back to the topic menu) and page p at sub-sub-step 16 (p + 1).
+# A page is read with circle and returns to its menu.  Topic 1 has pages
+# 0..3, topic 5 pages 2..3 (olh_main60_0 enables 0..1 only after a clear),
+# the others 0..6.  start (olh_main, game bit 0x800) returns to the
+# planner.  Generated from those layouts (each point aims inside a line's
+# box, the hand moving 3 px per held frame).
+point 69 -25                # the planner's help spot (hotspot_step_check: x 65..79, y -31..-17)
+wait olh now_step=0x3a within 600 mash circle/30
+wait olh_menu now_step=0x3a now_sub_step=1 within 600
+point -81 -52
+wait olh_t0 now_step=0x3a now_sub_step=16 now_sub_sub_step=1 within 900 mash circle/30
+point -60 -43
+wait olh_t0_p0 now_step=0x3a now_sub_step=16 now_sub_sub_step!=1 within 600 mash circle/30
+wait olh_t0_p0_end now_step=0x3a now_sub_step=16 now_sub_sub_step=1 within 6000 mash circle/20
+point -60 -28
+wait olh_t0_p1 now_step=0x3a now_sub_step=16 now_sub_sub_step!=1 within 600 mash circle/30
+wait olh_t0_p1_end now_step=0x3a now_sub_step=16 now_sub_sub_step=1 within 6000 mash circle/20
+point -60 -10
+wait olh_t0_p2 now_step=0x3a now_sub_step=16 now_sub_sub_step!=1 within 600 mash circle/30
+wait olh_t0_p2_end now_step=0x3a now_sub_step=16 now_sub_sub_step=1 within 6000 mash circle/20
+point -60 5
+wait olh_t0_p3 now_step=0x3a now_sub_step=16 now_sub_sub_step!=1 within 600 mash circle/30
+wait olh_t0_p3_end now_step=0x3a now_sub_step=16 now_sub_sub_step=1 within 6000 mash circle/20
+point -60 20
+wait olh_t0_p4 now_step=0x3a now_sub_step=16 now_sub_sub_step!=1 within 600 mash circle/30
+wait olh_t0_p4_end now_step=0x3a now_sub_step=16 now_sub_sub_step=1 within 6000 mash circle/20
+point -60 38
+wait olh_t0_p5 now_step=0x3a now_sub_step=16 now_sub_sub_step!=1 within 600 mash circle/30
+wait olh_t0_p5_end now_step=0x3a now_sub_step=16 now_sub_sub_step=1 within 6000 mash circle/20
+point -60 53
+wait olh_t0_p6 now_step=0x3a now_sub_step=16 now_sub_sub_step!=1 within 600 mash circle/30
+wait olh_t0_p6_end now_step=0x3a now_sub_step=16 now_sub_sub_step=1 within 6000 mash circle/20
+point -60 71
+wait olh_t0_back now_step=0x3a now_sub_step=1 within 900 mash circle/30
+point -81 -34
+wait olh_t1 now_step=0x3a now_sub_step=32 now_sub_sub_step=1 within 900 mash circle/30
+point -60 -43
+wait olh_t1_p0 now_step=0x3a now_sub_step=32 now_sub_sub_step!=1 within 600 mash circle/30
+wait olh_t1_p0_end now_step=0x3a now_sub_step=32 now_sub_sub_step=1 within 6000 mash circle/20
+point -60 -28
+wait olh_t1_p1 now_step=0x3a now_sub_step=32 now_sub_sub_step!=1 within 600 mash circle/30
+wait olh_t1_p1_end now_step=0x3a now_sub_step=32 now_sub_sub_step=1 within 6000 mash circle/20
+point -60 -10
+wait olh_t1_p2 now_step=0x3a now_sub_step=32 now_sub_sub_step!=1 within 600 mash circle/30
+wait olh_t1_p2_end now_step=0x3a now_sub_step=32 now_sub_sub_step=1 within 6000 mash circle/20
+point -60 5
+wait olh_t1_p3 now_step=0x3a now_sub_step=32 now_sub_sub_step!=1 within 600 mash circle/30
+wait olh_t1_p3_end now_step=0x3a now_sub_step=32 now_sub_sub_step=1 within 6000 mash circle/20
+point -60 71
+wait olh_t1_back now_step=0x3a now_sub_step=1 within 900 mash circle/30
+point -81 -22
+wait olh_t2 now_step=0x3a now_sub_step=48 now_sub_sub_step=1 within 900 mash circle/30
+point -60 -43
+wait olh_t2_p0 now_step=0x3a now_sub_step=48 now_sub_sub_step!=1 within 600 mash circle/30
+wait olh_t2_p0_end now_step=0x3a now_sub_step=48 now_sub_sub_step=1 within 6000 mash circle/20
+point -60 -28
+wait olh_t2_p1 now_step=0x3a now_sub_step=48 now_sub_sub_step!=1 within 600 mash circle/30
+wait olh_t2_p1_end now_step=0x3a now_sub_step=48 now_sub_sub_step=1 within 6000 mash circle/20
+point -60 -10
+wait olh_t2_p2 now_step=0x3a now_sub_step=48 now_sub_sub_step!=1 within 600 mash circle/30
+wait olh_t2_p2_end now_step=0x3a now_sub_step=48 now_sub_sub_step=1 within 6000 mash circle/20
+point -60 5
+wait olh_t2_p3 now_step=0x3a now_sub_step=48 now_sub_sub_step!=1 within 600 mash circle/30
+wait olh_t2_p3_end now_step=0x3a now_sub_step=48 now_sub_sub_step=1 within 6000 mash circle/20
+point -60 20
+wait olh_t2_p4 now_step=0x3a now_sub_step=48 now_sub_sub_step!=1 within 600 mash circle/30
+wait olh_t2_p4_end now_step=0x3a now_sub_step=48 now_sub_sub_step=1 within 6000 mash circle/20
+point -60 38
+wait olh_t2_p5 now_step=0x3a now_sub_step=48 now_sub_sub_step!=1 within 600 mash circle/30
+wait olh_t2_p5_end now_step=0x3a now_sub_step=48 now_sub_sub_step=1 within 6000 mash circle/20
+point -60 53
+wait olh_t2_p6 now_step=0x3a now_sub_step=48 now_sub_sub_step!=1 within 600 mash circle/30
+wait olh_t2_p6_end now_step=0x3a now_sub_step=48 now_sub_sub_step=1 within 6000 mash circle/20
+point -60 71
+wait olh_t2_back now_step=0x3a now_sub_step=1 within 900 mash circle/30
+point -81 -4
+wait olh_t3 now_step=0x3a now_sub_step=64 now_sub_sub_step=1 within 900 mash circle/30
+point -60 -43
+wait olh_t3_p0 now_step=0x3a now_sub_step=64 now_sub_sub_step!=1 within 600 mash circle/30
+wait olh_t3_p0_end now_step=0x3a now_sub_step=64 now_sub_sub_step=1 within 6000 mash circle/20
+point -60 -28
+wait olh_t3_p1 now_step=0x3a now_sub_step=64 now_sub_sub_step!=1 within 600 mash circle/30
+wait olh_t3_p1_end now_step=0x3a now_sub_step=64 now_sub_sub_step=1 within 6000 mash circle/20
+point -60 -10
+wait olh_t3_p2 now_step=0x3a now_sub_step=64 now_sub_sub_step!=1 within 600 mash circle/30
+wait olh_t3_p2_end now_step=0x3a now_sub_step=64 now_sub_sub_step=1 within 6000 mash circle/20
+point -60 5
+wait olh_t3_p3 now_step=0x3a now_sub_step=64 now_sub_sub_step!=1 within 600 mash circle/30
+wait olh_t3_p3_end now_step=0x3a now_sub_step=64 now_sub_sub_step=1 within 6000 mash circle/20
+point -60 20
+wait olh_t3_p4 now_step=0x3a now_sub_step=64 now_sub_sub_step!=1 within 600 mash circle/30
+wait olh_t3_p4_end now_step=0x3a now_sub_step=64 now_sub_sub_step=1 within 6000 mash circle/20
+point -60 38
+wait olh_t3_p5 now_step=0x3a now_sub_step=64 now_sub_sub_step!=1 within 600 mash circle/30
+wait olh_t3_p5_end now_step=0x3a now_sub_step=64 now_sub_sub_step=1 within 6000 mash circle/20
+point -60 53
+wait olh_t3_p6 now_step=0x3a now_sub_step=64 now_sub_sub_step!=1 within 600 mash circle/30
+wait olh_t3_p6_end now_step=0x3a now_sub_step=64 now_sub_sub_step=1 within 6000 mash circle/20
+point -60 71
+wait olh_t3_back now_step=0x3a now_sub_step=1 within 900 mash circle/30
+point -81 14
+wait olh_t4 now_step=0x3a now_sub_step=80 now_sub_sub_step=1 within 900 mash circle/30
+point -60 -43
+wait olh_t4_p0 now_step=0x3a now_sub_step=80 now_sub_sub_step!=1 within 600 mash circle/30
+wait olh_t4_p0_end now_step=0x3a now_sub_step=80 now_sub_sub_step=1 within 6000 mash circle/20
+point -60 -28
+wait olh_t4_p1 now_step=0x3a now_sub_step=80 now_sub_sub_step!=1 within 600 mash circle/30
+wait olh_t4_p1_end now_step=0x3a now_sub_step=80 now_sub_sub_step=1 within 6000 mash circle/20
+point -60 -10
+wait olh_t4_p2 now_step=0x3a now_sub_step=80 now_sub_sub_step!=1 within 600 mash circle/30
+wait olh_t4_p2_end now_step=0x3a now_sub_step=80 now_sub_sub_step=1 within 6000 mash circle/20
+point -60 5
+wait olh_t4_p3 now_step=0x3a now_sub_step=80 now_sub_sub_step!=1 within 600 mash circle/30
+wait olh_t4_p3_end now_step=0x3a now_sub_step=80 now_sub_sub_step=1 within 6000 mash circle/20
+point -60 20
+wait olh_t4_p4 now_step=0x3a now_sub_step=80 now_sub_sub_step!=1 within 600 mash circle/30
+wait olh_t4_p4_end now_step=0x3a now_sub_step=80 now_sub_sub_step=1 within 6000 mash circle/20
+point -60 38
+wait olh_t4_p5 now_step=0x3a now_sub_step=80 now_sub_sub_step!=1 within 600 mash circle/30
+wait olh_t4_p5_end now_step=0x3a now_sub_step=80 now_sub_sub_step=1 within 6000 mash circle/20
+point -60 53
+wait olh_t4_p6 now_step=0x3a now_sub_step=80 now_sub_sub_step!=1 within 600 mash circle/30
+wait olh_t4_p6_end now_step=0x3a now_sub_step=80 now_sub_sub_step=1 within 6000 mash circle/20
+point -60 71
+wait olh_t4_back now_step=0x3a now_sub_step=1 within 900 mash circle/30
+point -81 26
+wait olh_t5 now_step=0x3a now_sub_step=96 now_sub_sub_step=1 within 900 mash circle/30
+point -60 -10
+wait olh_t5_p2 now_step=0x3a now_sub_step=96 now_sub_sub_step!=1 within 600 mash circle/30
+wait olh_t5_p2_end now_step=0x3a now_sub_step=96 now_sub_sub_step=1 within 6000 mash circle/20
+point -60 5
+wait olh_t5_p3 now_step=0x3a now_sub_step=96 now_sub_sub_step!=1 within 600 mash circle/30
+wait olh_t5_p3_end now_step=0x3a now_sub_step=96 now_sub_sub_step=1 within 6000 mash circle/20
+point -60 71
+wait olh_t5_back now_step=0x3a now_sub_step=1 within 900 mash circle/30
+point -81 44
+wait olh_t6 now_step=0x3a now_sub_step=112 now_sub_sub_step=1 within 900 mash circle/30
+point -60 -43
+wait olh_t6_p0 now_step=0x3a now_sub_step=112 now_sub_sub_step!=1 within 600 mash circle/30
+wait olh_t6_p0_end now_step=0x3a now_sub_step=112 now_sub_sub_step=1 within 6000 mash circle/20
+point -60 -28
+wait olh_t6_p1 now_step=0x3a now_sub_step=112 now_sub_sub_step!=1 within 600 mash circle/30
+wait olh_t6_p1_end now_step=0x3a now_sub_step=112 now_sub_sub_step=1 within 6000 mash circle/20
+point -60 -10
+wait olh_t6_p2 now_step=0x3a now_sub_step=112 now_sub_sub_step!=1 within 600 mash circle/30
+wait olh_t6_p2_end now_step=0x3a now_sub_step=112 now_sub_sub_step=1 within 6000 mash circle/20
+point -60 5
+wait olh_t6_p3 now_step=0x3a now_sub_step=112 now_sub_sub_step!=1 within 600 mash circle/30
+wait olh_t6_p3_end now_step=0x3a now_sub_step=112 now_sub_sub_step=1 within 6000 mash circle/20
+point -60 20
+wait olh_t6_p4 now_step=0x3a now_sub_step=112 now_sub_sub_step!=1 within 600 mash circle/30
+wait olh_t6_p4_end now_step=0x3a now_sub_step=112 now_sub_sub_step=1 within 6000 mash circle/20
+point -60 38
+wait olh_t6_p5 now_step=0x3a now_sub_step=112 now_sub_sub_step!=1 within 600 mash circle/30
+wait olh_t6_p5_end now_step=0x3a now_sub_step=112 now_sub_sub_step=1 within 6000 mash circle/20
+point -60 53
+wait olh_t6_p6 now_step=0x3a now_sub_step=112 now_sub_sub_step!=1 within 600 mash circle/30
+wait olh_t6_p6_end now_step=0x3a now_sub_step=112 now_sub_sub_step=1 within 6000 mash circle/20
+point -60 71
+wait olh_t6_back now_step=0x3a now_sub_step=1 within 900 mash circle/30
++30 start                   # olh_main: start returns to the planner (goto_step 52)
+wait olh_left now_step=0x34 now_sub_step=1 within 1200

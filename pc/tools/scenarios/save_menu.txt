@@ -1,0 +1,10 @@
+# The night schedule's save/load menu (step 52 = 0x34, sub-step 3).  No
+# pokes: after the album loads, the same pointer moves date_save.txt uses
+# (park the hand, the save/load icon at row 4 column 2, decide).
+start album
+album date=95/5/15
+input +30 left+up*80
+input +82 right*20
+input +22 down*44
+input +50 circle
+expect now_step=0x34 now_sub_step=3 now_sub_sub_step=2 within 900 hold 120

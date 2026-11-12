@@ -1,0 +1,27 @@
+{
+  "_doc": "pc/tools/ps1_source_edits.py: function tables a matched function copies into an integer array and calls through a cast (`(*(void (**)(s32))&tbl[idx])(...)`), which pc/tools/ps1_function_tables.py does not model.  On the console a cell is a 4-byte code address and `(s32)func` is the same address; on the PC the call read two cells as one 8-byte pointer and `(s32)func` is a host address.  Each entry resolves every copied cell to its native function in place (host code sits below 2 GB, -no-pie, so the address fits the s32 cell and compares with `(s32)func`) and calls the cell as a pointer.  edits: [old, new(, count)] exact replacements, line count kept.  A stale entry stops the build.",
+  "functions": {
+    "SHUGAKU/shugaku_dispatch4_menu": {
+      "why": "the 68-word step table shugaku_main4_tbl copied to tbl[68] (sp+24); retail (asm/overlay/SHUGAKU/shugaku_main4.s) `li a0,64 ; sll t8,a1,2 ; addu t7,v1,t8 ; lw t9,0(t7) ; jalr t9` calls the one word and stores `addiu t5,0x80083178` (menu3_main) over a menu2_main word.  Unadapted, the call jumped to tbl[idx] | tbl[idx+1] << 32 (SIGSEGV in scene 81 sub 4: pc/tools/explorer.py album 96/8/10 seed 1, game frame 35,880), and the menu2_main -> menu3_main swap and the func_801385EC test compared PS1 addresses with host ones and never held.",
+      "edits": [
+        [
+          "    *(Tbl272 *)tbl = shugaku_main4_tbl;\n",
+          "    *(Tbl272 *)tbl = shugaku_main4_tbl; { extern void *overlay_resolve(u32); s32 tk_i; for (tk_i = 0; tk_i < 68; tk_i++) if ((u32)tbl[tk_i] - 0x80000000u < 0x200000u) tbl[tk_i] = (s32)(unsigned long)overlay_resolve((u32)tbl[tk_i]); }\n"
+        ],
+        [
+          "    (*(void (**)(s32))&tbl[idx])(64);\n",
+          "    ((void (*)(s32))(unsigned long)(u32)tbl[idx])(64);\n"
+        ]
+      ]
+    },
+    "ETC/bustup_cw_y_layout": {
+      "why": "`s16 **a0` receives etc_bustup_res_img, a PS1 address (0x80180098 and friends, set by etc_bustup_init); `v0 = *a0` loads the 4-byte cell there.  Unadapted, the host read 8 bytes and took the next console word as the pointer's high half.  audit_ps1_pointer_cells.py reported the row only in a build without the English call filter (one more line at the top of the module moved the row off its key).",
+      "edits": [
+        [
+          "    v0 = *a0;\n",
+          "    v0 = (s16 *)(unsigned long)*(u32 *)a0;\n"
+        ]
+      ]
+    }
+  }
+}

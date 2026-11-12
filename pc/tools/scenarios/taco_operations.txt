@@ -1,0 +1,26 @@
+# TACO (step 144) = Stardust Symphony EX: its OPERATIONS screen, the
+# tutorial pages of TACO/TACOTEX.NBN.  Sub-step 0 (taco_main0, NOW LOADING
+# + countdown) reads no input; sub-step 1 is the attract flight, where
+# Start / Circle / Cross (pad_trig & 0x860) goes to the title (sub-step 2);
+# the title's pad wait takes Start to the menu (sub-step 3,
+# taco_select_step: GAME START / OPTION / SCORES / OPERATIONS / EXIT,
+# Up -1 wrapping 0..4, Start / Circle confirm); OPERATIONS is sub-step 7
+# (taco_main7: taco_cd_image_load, then two pages scrolled by
+# taco_mes_win_set with the XA narration; Cross aborts).  Entered as the
+# computer club's contest does (taco.txt).
+start album
+album date=97/6/1 club=computer
+do poke ret_step:1 0x34
+do poke ret_sub_step:1 1
+do poke ret_sub_sub_step:1 0
+do goto 144
+input wait attract now_step=144 now_sub_step=1 within 3000
+input +30 start
+input wait title now_step=144 now_sub_step=2 within 600
+input +40 start
+input wait menu now_step=144 now_sub_step=3 within 600
+input +40 up
+input +12 up
+input +20 circle
+input wait operations now_step=144 now_sub_step=7 within 600
+expect now_step=144 now_sub_step=7 now_sub_sub_step=2 within 3000 hold 600

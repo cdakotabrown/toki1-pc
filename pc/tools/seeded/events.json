@@ -1,0 +1,105 @@
+{
+ "group": "events",
+ "comment": "Event scenes schedule_day_main.c dispatches from a schedule entry {type, a, b, c}: the fields the entry's case writes before its goto_step are seeded as hand-built fields (the case is cited), the rest of the state is the crafted album.  ret_* 52/1/0 where the scene returns through the triple (as the callers write it).",
+ "starts": [
+  {"id": "geko93", "scene": 93, "overlay": "GEKO", "base": "album",
+   "album": {"date": "96/6/2", "set": {"girl.yuina.flags": "|0x0A", "girl.saki.flags": "|0x0A"}},
+   "variants": {
+    "c13e0": {"fields": [
+     {"name": "event_girl_no:4", "value": 13, "why": "schedule_day_main.c (line 196): event_girl_no = 13; work_tarao = 0; goto_step(93)"},
+     {"name": "work_tarao:4", "value": 0, "why": "as event_girl_no"}]},
+    "c2e7": {"fields": [
+     {"name": "event_girl_no:4", "value": 2, "why": "schedule_day_main.c (line 204): event_girl_no = 2; work_tarao = 7; goto_step(93)"},
+     {"name": "work_tarao:4", "value": 7, "why": "as event_girl_no"}]},
+    "c0e1": {"fields": [
+     {"name": "event_girl_no:4", "value": 0, "why": "schedule_day_main.c case 69: event_girl_no = sched.a (the character, Twhose 0..12), work_tarao = sched.b (the event, Tkind); OPTION page 3 edits the same two"},
+     {"name": "work_tarao:4", "value": 1, "why": "as event_girl_no"}]},
+    "c0e3": {"fields": [
+     {"name": "event_girl_no:4", "value": 0, "why": "schedule_day_main.c case 69 (as c0e1)"},
+     {"name": "work_tarao:4", "value": 3, "why": "as event_girl_no"}]},
+    "c4e2": {"fields": [
+     {"name": "event_girl_no:4", "value": 4, "why": "schedule_day_main.c case 69 (as c0e1)"},
+     {"name": "work_tarao:4", "value": 2, "why": "as event_girl_no"}]},
+    "c8e1": {"fields": [
+     {"name": "event_girl_no:4", "value": 8, "why": "schedule_day_main.c case 69 (as c0e1)"},
+     {"name": "work_tarao:4", "value": 1, "why": "as event_girl_no"}]},
+    "c12e1": {"fields": [
+     {"name": "event_girl_no:4", "value": 12, "why": "schedule_day_main.c case 69 (as c0e1)"},
+     {"name": "work_tarao:4", "value": 1, "why": "as event_girl_no"}]}
+   },
+   "input": {"kind": "explore", "seeds": [1], "vblanks": 6000},
+   "covers": ["GEKO 93: character events by (event_girl_no, work_tarao)"]},
+  {"id": "geko", "scene": 89, "overlay": "GEKO", "base": "album",
+   "album": {"date": "96/6/2", "set": {"girl.yuina.flags": "|0x0A"}},
+   "fields": [{"name": "now_girl:1", "value": 2, "why": "schedule_day_main.c case 68/70: the walk home / invite read the girl the entry names (sched.a), now_girl"}],
+   "variants": {
+    "walk89": {},
+    "invite90": {"scene": 90},
+    "pbday86": {"scene": 86},
+    "gbday87": {"scene": 87}
+   },
+   "input": {"kind": "explore", "seeds": [1], "vblanks": 6000},
+   "covers": ["GEKO 86/87/89/90: birthdays, the walk home and the date invitation with Yuina"]},
+  {"id": "omimai", "scene": 97, "overlay": "OMIMAI", "base": "album",
+   "album": {"date": "96/6/2", "set": {"girl.shiori.flags": "|0x0A", "girl.ayako.flags": "|0x0A", "girl.mira.flags": "|0x0A"}},
+   "variants": {
+    "shiori": {"fields": [{"name": "girl_no:1", "value": 0, "why": "OMIMAI reads D_800EEEBD (girl_no; KONAMI-DEBUG-FACILITIES.md section 6: 97/98 need D_800EEEBD)"}]},
+    "ayako": {"fields": [{"name": "girl_no:1", "value": 3, "why": "as shiori, girl 3"}]},
+    "mira": {"fields": [{"name": "girl_no:1", "value": 7, "why": "as shiori, girl 7"}]},
+    "sick98": {"scene": 98, "fields": [{"name": "girl_no:1", "value": 0, "why": "byouki_hassei.c goto_step(98); girl_no as for 97"}]}
+   },
+   "input": {"kind": "explore", "seeds": [1], "vblanks": 6000},
+   "covers": ["OMIMAI 97/98: a girl's visit and the sick visit"]},
+  {"id": "etc", "scene": 145, "overlay": "ETC", "base": "album",
+   "album": {"date": "98/2/22", "set": {"girl.shiori.flags": "|0x0A", "girl.yuina.flags": "|0x0A", "girl.yukari.flags": "|0x0A"}},
+   "variants": {
+    "epi_shiori": {"fields": [{"name": "now_girl:1", "value": 0, "why": "ETC 145/194/195/196 read now_girl (KONAMI-DEBUG-FACILITIES.md section 6); etc_roll_main.c / etc_album_exit.c goto_step(145)"}]},
+    "epi_yuina": {"fields": [{"name": "now_girl:1", "value": 2, "why": "as epi_shiori"}]},
+    "epi_yukari": {"fields": [{"name": "now_girl:1", "value": 5, "why": "as epi_shiori"}]},
+    "epi_miharu": {"fields": [{"name": "now_girl:1", "value": 11, "why": "as epi_shiori (Miharu)"}]},
+    "photo_shiori": {"scene": 195, "fields": [{"name": "now_girl:1", "value": 0, "why": "etc_fade_exit.c goto_step(195): the ending photo of now_girl"}]},
+    "photo_rei": {"scene": 195, "fields": [{"name": "now_girl:1", "value": 12, "why": "as photo_shiori (Rei)"}]},
+    "roll_shiori": {"scene": 194, "fields": [{"name": "now_girl:1", "value": 0, "why": "ending_goto_stepc2.c goto_step(194): the staff roll after now_girl's ending"}]},
+    "save196": {"scene": 196, "fields": [{"name": "now_girl:1", "value": 0, "why": "etc_roll_girl_load.c / etc_save_exit.c goto_step(196): the post-game save"}]}
+   },
+   "input": {"kind": "explore", "seeds": [1], "vblanks": 9000},
+   "covers": ["ETC 145/194/195/196: epilogue, staff roll, ending photo, post-game save"]},
+  {"id": "etc_school", "scene": 53, "overlay": "ETC", "base": "album",
+   "album": {"date": "96/7/7", "set": {}},
+   "variants": {
+    "exam53": {},
+    "career54": {"scene": 54, "album": {"date": "97/4/6", "set": {}}},
+    "entrance55": {"scene": 55, "album": {"date": "98/2/1", "set": {}}}
+   },
+   "input": {"kind": "explore", "seeds": [1], "vblanks": 6000},
+   "covers": ["ETC 53/54/55: exam week, career counselling, entrance exam (schedule_day_main.c cases 64, 67, 74)"]},
+  {"id": "shougatu", "scene": 83, "overlay": "SHOUGATU", "base": "album",
+   "album": {"date": "96/12/29", "set": {"girl.shiori.flags": "|0x0A", "girl.yuina.flags": "|0x0A"}},
+   "variants": {
+    "newyear_shiori": {"fields": [{"name": "now_girl:1", "value": 0, "why": "SHOUGATU 82/83/85 read now_girl (KONAMI-DEBUG-FACILITIES.md section 6); pre_syogatu1.c goto_step(83)"}]},
+    "newyear_yuina": {"fields": [{"name": "now_girl:1", "value": 2, "why": "as newyear_shiori"}]},
+    "xmas_shiori": {"scene": 82, "album": {"date": "96/12/22", "set": {"girl.shiori.flags": "|0x0A"}},
+                    "fields": [{"name": "now_girl:1", "value": 0, "why": "pre_xmas.c goto_step(82); now_girl as newyear_shiori"}]},
+    "white_yuina": {"scene": 85, "album": {"date": "97/3/9", "set": {"girl.yuina.flags": "|0x0A"}},
+                    "fields": [{"name": "now_girl:1", "value": 2, "why": "schedule_day_main.c case 48 goto_step(85); now_girl as newyear_shiori"}]}
+   },
+   "input": {"kind": "explore", "seeds": [1], "vblanks": 7000},
+   "covers": ["SHOUGATU 82/83/85: Christmas party, New Year, White Day with a girl"]},
+  {"id": "valen", "scene": 84, "overlay": "VALEN", "base": "album",
+   "album": {"date": "97/2/9", "set": {"girl.shiori.flags": "|0x0A", "girl.yuina.flags": "|0x0A", "girl.shiori.tokimeki": 80}},
+   "variants": {
+    "shiori": {"fields": [{"name": "now_girl:1", "value": 0, "why": "VALEN 84 reads now_girl (KONAMI-DEBUG-FACILITIES.md section 6); schedule_day_main.c case 49 goto_step(84)"}]},
+    "yuina": {"fields": [{"name": "now_girl:1", "value": 2, "why": "as shiori"}]}
+   },
+   "input": {"kind": "explore", "seeds": [1], "vblanks": 6000},
+   "covers": ["VALEN 84: Valentine's day with a girl"]},
+  {"id": "date2", "scene": 88, "overlay": "DATE2", "base": "album",
+   "album": {"date": "96/8/18", "set": {"girl.shiori.flags": "|0x0A", "girl.yuina.flags": "|0x0A"}},
+   "variants": {
+    "double88": {},
+    "park92": {"scene": 92, "fields": [{"name": "now_girl:1", "value": 0, "why": "date_event_sched.c goto_step(92): the date's girl"}]}
+   },
+   "input": {"kind": "explore", "seeds": [1], "vblanks": 7000},
+   "covers": ["DATE2 88/92: the double date, the amusement park"]}
+ ]
+}

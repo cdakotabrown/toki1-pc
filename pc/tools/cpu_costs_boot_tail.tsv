@@ -1,0 +1,18 @@
+# name@tail	now_step (-1: all)	caller	calls	mean_ticks	total_ticks  (pc/tools/measure_cpu_costs.py analyze-tail: last helper to the next entry)
+PutDispEnv@tail	-1	GsSwapDispBuff	1	228	228
+PutDispEnv@tail	-1	draw_and_disp_env_init	1	422	422
+PutDispEnv@tail	-1	gpu_init	1	289	289
+PutDispEnv@tail	-1	movie_main	2	231	462
+PutDispEnv@tail	0	draw_and_disp_env_init	1	422	422
+PutDispEnv@tail	0	gpu_init	1	289	289
+PutDispEnv@tail	16	GsSwapDispBuff	1	228	228
+PutDispEnv@tail	16	movie_main	2	231	462
+PutDrawEnv@tail	-1	GsSetDrawBuffClip	3	297	893
+PutDrawEnv@tail	-1	draw_and_disp_env_init	1	552	552
+PutDrawEnv@tail	-1	gpu_init	1	327	327
+PutDrawEnv@tail	-1	movie_main	2	322	645
+PutDrawEnv@tail	0	GsSetDrawBuffClip	2	292	584
+PutDrawEnv@tail	0	draw_and_disp_env_init	1	552	552
+PutDrawEnv@tail	0	gpu_init	1	327	327
+PutDrawEnv@tail	16	GsSetDrawBuffClip	1	309	309
+PutDrawEnv@tail	16	movie_main	2	322	645

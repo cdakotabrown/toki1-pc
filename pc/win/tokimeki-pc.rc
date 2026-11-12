@@ -1,0 +1,47 @@
+/* tokimeki-pc.rc -- resources of the Windows exe (pc/Makefile,
+ * PLATFORM=windows): the icon, the application manifest and the version
+ * block.  The build writes pc/build-win/tokimeki-pc.exe; the player package
+ * ships it as PLAYER_EXE (pc/tools/package_windows.py), the name below. */
+#include <winver.h>
+
+#define TOKI_VER_BIN  1,0,0,0
+#define TOKI_VER_STR  "1.0.0"
+#define PLAYER_EXE    "Heartthrob Memorial PC Enhanced.exe"
+
+/* The first icon in the file: Explorer shows it, and SDL2 takes it for the
+ * window and taskbar (SDL_RegisterApp: ExtractIconEx(exe, 0)).  Original
+ * art drawn by pc/win/make_icon.py; no game asset. */
+1 ICON "pc/win/tokimeki-pc.ico"
+
+1 24 "pc/win/tokimeki-pc.manifest"
+
+VS_VERSION_INFO VERSIONINFO
+FILEVERSION TOKI_VER_BIN
+PRODUCTVERSION TOKI_VER_BIN
+FILEFLAGSMASK VS_FFI_FILEFLAGSMASK
+FILEFLAGS 0
+FILEOS VOS_NT_WINDOWS32
+FILETYPE VFT_APP
+FILESUBTYPE 0
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904B0"
+        BEGIN
+            VALUE "CompanyName", "cdakotabrown"
+            VALUE "FileDescription", "Heartthrob Memorial PC Enhanced (unofficial PC port for Tokimeki Memorial: Forever with You)"
+            VALUE "FileVersion", TOKI_VER_STR
+            VALUE "InternalName", "tokimeki-pc"
+            VALUE "OriginalFilename", PLAYER_EXE
+            VALUE "ProductName", "Heartthrob Memorial PC Enhanced"
+            VALUE "ProductVersion", TOKI_VER_STR
+            VALUE "LegalCopyright", "Port code (C) 2026 cdakotabrown, GPL-3.0. Contains no disc data; requires your own disc."
+            VALUE "LegalTrademarks", "Tokimeki Memorial is a trademark of Konami; PlayStation is a trademark of Sony Interactive Entertainment. Unofficial fan project, not affiliated with or endorsed by Konami or Sony."
+            VALUE "Comments", "Native PC port built from the decompiled PS1 game (SLPS-00065) by cdakotabrown - https://github.com/cdakotabrown. Requires your own copy of the game."
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END

@@ -1,0 +1,176 @@
+{
+  "_doc": "pc/tools/ps1_source_edits.py: calls whose argument from the fifth on is passed as a 4-byte integer where the callee's definition reads an 8-byte pointer (pc/tools/audit_ps1_call_args.py --width: WIN64-STACK, the fifth and sixth arguments, on the stack only in the Microsoft x64 convention; STACK-WIDTH, the seventh on, on the stack on Linux too).  The caller stores 4 bytes into the 8-byte slot and the callee reads the slot's stale upper half.  Each entry passes the argument as a zero-extended 64-bit value (u64), the console's 32-bit address; the callee is not changed.  A HAL callee is fixed in the HAL instead (pc/hal/gpu.c SetDrawMode).  edits: [old, new(, count)] exact replacements, line count kept.  A stale entry stops the build.  docs/pc-port/WINDOWS-BUILD.md \"Calling convention\".",
+  "functions": {
+    "main/GsSortObject4": {
+      "source": "src/main/pc-port/GsSortObject4.c",
+      "why": "the libgs divide-mode dispatch calls GsTMDdiv{NF3,NF4,TNF3,NG3,TNG3,NG4,TNF4,TNG4} with the ordering-table context (arg1, an s32 PS1 address) and the work area (arg3, s32 *) as the sixth and seventh arguments through `s32` prototypes; the definitions (src/main/matched/GsTMDdiv*.c) read `OtCtx *ctx` / `Work *work`.  Windows found it (WIN64-STACK x8); the seventh is on the stack on Linux too (STACK-WIDTH x8).",
+      "edits": [
+        [
+          "extern s32 GsTMDdivNF3(u8*, u8*, s32, u16, s32, s32, s32);\n",
+          "extern s32 GsTMDdivNF3(u8*, u8*, s32, u16, s32, u64, u64);\n"
+        ],
+        [
+          "GsTMDdivNF3(curPrim, base, GsOUT_PACKET_P, count, arg2, arg1, arg3);\n",
+          "GsTMDdivNF3(curPrim, base, GsOUT_PACKET_P, count, arg2, (u32)arg1, (u64)(__UINTPTR_TYPE__)arg3);\n"
+        ],
+        [
+          "extern s32 GsTMDdivNF4(u8*, u8*, s32, u16, s32, s32, s32);\n",
+          "extern s32 GsTMDdivNF4(u8*, u8*, s32, u16, s32, u64, u64);\n"
+        ],
+        [
+          "GsTMDdivNF4(curPrim, base, GsOUT_PACKET_P, count, arg2, arg1, arg3);\n",
+          "GsTMDdivNF4(curPrim, base, GsOUT_PACKET_P, count, arg2, (u32)arg1, (u64)(__UINTPTR_TYPE__)arg3);\n"
+        ],
+        [
+          "extern s32 GsTMDdivTNF3(u8*, u8*, s32, u16, s32, s32, s32);\n",
+          "extern s32 GsTMDdivTNF3(u8*, u8*, s32, u16, s32, u64, u64);\n"
+        ],
+        [
+          "GsTMDdivTNF3(curPrim, base, GsOUT_PACKET_P, count, arg2, arg1, arg3);\n",
+          "GsTMDdivTNF3(curPrim, base, GsOUT_PACKET_P, count, arg2, (u32)arg1, (u64)(__UINTPTR_TYPE__)arg3);\n"
+        ],
+        [
+          "extern s32 GsTMDdivNG3(u8*, u8*, s32, u16, s32, s32, s32);\n",
+          "extern s32 GsTMDdivNG3(u8*, u8*, s32, u16, s32, u64, u64);\n"
+        ],
+        [
+          "GsTMDdivNG3(curPrim, base, GsOUT_PACKET_P, count, arg2, arg1, arg3);\n",
+          "GsTMDdivNG3(curPrim, base, GsOUT_PACKET_P, count, arg2, (u32)arg1, (u64)(__UINTPTR_TYPE__)arg3);\n"
+        ],
+        [
+          "extern s32 GsTMDdivTNG3(u8*, u8*, s32, u16, s32, s32, s32);\n",
+          "extern s32 GsTMDdivTNG3(u8*, u8*, s32, u16, s32, u64, u64);\n"
+        ],
+        [
+          "GsTMDdivTNG3(curPrim, base, GsOUT_PACKET_P, count, arg2, arg1, arg3);\n",
+          "GsTMDdivTNG3(curPrim, base, GsOUT_PACKET_P, count, arg2, (u32)arg1, (u64)(__UINTPTR_TYPE__)arg3);\n"
+        ],
+        [
+          "extern s32 GsTMDdivNG4(u8*, u8*, s32, u16, s32, s32, s32);\n",
+          "extern s32 GsTMDdivNG4(u8*, u8*, s32, u16, s32, u64, u64);\n"
+        ],
+        [
+          "GsTMDdivNG4(curPrim, base, GsOUT_PACKET_P, count, arg2, arg1, arg3);\n",
+          "GsTMDdivNG4(curPrim, base, GsOUT_PACKET_P, count, arg2, (u32)arg1, (u64)(__UINTPTR_TYPE__)arg3);\n"
+        ],
+        [
+          "extern s32 GsTMDdivTNF4(u8*, u8*, s32, u16, s32, s32, s32);\n",
+          "extern s32 GsTMDdivTNF4(u8*, u8*, s32, u16, s32, u64, u64);\n"
+        ],
+        [
+          "GsTMDdivTNF4(curPrim, base, GsOUT_PACKET_P, count, arg2, arg1, arg3);\n",
+          "GsTMDdivTNF4(curPrim, base, GsOUT_PACKET_P, count, arg2, (u32)arg1, (u64)(__UINTPTR_TYPE__)arg3);\n"
+        ],
+        [
+          "extern s32 GsTMDdivTNG4(u8*, u8*, s32, u16, s32, s32, s32);\n",
+          "extern s32 GsTMDdivTNG4(u8*, u8*, s32, u16, s32, u64, u64);\n"
+        ],
+        [
+          "GsTMDdivTNG4(curPrim, base, GsOUT_PACKET_P, count, arg2, arg1, arg3);\n",
+          "GsTMDdivTNG4(curPrim, base, GsOUT_PACKET_P, count, arg2, (u32)arg1, (u64)(__UINTPTR_TYPE__)arg3);\n"
+        ]
+      ]
+    },
+    "KANGEI/kangei_msg_disp4": {
+      "why": "msg_str_disp(x, y, color, str, arg4, suffix, bullet, show) reads suffix and bullet as u8 * (src/main/matched/msg_str_disp.c, K&R); kangei_msg_disp4 passes `(s32)&kangei_msg4_suf_str` and `(s32)&kangei_msg4_bul_str` through an all-s32 prototype: the sixth (WIN64-STACK) and seventh (STACK-WIDTH) arguments.  The module calls it unprototyped (generate_overlay_modules.py's canonical `extern s32 msg_str_disp();`), so the values are passed as u64 explicitly.",
+      "edits": [
+        [
+          "extern void msg_str_disp(s32, s32, s32, s32, s32, s32, s32, s32);\n",
+          "extern void msg_str_disp(s32, s32, s32, s32, s32, u64, u64, s32);\n"
+        ],
+        [
+          "    msg_str_disp(-44, 80, 0, a3, 0, (s32)&kangei_msg4_suf_str, (s32)&kangei_msg4_bul_str, 0);\n",
+          "    msg_str_disp(-44, 80, 0, a3, 0, (u64)(u32)(__UINTPTR_TYPE__)&kangei_msg4_suf_str, (u64)(u32)(__UINTPTR_TYPE__)&kangei_msg4_bul_str, 0);\n"
+        ]
+      ]
+    },
+    "main/TmdF3": {
+      "source": "src/main/matched/TmdF3.c",
+      "why": "TmdF3 forwards its own s32 arg6/arg7 (the ordering-table context and the work area) to the unprototyped GsTMDdiv*L / *LFG / *NL renderers, whose definitions read them as pointers (OtCtx *ctx / Work *work, or GsOT *ot / GsWORK *w): the seventh and eighth arguments, on the stack on Linux and Windows alike (STACK-WIDTH x6).",
+      "edits": [
+        [
+          "(a0, a1, a2, a3, arg4, arg5, arg6, arg7);",
+          "(a0, a1, a2, a3, arg4, arg5, (u64)(u32)arg6, (u64)(u32)arg7);",
+          3
+        ]
+      ]
+    },
+    "main/TmdF4": {
+      "source": "src/main/matched/TmdF4.c",
+      "why": "TmdF4 forwards its own s32 arg6/arg7 (the ordering-table context and the work area) to the unprototyped GsTMDdiv*L / *LFG / *NL renderers, whose definitions read them as pointers (OtCtx *ctx / Work *work, or GsOT *ot / GsWORK *w): the seventh and eighth arguments, on the stack on Linux and Windows alike (STACK-WIDTH x6).",
+      "edits": [
+        [
+          "(a0, a1, a2, a3, arg4, arg5, arg6, arg7);",
+          "(a0, a1, a2, a3, arg4, arg5, (u64)(u32)arg6, (u64)(u32)arg7);",
+          3
+        ]
+      ]
+    },
+    "main/TmdG3": {
+      "source": "src/main/matched/TmdG3.c",
+      "why": "TmdG3 forwards its own s32 arg6/arg7 (the ordering-table context and the work area) to the unprototyped GsTMDdiv*L / *LFG / *NL renderers, whose definitions read them as pointers (OtCtx *ctx / Work *work, or GsOT *ot / GsWORK *w): the seventh and eighth arguments, on the stack on Linux and Windows alike (STACK-WIDTH x6).",
+      "edits": [
+        [
+          "(a0, a1, a2, a3, arg4, arg5, arg6, arg7);",
+          "(a0, a1, a2, a3, arg4, arg5, (u64)(u32)arg6, (u64)(u32)arg7);",
+          3
+        ]
+      ]
+    },
+    "main/TmdG4": {
+      "source": "src/main/matched/TmdG4.c",
+      "why": "TmdG4 forwards its own s32 arg6/arg7 (the ordering-table context and the work area) to the unprototyped GsTMDdiv*L / *LFG / *NL renderers, whose definitions read them as pointers (OtCtx *ctx / Work *work, or GsOT *ot / GsWORK *w): the seventh and eighth arguments, on the stack on Linux and Windows alike (STACK-WIDTH x6).",
+      "edits": [
+        [
+          "(a0, a1, a2, a3, arg4, arg5, arg6, arg7);",
+          "(a0, a1, a2, a3, arg4, arg5, (u64)(u32)arg6, (u64)(u32)arg7);",
+          3
+        ]
+      ]
+    },
+    "main/TmdTF3": {
+      "source": "src/main/matched/TmdTF3.c",
+      "why": "TmdTF3 forwards its own s32 arg6/arg7 (the ordering-table context and the work area) to the unprototyped GsTMDdiv*L / *LFG / *NL renderers, whose definitions read them as pointers (OtCtx *ctx / Work *work, or GsOT *ot / GsWORK *w): the seventh and eighth arguments, on the stack on Linux and Windows alike (STACK-WIDTH x6).",
+      "edits": [
+        [
+          "(a0, a1, a2, a3, arg4, arg5, arg6, arg7);",
+          "(a0, a1, a2, a3, arg4, arg5, (u64)(u32)arg6, (u64)(u32)arg7);",
+          3
+        ]
+      ]
+    },
+    "main/TmdTF4": {
+      "source": "src/main/matched/TmdTF4.c",
+      "why": "TmdTF4 forwards its own s32 arg6/arg7 (the ordering-table context and the work area) to the unprototyped GsTMDdiv*L / *LFG / *NL renderers, whose definitions read them as pointers (OtCtx *ctx / Work *work, or GsOT *ot / GsWORK *w): the seventh and eighth arguments, on the stack on Linux and Windows alike (STACK-WIDTH x6).",
+      "edits": [
+        [
+          "(a0, a1, a2, a3, arg4, arg5, arg6, arg7);",
+          "(a0, a1, a2, a3, arg4, arg5, (u64)(u32)arg6, (u64)(u32)arg7);",
+          3
+        ]
+      ]
+    },
+    "main/TmdTG3": {
+      "source": "src/main/matched/TmdTG3.c",
+      "why": "TmdTG3 forwards its own s32 arg6/arg7 (the ordering-table context and the work area) to the unprototyped GsTMDdiv*L / *LFG / *NL renderers, whose definitions read them as pointers (OtCtx *ctx / Work *work, or GsOT *ot / GsWORK *w): the seventh and eighth arguments, on the stack on Linux and Windows alike (STACK-WIDTH x6).",
+      "edits": [
+        [
+          "(a0, a1, a2, a3, arg4, arg5, arg6, arg7);",
+          "(a0, a1, a2, a3, arg4, arg5, (u64)(u32)arg6, (u64)(u32)arg7);",
+          3
+        ]
+      ]
+    },
+    "main/TmdTG4": {
+      "source": "src/main/matched/TmdTG4.c",
+      "why": "TmdTG4 forwards its own s32 arg6/arg7 (the ordering-table context and the work area) to the unprototyped GsTMDdiv*L / *LFG / *NL renderers, whose definitions read them as pointers (OtCtx *ctx / Work *work, or GsOT *ot / GsWORK *w): the seventh and eighth arguments, on the stack on Linux and Windows alike (STACK-WIDTH x6).",
+      "edits": [
+        [
+          "(a0, a1, a2, a3, arg4, arg5, arg6, arg7);",
+          "(a0, a1, a2, a3, arg4, arg5, (u64)(u32)arg6, (u64)(u32)arg7);",
+          3
+        ]
+      ]
+    }
+  }
+}

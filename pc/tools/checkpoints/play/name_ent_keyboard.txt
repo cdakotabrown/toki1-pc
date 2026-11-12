@@ -1,0 +1,153 @@
+# Name entry (NAME_ENT, step 0x14) with the keyboard's pages, keys and the
+# confirm screen's way back, instead of NAME_ENTRY's three letters on the
+# first page.  Read from src/overlay/NAME_ENT:
+#
+# - sub-step 1, sub-sub-steps 1 / 3 / 5: name_ent_input1 / 3 / 5 (surname,
+#   given name, nickname).  The hand (step_directional_scroll_once, 3 px a
+#   held frame) picks a cell (name_ent_cell_set: x -119..151, y -47..47,
+#   16 px cells), a page tab (name_ent_tab_index_set: x -157..-129, y bands
+#   above D_8014CCD0[] = -48 / -16 / 16 / 48 / 80, 16 high: hiragana,
+#   katakana, the caption page, the lower-cell page (name_ent_desc_disp,
+#   name_ent_lower_cell_set, name_ent_index_set), and the done tab, which
+#   takes name_ent_default_set and the next stage) or one of the stage's
+#   keys (name_ent_key_cursor_set, y -85..-71: surname keys 0..2 at x
+#   -104..-56, given name keys 3..5 at -48..0, nickname keys 6..10 at
+#   72..152, 16 px each).  Circle (0x20) enters, picks the key or turns
+#   the page; cross (0x40) steps the key index back.
+# - sub-sub-step 7, name_ent_input7 (birthday): circle steps the wheel; the
+#   third circle takes name_ent_hizuke_rand (the kernel rand: the two
+#   machines' birthdays differ, their rand seeds do) and goes on.
+# - sub-sub-step 9, name_ent_input9 (confirm): cross goes back to
+#   sub-sub-step 0 (the surname again), circle in the left box (x -47..15,
+#   y 81..95) goes on; start goes on from any stage.
+# Coordinates are on the 3-px grid of `point` (X+150, Y+100 multiples of 3);
+# each tap waits for the hand to stand there (a `+N` after `point` counts
+# from the start of its last held leg).
+trace D_8014CC70:4 D_8014CCC8:4 D_8014CCCC:4
+wait surname_entry now_step=0x14 now_sub_step=1 now_sub_sub_step=1 within 1200
+point -111 -40              # hiragana cell (0,0)
+wait hand1 cursor_cw_x:2=-111 cursor_cw_y:2=-40 within 300
++4 circle
+point -141 -7               # the katakana tab
+wait hand2 cursor_cw_x:2=-141 cursor_cw_y:2=-7 within 300
++4 circle
+point -96 -40               # a cell
+wait hand3 cursor_cw_x:2=-96 cursor_cw_y:2=-40 within 300
++4 circle
+point -141 23               # the caption tab
+wait hand4 cursor_cw_x:2=-141 cursor_cw_y:2=23 within 300
++4 circle
+point -81 -25               # a cell
+wait hand5 cursor_cw_x:2=-81 cursor_cw_y:2=-25 within 300
++4 circle
+point -141 56               # the lower-cell page
+wait hand6 cursor_cw_x:2=-141 cursor_cw_y:2=56 within 300
++4 circle
+point -66 -40               # a cell
+wait hand7 cursor_cw_x:2=-66 cursor_cw_y:2=-40 within 300
++4 circle
+point -96 -76               # surname key 0
+wait hand8 cursor_cw_x:2=-96 cursor_cw_y:2=-76 within 300
++4 circle
++20 cross
+point -81 -76               # key 1
+wait hand9 cursor_cw_x:2=-81 cursor_cw_y:2=-76 within 300
++4 circle
+point -63 -76               # key 2
+wait hand10 cursor_cw_x:2=-63 cursor_cw_y:2=-76 within 300
++4 circle
++20 cross
++20 cross
+point -141 -40              # back to hiragana
+wait hand11 cursor_cw_x:2=-141 cursor_cw_y:2=-40 within 300
++4 circle
+point -111 -25              # a cell
+wait hand12 cursor_cw_x:2=-111 cursor_cw_y:2=-25 within 300
++4 circle
+point -141 86               # done
+wait hand13 cursor_cw_x:2=-141 cursor_cw_y:2=86 within 300
++4 circle
+wait given_entry now_step=0x14 now_sub_step=1 now_sub_sub_step=3 within 600
+point -141 -7               # katakana
+wait hand14 cursor_cw_x:2=-141 cursor_cw_y:2=-7 within 300
++4 circle
+point -96 -25
+wait hand15 cursor_cw_x:2=-96 cursor_cw_y:2=-25 within 300
++4 circle
+point -39 -76               # given-name key 3
+wait hand16 cursor_cw_x:2=-39 cursor_cw_y:2=-76 within 300
++4 circle
+point -24 -76               # key 4
+wait hand17 cursor_cw_x:2=-24 cursor_cw_y:2=-76 within 300
++4 circle
+point -9 -76                # key 5
+wait hand18 cursor_cw_x:2=-9 cursor_cw_y:2=-76 within 300
++4 circle
++20 cross
+point -141 56               # the lower-cell page
+wait hand19 cursor_cw_x:2=-141 cursor_cw_y:2=56 within 300
++4 circle
+point -51 -10
+wait hand20 cursor_cw_x:2=-51 cursor_cw_y:2=-10 within 300
++4 circle
+point -141 86               # done
+wait hand21 cursor_cw_x:2=-141 cursor_cw_y:2=86 within 300
++4 circle
+wait nick_entry now_step=0x14 now_sub_step=1 now_sub_sub_step=5 within 600
+point -141 23               # the caption page
+wait hand22 cursor_cw_x:2=-141 cursor_cw_y:2=23 within 300
++4 circle
+point -36 5
+wait hand23 cursor_cw_x:2=-36 cursor_cw_y:2=5 within 300
++4 circle
+point 78 -76                # nickname key 6
+wait hand24 cursor_cw_x:2=78 cursor_cw_y:2=-76 within 300
++4 circle
++20 left+up*100
+point 96 -76                # key 7
+wait hand25 cursor_cw_x:2=96 cursor_cw_y:2=-76 within 300
++4 circle
++20 left+up*100
+point 111 -76               # key 8
+wait hand26 cursor_cw_x:2=111 cursor_cw_y:2=-76 within 300
++4 circle
++20 left+up*100
+point 129 -76               # key 9
+wait hand27 cursor_cw_x:2=129 cursor_cw_y:2=-76 within 300
++4 circle
++20 left+up*100
+point 138 -76               # key 10
+wait hand28 cursor_cw_x:2=138 cursor_cw_y:2=-76 within 300
++4 circle
++20 cross
++20 left+up*100             # `point`'s 80-frame park is 240 px: not enough from x 138
+point -141 86               # done
+wait hand29 cursor_cw_x:2=-141 cursor_cw_y:2=86 within 300
++4 circle
+wait birthday_entry now_step=0x14 now_sub_step=1 now_sub_sub_step=7 within 600
++30 circle                  # the wheel
++20 cross                   # back one
++20 circle
++20 circle
++20 circle                  # third: name_ent_hizuke_rand, on
+wait confirm now_step=0x14 now_sub_step=1 now_sub_sub_step=9 within 600
++30 cross                   # back to the surname
+wait surname_again now_step=0x14 now_sub_step=1 now_sub_sub_step=1 within 600
++30 start
+wait given_again now_step=0x14 now_sub_step=1 now_sub_sub_step=3 within 600
++30 start
+wait nick_again now_step=0x14 now_sub_step=1 now_sub_sub_step=5 within 600
++30 start
+wait birthday_again now_step=0x14 now_sub_step=1 now_sub_sub_step=7 within 600
++30 start
+wait confirm_again now_step=0x14 now_sub_step=1 now_sub_sub_step=9 within 600
+point -15 86                # the left box
+wait hand30 cursor_cw_x:2=-15 cursor_cw_y:2=86 within 300
++4 circle
+wait fuji_entry now_step=0x14 now_sub_step=2 now_sub_sub_step=1 within 600
++30 start
+wait fuji_confirm now_step=0x14 now_sub_step=2 now_sub_sub_step=3 within 600
++30 start
+wait prologue now_step=0x15 now_sub_step=0 now_sub_sub_step=1 within 600
++120 start
+wait schedule_ready now_step=0x34 now_sub_step=1 within 1200
