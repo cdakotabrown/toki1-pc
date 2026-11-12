@@ -1,0 +1,73 @@
+# English tour (docs/pc-port/TRANSLATION-ON-PC.md): the new_game route with
+# screenshots of the screens the English patch translates -- the title menu,
+# the album prompt, the name entry, the prologue's first dialogue pages.
+# Run it with the language switch; it also runs (Japanese) without:
+#
+#   python3 pc/tools/playthrough.py pc/tools/playthrough/english_tour.txt \
+#       --set TOKI_LANG=en --shots
+#
+# Same presses as new_game.txt up to the prologue; there it lets the
+# prologue run instead of skipping it, tapping circle through the pages.
+
+hold 2
+trace cursor_cw_x:2 cursor_cw_y:2 now_icon:1
+
+phase tour
+wait title_menu now_step=0x12 now_sub_step=2 now_sub_sub_step=1 within 3000
+shot title 20
++30 start
+wait album_prompt now_step=0x13 now_sub_step=2 now_sub_sub_step=0x41 within 3000
+shot album_prompt 40
++60 circle
+wait album_pick now_step=0x13 now_sub_step=2 now_sub_sub_step=0x45 within 600
+shot album_pick 30
++30 left+up*80
++82 right*10
++12 down*29
++31 circle
+check album_1_chosen now_album:1=1
+wait sysfile_msg now_step=0x13 now_sub_step=2 now_sub_sub_step=0x47 within 600
++30 circle
+wait sysfile_prompt now_step=0x13 now_sub_step=2 now_sub_sub_step=0x49 within 600
++30 circle
+wait surname_entry now_step=0x14 now_sub_step=1 now_sub_sub_step=1 within 1200
+shot name_entry 30
++30 left+up*80
++82 right*13
++15 down*20
++22 circle
++10 right*5
++10 circle
++10 start
+wait given_entry now_step=0x14 now_sub_step=1 now_sub_sub_step=3 within 600
++20 right*6
++10 circle
++10 right*5
++10 circle
++10 start
+wait nick_entry now_step=0x14 now_sub_step=1 now_sub_sub_step=5 within 600
++20 right*5
++10 circle
++10 start
+wait birthday_entry now_step=0x14 now_sub_step=1 now_sub_sub_step=7 within 600
+shot birthday 20
++30 start
+wait confirm now_step=0x14 now_sub_step=1 now_sub_sub_step=9 within 600
+shot confirm 20
++30 start
+wait fuji_entry now_step=0x14 now_sub_step=2 now_sub_sub_step=1 within 600
++30 start
+wait fuji_confirm now_step=0x14 now_sub_step=2 now_sub_sub_step=3 within 600
++30 start
+wait prologue now_step=0x15 now_sub_step=0 now_sub_sub_step=1 within 600
+shot prologue_a 600
+shot prologue_b 900
+shot prologue_c 1300
+shot prologue_d 1800
++1900 circle
++90 circle
++90 circle
+shot prologue_e 120
++400 start
+wait schedule_ready now_step=0x34 now_sub_step=1 within 3000
+shot schedule 30

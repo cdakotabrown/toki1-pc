@@ -1,0 +1,101 @@
+name: PC port
+
+# toki1-pc's disc-free CI: the port builds and its native unit tests pass.
+# The port compiles the decompiled C of toki1-decomp, so the job checks out
+# toki1-decomp beside this repository (../toki1-decomp: the layout
+# tools/repo_paths.py and pc/Makefile expect).  toki1-english is optional and
+# not checked out: CI builds the Japanese game.
+#
+# DECOMP_REPO below is the owner/name of the toki1-decomp repository on
+# GitHub; DECOMP_REF its branch.
+#
+# Runners are pinned to ubuntu-24.04; a runner upgrade must be a deliberate
+# commit.  Local mirror: tools/ci/run_ci_locally.sh (change both together).
+# CI has no retail disc: the four native tests that read the disc's files
+# are excluded by name (PC_TESTS_NO_DISC=1) and listed as EXCLUDED in the
+# log; everything else must pass.  The battery (pc/tools/run_battery.sh)
+# needs the player's disc and runs locally only.
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  DECOMP_REPO: cdakotabrown/toki1-decomp      # <- the toki1-decomp repository
+  DECOMP_REF: main
+
+jobs:
+  pc-port-build:
+    name: PC port builds and passes its unit tests
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: toki1-pc
+
+      - uses: actions/checkout@v4
+        with:
+          repository: ${{ env.DECOMP_REPO }}
+          ref: ${{ env.DECOMP_REF }}
+          path: toki1-decomp
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: System dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential pkg-config libsdl2-dev clang
+
+      - name: Install Python dependencies
+        working-directory: toki1-pc
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Syntax (Python, shell, JSON)
+        working-directory: toki1-pc
+        run: |
+          python -m compileall -q -x '(\.venv|build|__pycache__|\.git)' tools pc/tools
+          find tools pc -name '*.sh' -print0 | xargs -0 -r -n1 bash -n
+          python - <<'PY'
+          import json, subprocess
+          files = subprocess.run(['git', 'ls-files', '*.json'], capture_output=True,
+                                 text=True, check=True).stdout.split()
+          bad = []
+          for p in files:
+              try:
+                  json.load(open(p, encoding='utf-8'))
+              except Exception as e:      # noqa: BLE001 - report, do not crash
+                  bad.append('%s: %s' % (p, e))
+          print('%d JSON files parsed, %d failed' % (len(files), len(bad)))
+          for b in bad:
+              print('BAD', b)
+          raise SystemExit(1 if bad else 0)
+          PY
+
+      # The SPU core is not in the repository: fetch it at its pinned commit,
+      # checksum it and apply the project's patches (pc/3rd/SPU-CORE.md).
+      - name: Fetch the SPU core
+        working-directory: toki1-pc
+        run: pc/3rd/spu-glue/fetch.sh
+
+      # The first build also generates the overlay modules from toki1-decomp.
+      - name: Build
+        working-directory: toki1-pc
+        run: make -f pc/Makefile all -j"$(nproc)"
+
+      - name: Unit tests
+        working-directory: toki1-pc
+        env:
+          PC_TESTS_NO_DISC: '1'
+        run: make -f pc/Makefile test

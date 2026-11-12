@@ -1,0 +1,28 @@
+# Step 58: OLH, the hidden help / Q&A screen behind the desk lamp of the
+# night planner (step 52): hotspot_step_check (0x8005B258) fires on Circle
+# with the hand at x 65..79, y -31..-17 and does goto_step(58).  OLH's
+# top menu item 5 (サブゲーム, mini-games) opens sub-step 96, whose
+# TwinBee / Stardust Symphony EX entries are clickable only once the game
+# was played: bit 0 of bunkaken_flags (0x800F022F, TwinBee) and of
+# 0x800F0230 (Stardust Symphony EX, set by TACO's exit); both are SEEDED
+# here.  The help pages are kanji text (set_kanji_string), English through
+# the OLH strings, not TACOTEX art (docs/translation/VISUAL-SWEEP.md 3.1.2).
+start album
+album date=96/8/10
+do poke 0x800F022F:1 1
+do poke 0x800F0230:1 1
+input wait sched now_step=0x34 now_sub_step=1 within 1500
+input point 72 -25
+input +30 circle
+input wait help now_step=58 within 900
+input +60 left+up*100
+input +102 right*30
+input +32 down*42
+input +50 circle
+input wait games now_step=58 now_sub_step=96 within 600
+input +60 left+up*100
+input +102 right*34
+input +36 down*25
+input +40 circle
+input wait stardust now_step=58 now_sub_step=96 now_sub_sub_step=32 within 600
+expect now_step=58 within 300 hold 600

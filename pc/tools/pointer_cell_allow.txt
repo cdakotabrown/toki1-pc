@@ -1,0 +1,10 @@
+# pc/tools/audit_ps1_pointer_cells.py --allow: live rows left, each with its
+# reason.  `function:SHAPE` (or a bare function for every shape).  The list
+# may only shrink: fix a function (a record_width_plan.json entry through
+# ps1_source_edits.py, an override, or the overlay generator) and delete its
+# line.  Census 2026-11-01 (1,777 translation units): 4 live rows in 3
+# functions; ETC etc_menu_dispatch and OPTION option_menu1_main1 fixed
+# (record_width_plan.json), the one below left.
+
+# --- false positives: the pointer a PS1 cell holds is a host address ---
+SetGraphQueue:PS1-CELL                       # graph_jtb (a PS1-resident cell) holds &g_gpu_state, the HAL's host GPU state (pc/hal/gpu.c hal_gpu_init), not a PS1 table; slot 13 is no HAL entry either way; libgpu internal, never entered (not in the 2026-11-01 suite or explorer reach lists; wide_access_allow.txt SetGraphQueue) (src/main/matched/SetGraphQueue.c)

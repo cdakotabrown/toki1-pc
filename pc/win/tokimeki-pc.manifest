@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!-- Embedded in tokimeki-pc.exe (pc/win/tokimeki-pc.rc).
+     activeCodePage UTF-8 (Windows 10 1903+): every narrow (char *) path the
+     port opens is UTF-8, so a game folder or user name outside the ANSI code
+     page (C:\Users\田中\Desktop\toki) works; getenv returns UTF-8 too.
+     DPI: per-monitor v2 (Windows 10 1703+; dpiAwareness), else per-monitor
+     / system (dpiAware, older systems): Windows never bitmap-stretches the
+     window (blurry at 125-200 % scaling), including after a move to a
+     monitor of another scale; the port sizes its window from the display's
+     usable pixels and draws in pixels.  The log says what was granted
+     ("[HAL] DPI awareness").  longPathAware: paths past 260 characters
+     work where Windows has long paths enabled (the setup log warns about
+     a long data folder path otherwise).  Common Controls 6: the file picker of the
+     first-run setup gets the current look. -->
+<assembly xmlns="urn:schemas-microsoft-com:asm.v1" manifestVersion="1.0">
+  <assemblyIdentity type="win32" name="Tokimeki.PC.Port" version="1.0.0.0" processorArchitecture="amd64"/>
+  <description>Heartthrob Memorial PC Enhanced</description>
+  <application xmlns="urn:schemas-microsoft-com:asm.v3">
+    <windowsSettings>
+      <activeCodePage xmlns="http://schemas.microsoft.com/SMI/2019/WindowsSettings">UTF-8</activeCodePage>
+      <dpiAware xmlns="http://schemas.microsoft.com/SMI/2005/WindowsSettings">true/pm</dpiAware>
+      <dpiAwareness xmlns="http://schemas.microsoft.com/SMI/2016/WindowsSettings">PerMonitorV2, PerMonitor</dpiAwareness>
+      <longPathAware xmlns="http://schemas.microsoft.com/SMI/2016/WindowsSettings">true</longPathAware>
+    </windowsSettings>
+  </application>
+  <compatibility xmlns="urn:schemas-microsoft-com:compatibility.v1">
+    <application>
+      <supportedOS Id="{8e0f7a12-bfb3-4fe8-b9a5-48fd50a15a9a}"/>
+    </application>
+  </compatibility>
+  <dependency>
+    <dependentAssembly>
+      <assemblyIdentity type="win32" name="Microsoft.Windows.Common-Controls" version="6.0.0.0"
+                        processorArchitecture="amd64" publicKeyToken="6595b64144ccf1df" language="*"/>
+    </dependentAssembly>
+  </dependency>
+</assembly>

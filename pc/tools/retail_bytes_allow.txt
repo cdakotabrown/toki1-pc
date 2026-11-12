@@ -1,0 +1,40 @@
+# pc/tools/audit_retail_bytes.py: runs of disc bytes the binaries may hold.
+#
+# Copied retail DATA is never allowed here (the old pc/src/game_data.c blob,
+# generated retail initialisers): those are read from the player's own disc
+# at run time.  An entry is a LITERAL written in the port's C source -- the
+# decompiled game or library code, or a published standard -- that happens to
+# compile to the same bytes the retail program carries.
+#
+# One entry per line: <disc file> <offset hex> <length> <reason>
+# A finding is allowed when it lies inside an entry's [offset, offset+length).
+
+# Psy-Q libpress MDEC_report() (matched C, src/main): its two printf format
+# strings, " DMA=(%d,%d), ADDR=(0x%08x->0x%08x)" / " FIFO=(...)".
+PSX.EXE 0x783a0 0x70 libpress MDEC_report format strings (decompiled source literals)
+
+# pc/hal/mdec_native.c: the MPEG-1 default intra quantiser matrix
+# (ISO/IEC 11172-2) and the IDCT cosine scale table -- published constants
+# libpress also carries.
+PSX.EXE 0x900c4 0x44 MPEG-1 default intra quantiser matrix (ISO/IEC 11172-2)
+PSX.EXE 0x90084 0x40 MPEG-1 default intra quantiser matrix, libpress's second copy
+PSX.EXE 0x90108 0x80 IDCT scale table (cosine constants)
+
+# src/overlay/RPG_BAT/rpg_bat_count_up.c (matched decompiled source): the
+# number tables rpg_bat_target_no[100] (0x8015EBAC), 0x8015ED3C, 0x8015ED64
+# and rpg_bat_unit0/1/2[11] (0x8015ED94/EDC0/EDEC) -- the numbers 0..9
+# repeated.  The interior cells landed as separate symbols
+# (rpg_bat_unit0_step = 6, rpg_bat_unit0_sub = {7, 8, 9}, ...) and since the
+# 2026-11-10 renames the PE linker's sorted .data$<name> sections lay
+# unit0..unit2 out back to back, so the run reaches 0x8015EE18.
+CDROM/EXEDIR/RPG_BAT.EXN 0x2cbac 0x26c RPG_BAT 0..9 number tables (decompiled source literals)
+
+# GCC's own _itowa_upper_digits table: 16 ints holding "0".."F" (0x30,0x41..0x46)
+# four bytes each.  It is in tools/psyq-gcc/gcc and tools/psyq-gcc/cpp because
+# they are GNU gcc 2.8.1, and it is in PSX.EXE because Konami linked the same
+# runtime -- so the run is a coincidental match between two copies of a compiler
+# constant, not game data.  Verified 2026-11-04: the 64 bytes are
+# b'0\0\0\0' b'1\0\0\0' ... b'F\0\0\0'.
+
+PSX.EXE 0x75c0e 0x42 GCC _itowa_upper_digits table (16 ints '0'..'F'), not game data
+CDROM/BATTLE/VS_BUN.BIN 0x1063d 0x53 SGI cfe keyword table (alternating 00 NN / 00 01 shorts), not game data

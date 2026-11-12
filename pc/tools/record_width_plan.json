@@ -1,0 +1,1503 @@
+{
+  "_doc": "pc/tools/ps1_source_edits.py: PS1-width members of records that live in PS1 memory (audit_ps1_pointer_casts.py RECORD-PTR), retyped to 4-byte cells for the PC build only (matched sources unedited).  edits: [old, new(, count)] exact replacements, line count kept.  A stale entry stops the build.",
+  "functions": {
+    "main/GsTMDdivF3L": {
+      "source": "src/main/matched/GsTMDdivF3L.c",
+      "why": "GsOT is a PS1-layout record (ot_work, 20-byte stride in vblank_function; org at +4 as tmd_gte_builders.c reads it) and the divide work area (the scratchpad Work/GsWORK, shared with the retail divide routines) keeps its console layout: OT pointer at +20, slot pointers at +168/+240.  The pointer members become 4-byte cells; the OT bucket address is the console's 32-bit sum (element size written out); the slot pointers are stored as 32-bit handles.  Nothing in the file reads them back.",
+      "edits": [
+        [
+          "    s32 *ot;",
+          "    u32 ot;"
+        ],
+        [
+          "    s32 *otBase;",
+          "    u32 otBase;"
+        ],
+        [
+          "    WorkSlot *ptr[3];",
+          "    u32       ptr[3];"
+        ],
+        [
+          "work->ptr[0] = p0;",
+          "work->ptr[0] = (u32)(unsigned long)p0;"
+        ],
+        [
+          "work->ptr[1] = p1;",
+          "work->ptr[1] = (u32)(unsigned long)p1;"
+        ],
+        [
+          "work->ptr[2] = p2;",
+          "work->ptr[2] = (u32)(unsigned long)p2;"
+        ],
+        [
+          "work->ot = ctx->otBase +",
+          "work->ot = ctx->otBase + sizeof(s32) *"
+        ]
+      ]
+    },
+    "main/GsTMDdivF3LFG": {
+      "source": "src/main/matched/GsTMDdivF3LFG.c",
+      "why": "GsOT is a PS1-layout record (ot_work, 20-byte stride in vblank_function; org at +4 as tmd_gte_builders.c reads it) and the divide work area (the scratchpad Work/GsWORK, shared with the retail divide routines) keeps its console layout: OT pointer at +20, slot pointers at +168/+240.  The pointer members become 4-byte cells; the OT bucket address is the console's 32-bit sum (element size written out); the slot pointers are stored as 32-bit handles.  Nothing in the file reads them back.",
+      "edits": [
+        [
+          "    s32 *ot;",
+          "    u32 ot;"
+        ],
+        [
+          "    s32 *otBase;",
+          "    u32 otBase;"
+        ],
+        [
+          "    WorkSlot *ptr[3];",
+          "    u32       ptr[3];"
+        ],
+        [
+          "work->ptr[0] = p0;",
+          "work->ptr[0] = (u32)(unsigned long)p0;"
+        ],
+        [
+          "work->ptr[1] = p1;",
+          "work->ptr[1] = (u32)(unsigned long)p1;"
+        ],
+        [
+          "work->ptr[2] = p2;",
+          "work->ptr[2] = (u32)(unsigned long)p2;"
+        ],
+        [
+          "work->ot = ctx->otBase +",
+          "work->ot = ctx->otBase + sizeof(s32) *"
+        ]
+      ]
+    },
+    "main/GsTMDdivF3NL": {
+      "source": "src/main/matched/GsTMDdivF3NL.c",
+      "why": "GsOT is a PS1-layout record (ot_work, 20-byte stride in vblank_function; org at +4 as tmd_gte_builders.c reads it) and the divide work area (the scratchpad Work/GsWORK, shared with the retail divide routines) keeps its console layout: OT pointer at +20, slot pointers at +168/+240.  The pointer members become 4-byte cells; the OT bucket address is the console's 32-bit sum (element size written out); the slot pointers are stored as 32-bit handles.  Nothing in the file reads them back.",
+      "edits": [
+        [
+          "    s32 *ot;",
+          "    u32 ot;"
+        ],
+        [
+          "    s32 *otBase;",
+          "    u32 otBase;"
+        ],
+        [
+          "    WorkSlot *ptr[3];",
+          "    u32       ptr[3];"
+        ],
+        [
+          "work->ptr[0] = p0;",
+          "work->ptr[0] = (u32)(unsigned long)p0;"
+        ],
+        [
+          "work->ptr[1] = p1;",
+          "work->ptr[1] = (u32)(unsigned long)p1;"
+        ],
+        [
+          "work->ptr[2] = p2;",
+          "work->ptr[2] = (u32)(unsigned long)p2;"
+        ],
+        [
+          "work->ot = ctx->otBase +",
+          "work->ot = ctx->otBase + sizeof(s32) *"
+        ]
+      ]
+    },
+    "main/GsTMDdivF4L": {
+      "source": "src/main/matched/GsTMDdivF4L.c",
+      "why": "GsOT is a PS1-layout record (ot_work, 20-byte stride in vblank_function; org at +4 as tmd_gte_builders.c reads it) and the divide work area (the scratchpad Work/GsWORK, shared with the retail divide routines) keeps its console layout: OT pointer at +20, slot pointers at +168/+240.  The pointer members become 4-byte cells; the OT bucket address is the console's 32-bit sum (element size written out); the slot pointers are stored as 32-bit handles.  Nothing in the file reads them back.",
+      "edits": [
+        [
+          "    u32    *tag;",
+          "    u32    tag;"
+        ],
+        [
+          "    u32 *org;",
+          "    u32 org;"
+        ],
+        [
+          "    GsSLOT *pslot[4];",
+          "    u32     pslot[4];"
+        ],
+        [
+          "w->pslot[0] = p0;",
+          "w->pslot[0] = (u32)(unsigned long)p0;"
+        ],
+        [
+          "w->pslot[1] = p1;",
+          "w->pslot[1] = (u32)(unsigned long)p1;"
+        ],
+        [
+          "w->pslot[2] = p2;",
+          "w->pslot[2] = (u32)(unsigned long)p2;"
+        ],
+        [
+          "w->pslot[3] = p3;",
+          "w->pslot[3] = (u32)(unsigned long)p3;"
+        ],
+        [
+          "w->tag = ot->org +",
+          "w->tag = ot->org + sizeof(u32) *"
+        ]
+      ]
+    },
+    "main/GsTMDdivF4LFG": {
+      "source": "src/main/matched/GsTMDdivF4LFG.c",
+      "why": "GsOT is a PS1-layout record (ot_work, 20-byte stride in vblank_function; org at +4 as tmd_gte_builders.c reads it) and the divide work area (the scratchpad Work/GsWORK, shared with the retail divide routines) keeps its console layout: OT pointer at +20, slot pointers at +168/+240.  The pointer members become 4-byte cells; the OT bucket address is the console's 32-bit sum (element size written out); the slot pointers are stored as 32-bit handles.  Nothing in the file reads them back.",
+      "edits": [
+        [
+          "    u32    *tag;",
+          "    u32    tag;"
+        ],
+        [
+          "    u32 *org;",
+          "    u32 org;"
+        ],
+        [
+          "    GsSLOT *pslot[4];",
+          "    u32     pslot[4];"
+        ],
+        [
+          "w->pslot[0] = p0;",
+          "w->pslot[0] = (u32)(unsigned long)p0;"
+        ],
+        [
+          "w->pslot[1] = p1;",
+          "w->pslot[1] = (u32)(unsigned long)p1;"
+        ],
+        [
+          "w->pslot[2] = p2;",
+          "w->pslot[2] = (u32)(unsigned long)p2;"
+        ],
+        [
+          "w->pslot[3] = p3;",
+          "w->pslot[3] = (u32)(unsigned long)p3;"
+        ],
+        [
+          "w->tag = ot->org +",
+          "w->tag = ot->org + sizeof(u32) *"
+        ]
+      ]
+    },
+    "main/GsTMDdivF4NL": {
+      "source": "src/main/matched/GsTMDdivF4NL.c",
+      "why": "GsOT is a PS1-layout record (ot_work, 20-byte stride in vblank_function; org at +4 as tmd_gte_builders.c reads it) and the divide work area (the scratchpad Work/GsWORK, shared with the retail divide routines) keeps its console layout: OT pointer at +20, slot pointers at +168/+240.  The pointer members become 4-byte cells; the OT bucket address is the console's 32-bit sum (element size written out); the slot pointers are stored as 32-bit handles.  Nothing in the file reads them back.",
+      "edits": [
+        [
+          "    s32 *ot;",
+          "    u32 ot;"
+        ],
+        [
+          "    s32 *otBase;",
+          "    u32 otBase;"
+        ],
+        [
+          "    WorkSlot *ptr[4];",
+          "    u32       ptr[4];"
+        ],
+        [
+          "work->ptr[0] = p0;",
+          "work->ptr[0] = (u32)(unsigned long)p0;"
+        ],
+        [
+          "work->ptr[1] = p1;",
+          "work->ptr[1] = (u32)(unsigned long)p1;"
+        ],
+        [
+          "work->ptr[2] = p2;",
+          "work->ptr[2] = (u32)(unsigned long)p2;"
+        ],
+        [
+          "work->ptr[3] = p3;",
+          "work->ptr[3] = (u32)(unsigned long)p3;"
+        ],
+        [
+          "work->ot = ctx->otBase +",
+          "work->ot = ctx->otBase + sizeof(s32) *"
+        ]
+      ]
+    },
+    "main/GsTMDdivG3L": {
+      "source": "src/main/matched/GsTMDdivG3L.c",
+      "why": "GsOT is a PS1-layout record (ot_work, 20-byte stride in vblank_function; org at +4 as tmd_gte_builders.c reads it) and the divide work area (the scratchpad Work/GsWORK, shared with the retail divide routines) keeps its console layout: OT pointer at +20, slot pointers at +168/+240.  The pointer members become 4-byte cells; the OT bucket address is the console's 32-bit sum (element size written out); the slot pointers are stored as 32-bit handles.  Nothing in the file reads them back.",
+      "edits": [
+        [
+          "    s32 *ot;",
+          "    u32 ot;"
+        ],
+        [
+          "    s32 *otBase;",
+          "    u32 otBase;"
+        ],
+        [
+          "    WorkSlot *ptr[3];",
+          "    u32       ptr[3];"
+        ],
+        [
+          "work->ptr[0] = p0;",
+          "work->ptr[0] = (u32)(unsigned long)p0;"
+        ],
+        [
+          "work->ptr[1] = p1;",
+          "work->ptr[1] = (u32)(unsigned long)p1;"
+        ],
+        [
+          "work->ptr[2] = p2;",
+          "work->ptr[2] = (u32)(unsigned long)p2;"
+        ],
+        [
+          "work->ot = ctx->otBase +",
+          "work->ot = ctx->otBase + sizeof(s32) *"
+        ]
+      ]
+    },
+    "main/GsTMDdivG3LFG": {
+      "source": "src/main/matched/GsTMDdivG3LFG.c",
+      "why": "GsOT is a PS1-layout record (ot_work, 20-byte stride in vblank_function; org at +4 as tmd_gte_builders.c reads it) and the divide work area (the scratchpad Work/GsWORK, shared with the retail divide routines) keeps its console layout: OT pointer at +20, slot pointers at +168/+240.  The pointer members become 4-byte cells; the OT bucket address is the console's 32-bit sum (element size written out); the slot pointers are stored as 32-bit handles.  Nothing in the file reads them back.",
+      "edits": [
+        [
+          "    s32 *ot;",
+          "    u32 ot;"
+        ],
+        [
+          "    s32 *otBase;",
+          "    u32 otBase;"
+        ],
+        [
+          "    WorkSlot *ptr[3];",
+          "    u32       ptr[3];"
+        ],
+        [
+          "work->ptr[0] = p0;",
+          "work->ptr[0] = (u32)(unsigned long)p0;"
+        ],
+        [
+          "work->ptr[1] = p1;",
+          "work->ptr[1] = (u32)(unsigned long)p1;"
+        ],
+        [
+          "work->ptr[2] = p2;",
+          "work->ptr[2] = (u32)(unsigned long)p2;"
+        ],
+        [
+          "work->ot = ctx->otBase +",
+          "work->ot = ctx->otBase + sizeof(s32) *"
+        ]
+      ]
+    },
+    "main/GsTMDdivG3NL": {
+      "source": "src/main/matched/GsTMDdivG3NL.c",
+      "why": "GsOT is a PS1-layout record (ot_work, 20-byte stride in vblank_function; org at +4 as tmd_gte_builders.c reads it) and the divide work area (the scratchpad Work/GsWORK, shared with the retail divide routines) keeps its console layout: OT pointer at +20, slot pointers at +168/+240.  The pointer members become 4-byte cells; the OT bucket address is the console's 32-bit sum (element size written out); the slot pointers are stored as 32-bit handles.  Nothing in the file reads them back.",
+      "edits": [
+        [
+          "    s32 *ot;",
+          "    u32 ot;"
+        ],
+        [
+          "    s32 *otBase;",
+          "    u32 otBase;"
+        ],
+        [
+          "    WorkSlot *ptr[3];",
+          "    u32       ptr[3];"
+        ],
+        [
+          "work->ptr[0] = p0;",
+          "work->ptr[0] = (u32)(unsigned long)p0;"
+        ],
+        [
+          "work->ptr[1] = p1;",
+          "work->ptr[1] = (u32)(unsigned long)p1;"
+        ],
+        [
+          "work->ptr[2] = p2;",
+          "work->ptr[2] = (u32)(unsigned long)p2;"
+        ],
+        [
+          "work->ot = ctx->otBase +",
+          "work->ot = ctx->otBase + sizeof(s32) *"
+        ]
+      ]
+    },
+    "main/GsTMDdivG4L": {
+      "source": "src/main/matched/GsTMDdivG4L.c",
+      "why": "GsOT is a PS1-layout record (ot_work, 20-byte stride in vblank_function; org at +4 as tmd_gte_builders.c reads it) and the divide work area (the scratchpad Work/GsWORK, shared with the retail divide routines) keeps its console layout: OT pointer at +20, slot pointers at +168/+240.  The pointer members become 4-byte cells; the OT bucket address is the console's 32-bit sum (element size written out); the slot pointers are stored as 32-bit handles.  Nothing in the file reads them back.",
+      "edits": [
+        [
+          "    s32 *ot;",
+          "    u32 ot;"
+        ],
+        [
+          "    s32 *otBase;",
+          "    u32 otBase;"
+        ],
+        [
+          "    WorkSlot *ptr[4];",
+          "    u32       ptr[4];"
+        ],
+        [
+          "work->ptr[0] = p0;",
+          "work->ptr[0] = (u32)(unsigned long)p0;"
+        ],
+        [
+          "work->ptr[1] = p1;",
+          "work->ptr[1] = (u32)(unsigned long)p1;"
+        ],
+        [
+          "work->ptr[2] = p2;",
+          "work->ptr[2] = (u32)(unsigned long)p2;"
+        ],
+        [
+          "work->ptr[3] = p3;",
+          "work->ptr[3] = (u32)(unsigned long)p3;"
+        ],
+        [
+          "work->ot = ctx->otBase +",
+          "work->ot = ctx->otBase + sizeof(s32) *"
+        ]
+      ]
+    },
+    "main/GsTMDdivG4LFG": {
+      "source": "src/main/matched/GsTMDdivG4LFG.c",
+      "why": "GsOT is a PS1-layout record (ot_work, 20-byte stride in vblank_function; org at +4 as tmd_gte_builders.c reads it) and the divide work area (the scratchpad Work/GsWORK, shared with the retail divide routines) keeps its console layout: OT pointer at +20, slot pointers at +168/+240.  The pointer members become 4-byte cells; the OT bucket address is the console's 32-bit sum (element size written out); the slot pointers are stored as 32-bit handles.  Nothing in the file reads them back.",
+      "edits": [
+        [
+          "    s32 *ot;",
+          "    u32 ot;"
+        ],
+        [
+          "    s32 *otBase;",
+          "    u32 otBase;"
+        ],
+        [
+          "    WorkSlot *ptr[4];",
+          "    u32       ptr[4];"
+        ],
+        [
+          "work->ptr[0] = p0;",
+          "work->ptr[0] = (u32)(unsigned long)p0;"
+        ],
+        [
+          "work->ptr[1] = p1;",
+          "work->ptr[1] = (u32)(unsigned long)p1;"
+        ],
+        [
+          "work->ptr[2] = p2;",
+          "work->ptr[2] = (u32)(unsigned long)p2;"
+        ],
+        [
+          "work->ptr[3] = p3;",
+          "work->ptr[3] = (u32)(unsigned long)p3;"
+        ],
+        [
+          "work->ot = ctx->otBase +",
+          "work->ot = ctx->otBase + sizeof(s32) *"
+        ]
+      ]
+    },
+    "main/GsTMDdivG4NL": {
+      "source": "src/main/matched/GsTMDdivG4NL.c",
+      "why": "GsOT is a PS1-layout record (ot_work, 20-byte stride in vblank_function; org at +4 as tmd_gte_builders.c reads it) and the divide work area (the scratchpad Work/GsWORK, shared with the retail divide routines) keeps its console layout: OT pointer at +20, slot pointers at +168/+240.  The pointer members become 4-byte cells; the OT bucket address is the console's 32-bit sum (element size written out); the slot pointers are stored as 32-bit handles.  Nothing in the file reads them back.",
+      "edits": [
+        [
+          "    s32 *ot;",
+          "    u32 ot;"
+        ],
+        [
+          "    s32 *otBase;",
+          "    u32 otBase;"
+        ],
+        [
+          "    WorkSlot *ptr[4];",
+          "    u32       ptr[4];"
+        ],
+        [
+          "work->ptr[0] = p0;",
+          "work->ptr[0] = (u32)(unsigned long)p0;"
+        ],
+        [
+          "work->ptr[1] = p1;",
+          "work->ptr[1] = (u32)(unsigned long)p1;"
+        ],
+        [
+          "work->ptr[2] = p2;",
+          "work->ptr[2] = (u32)(unsigned long)p2;"
+        ],
+        [
+          "work->ptr[3] = p3;",
+          "work->ptr[3] = (u32)(unsigned long)p3;"
+        ],
+        [
+          "work->ot = ctx->otBase +",
+          "work->ot = ctx->otBase + sizeof(s32) *"
+        ]
+      ]
+    },
+    "main/GsTMDdivNF3": {
+      "source": "src/main/matched/GsTMDdivNF3.c",
+      "why": "GsOT is a PS1-layout record (ot_work, 20-byte stride in vblank_function; org at +4 as tmd_gte_builders.c reads it) and the divide work area (the scratchpad Work/GsWORK, shared with the retail divide routines) keeps its console layout: OT pointer at +20, slot pointers at +168/+240.  The pointer members become 4-byte cells; the OT bucket address is the console's 32-bit sum (element size written out); the slot pointers are stored as 32-bit handles.  Nothing in the file reads them back.",
+      "edits": [
+        [
+          "    s32 *ot;",
+          "    u32 ot;"
+        ],
+        [
+          "    s32 *otBase;",
+          "    u32 otBase;"
+        ],
+        [
+          "    WorkSlot *ptr[3];",
+          "    u32       ptr[3];"
+        ],
+        [
+          "work->ptr[0] = p0;",
+          "work->ptr[0] = (u32)(unsigned long)p0;"
+        ],
+        [
+          "work->ptr[1] = p1;",
+          "work->ptr[1] = (u32)(unsigned long)p1;"
+        ],
+        [
+          "work->ptr[2] = p2;",
+          "work->ptr[2] = (u32)(unsigned long)p2;"
+        ],
+        [
+          "work->ot = ctx->otBase +",
+          "work->ot = ctx->otBase + sizeof(s32) *"
+        ]
+      ]
+    },
+    "main/GsTMDdivNF4": {
+      "source": "src/main/matched/GsTMDdivNF4.c",
+      "why": "GsOT is a PS1-layout record (ot_work, 20-byte stride in vblank_function; org at +4 as tmd_gte_builders.c reads it) and the divide work area (the scratchpad Work/GsWORK, shared with the retail divide routines) keeps its console layout: OT pointer at +20, slot pointers at +168/+240.  The pointer members become 4-byte cells; the OT bucket address is the console's 32-bit sum (element size written out); the slot pointers are stored as 32-bit handles.  Nothing in the file reads them back.",
+      "edits": [
+        [
+          "    u32    *tag;",
+          "    u32    tag;"
+        ],
+        [
+          "    u32 *org;",
+          "    u32 org;"
+        ],
+        [
+          "    GsSLOT *pslot[4];",
+          "    u32     pslot[4];"
+        ],
+        [
+          "w->pslot[0] = p0;",
+          "w->pslot[0] = (u32)(unsigned long)p0;"
+        ],
+        [
+          "w->pslot[1] = p1;",
+          "w->pslot[1] = (u32)(unsigned long)p1;"
+        ],
+        [
+          "w->pslot[2] = p2;",
+          "w->pslot[2] = (u32)(unsigned long)p2;"
+        ],
+        [
+          "w->pslot[3] = p3;",
+          "w->pslot[3] = (u32)(unsigned long)p3;"
+        ],
+        [
+          "w->tag = ot->org +",
+          "w->tag = ot->org + sizeof(u32) *"
+        ]
+      ]
+    },
+    "main/GsTMDdivNG3": {
+      "source": "src/main/matched/GsTMDdivNG3.c",
+      "why": "GsOT is a PS1-layout record (ot_work, 20-byte stride in vblank_function; org at +4 as tmd_gte_builders.c reads it) and the divide work area (the scratchpad Work/GsWORK, shared with the retail divide routines) keeps its console layout: OT pointer at +20, slot pointers at +168/+240.  The pointer members become 4-byte cells; the OT bucket address is the console's 32-bit sum (element size written out); the slot pointers are stored as 32-bit handles.  Nothing in the file reads them back.",
+      "edits": [
+        [
+          "    s32 *ot;",
+          "    u32 ot;"
+        ],
+        [
+          "    s32 *otBase;",
+          "    u32 otBase;"
+        ],
+        [
+          "    WorkSlot *ptr[3];",
+          "    u32       ptr[3];"
+        ],
+        [
+          "work->ptr[0] = p0;",
+          "work->ptr[0] = (u32)(unsigned long)p0;"
+        ],
+        [
+          "work->ptr[1] = p1;",
+          "work->ptr[1] = (u32)(unsigned long)p1;"
+        ],
+        [
+          "work->ptr[2] = p2;",
+          "work->ptr[2] = (u32)(unsigned long)p2;"
+        ],
+        [
+          "work->ot = ctx->otBase +",
+          "work->ot = ctx->otBase + sizeof(s32) *"
+        ]
+      ]
+    },
+    "main/GsTMDdivNG4": {
+      "source": "src/main/matched/GsTMDdivNG4.c",
+      "why": "GsOT is a PS1-layout record (ot_work, 20-byte stride in vblank_function; org at +4 as tmd_gte_builders.c reads it) and the divide work area (the scratchpad Work/GsWORK, shared with the retail divide routines) keeps its console layout: OT pointer at +20, slot pointers at +168/+240.  The pointer members become 4-byte cells; the OT bucket address is the console's 32-bit sum (element size written out); the slot pointers are stored as 32-bit handles.  Nothing in the file reads them back.",
+      "edits": [
+        [
+          "    s32 *ot;",
+          "    u32 ot;"
+        ],
+        [
+          "    s32 *otBase;",
+          "    u32 otBase;"
+        ],
+        [
+          "    WorkSlot *ptr[4];",
+          "    u32       ptr[4];"
+        ],
+        [
+          "work->ptr[0] = p0;",
+          "work->ptr[0] = (u32)(unsigned long)p0;"
+        ],
+        [
+          "work->ptr[1] = p1;",
+          "work->ptr[1] = (u32)(unsigned long)p1;"
+        ],
+        [
+          "work->ptr[2] = p2;",
+          "work->ptr[2] = (u32)(unsigned long)p2;"
+        ],
+        [
+          "work->ptr[3] = p3;",
+          "work->ptr[3] = (u32)(unsigned long)p3;"
+        ],
+        [
+          "work->ot = ctx->otBase +",
+          "work->ot = ctx->otBase + sizeof(s32) *"
+        ]
+      ]
+    },
+    "main/GsTMDdivTF3L": {
+      "source": "src/main/matched/GsTMDdivTF3L.c",
+      "why": "GsOT is a PS1-layout record (ot_work, 20-byte stride in vblank_function; org at +4 as tmd_gte_builders.c reads it) and the divide work area (the scratchpad Work/GsWORK, shared with the retail divide routines) keeps its console layout: OT pointer at +20, slot pointers at +168/+240.  The pointer members become 4-byte cells; the OT bucket address is the console's 32-bit sum (element size written out); the slot pointers are stored as 32-bit handles.  Nothing in the file reads them back.",
+      "edits": [
+        [
+          "    s32 *ot;",
+          "    u32 ot;"
+        ],
+        [
+          "    s32 *otBase;",
+          "    u32 otBase;"
+        ],
+        [
+          "    WorkSlot *ptr[3];",
+          "    u32       ptr[3];"
+        ],
+        [
+          "work->ptr[0] = p0;",
+          "work->ptr[0] = (u32)(unsigned long)p0;"
+        ],
+        [
+          "work->ptr[1] = p1;",
+          "work->ptr[1] = (u32)(unsigned long)p1;"
+        ],
+        [
+          "work->ptr[2] = p2;",
+          "work->ptr[2] = (u32)(unsigned long)p2;"
+        ],
+        [
+          "work->ot = ctx->otBase +",
+          "work->ot = ctx->otBase + sizeof(s32) *",
+          2
+        ]
+      ]
+    },
+    "main/GsTMDdivTF3LFG": {
+      "source": "src/main/matched/GsTMDdivTF3LFG.c",
+      "why": "GsOT is a PS1-layout record (ot_work, 20-byte stride in vblank_function; org at +4 as tmd_gte_builders.c reads it) and the divide work area (the scratchpad Work/GsWORK, shared with the retail divide routines) keeps its console layout: OT pointer at +20, slot pointers at +168/+240.  The pointer members become 4-byte cells; the OT bucket address is the console's 32-bit sum (element size written out); the slot pointers are stored as 32-bit handles.  Nothing in the file reads them back.",
+      "edits": [
+        [
+          "    s32 *ot;",
+          "    u32 ot;"
+        ],
+        [
+          "    s32 *otBase;",
+          "    u32 otBase;"
+        ],
+        [
+          "    WorkSlot *ptr[3];",
+          "    u32       ptr[3];"
+        ],
+        [
+          "work->ptr[0] = p0;",
+          "work->ptr[0] = (u32)(unsigned long)p0;"
+        ],
+        [
+          "work->ptr[1] = p1;",
+          "work->ptr[1] = (u32)(unsigned long)p1;"
+        ],
+        [
+          "work->ptr[2] = p2;",
+          "work->ptr[2] = (u32)(unsigned long)p2;"
+        ],
+        [
+          "work->ot = ctx->otBase +",
+          "work->ot = ctx->otBase + sizeof(s32) *",
+          2
+        ]
+      ]
+    },
+    "main/GsTMDdivTF3NL": {
+      "source": "src/main/matched/GsTMDdivTF3NL.c",
+      "why": "GsOT is a PS1-layout record (ot_work, 20-byte stride in vblank_function; org at +4 as tmd_gte_builders.c reads it) and the divide work area (the scratchpad Work/GsWORK, shared with the retail divide routines) keeps its console layout: OT pointer at +20, slot pointers at +168/+240.  The pointer members become 4-byte cells; the OT bucket address is the console's 32-bit sum (element size written out); the slot pointers are stored as 32-bit handles.  Nothing in the file reads them back.",
+      "edits": [
+        [
+          "    s32 *ot;",
+          "    u32 ot;"
+        ],
+        [
+          "    s32 *otBase;",
+          "    u32 otBase;"
+        ],
+        [
+          "    WorkSlot *ptr[3];",
+          "    u32       ptr[3];"
+        ],
+        [
+          "work->ptr[0] = p0;",
+          "work->ptr[0] = (u32)(unsigned long)p0;"
+        ],
+        [
+          "work->ptr[1] = p1;",
+          "work->ptr[1] = (u32)(unsigned long)p1;"
+        ],
+        [
+          "work->ptr[2] = p2;",
+          "work->ptr[2] = (u32)(unsigned long)p2;"
+        ],
+        [
+          "work->ot = ctx->otBase +",
+          "work->ot = ctx->otBase + sizeof(s32) *",
+          2
+        ]
+      ]
+    },
+    "main/GsTMDdivTF4L": {
+      "source": "src/main/matched/GsTMDdivTF4L.c",
+      "why": "GsOT is a PS1-layout record (ot_work, 20-byte stride in vblank_function; org at +4 as tmd_gte_builders.c reads it) and the divide work area (the scratchpad Work/GsWORK, shared with the retail divide routines) keeps its console layout: OT pointer at +20, slot pointers at +168/+240.  The pointer members become 4-byte cells; the OT bucket address is the console's 32-bit sum (element size written out); the slot pointers are stored as 32-bit handles.  Nothing in the file reads them back.",
+      "edits": [
+        [
+          "    s32 *ot;",
+          "    u32 ot;"
+        ],
+        [
+          "    s32 *otBase;",
+          "    u32 otBase;"
+        ],
+        [
+          "    WorkSlot *ptr[4];",
+          "    u32       ptr[4];"
+        ],
+        [
+          "work->ptr[0] = p0;",
+          "work->ptr[0] = (u32)(unsigned long)p0;"
+        ],
+        [
+          "work->ptr[1] = p1;",
+          "work->ptr[1] = (u32)(unsigned long)p1;"
+        ],
+        [
+          "work->ptr[2] = p2;",
+          "work->ptr[2] = (u32)(unsigned long)p2;"
+        ],
+        [
+          "work->ptr[3] = p3;",
+          "work->ptr[3] = (u32)(unsigned long)p3;"
+        ],
+        [
+          "work->ot = ctx->otBase +",
+          "work->ot = ctx->otBase + sizeof(s32) *"
+        ]
+      ]
+    },
+    "main/GsTMDdivTF4LFG": {
+      "source": "src/main/matched/GsTMDdivTF4LFG.c",
+      "why": "GsOT is a PS1-layout record (ot_work, 20-byte stride in vblank_function; org at +4 as tmd_gte_builders.c reads it) and the divide work area (the scratchpad Work/GsWORK, shared with the retail divide routines) keeps its console layout: OT pointer at +20, slot pointers at +168/+240.  The pointer members become 4-byte cells; the OT bucket address is the console's 32-bit sum (element size written out); the slot pointers are stored as 32-bit handles.  Nothing in the file reads them back.",
+      "edits": [
+        [
+          "    s32 *ot;",
+          "    u32 ot;"
+        ],
+        [
+          "    s32 *otBase;",
+          "    u32 otBase;"
+        ],
+        [
+          "    WorkSlot *ptr[4];",
+          "    u32       ptr[4];"
+        ],
+        [
+          "work->ptr[0] = p0;",
+          "work->ptr[0] = (u32)(unsigned long)p0;"
+        ],
+        [
+          "work->ptr[1] = p1;",
+          "work->ptr[1] = (u32)(unsigned long)p1;"
+        ],
+        [
+          "work->ptr[2] = p2;",
+          "work->ptr[2] = (u32)(unsigned long)p2;"
+        ],
+        [
+          "work->ptr[3] = p3;",
+          "work->ptr[3] = (u32)(unsigned long)p3;"
+        ],
+        [
+          "work->ot = ctx->otBase +",
+          "work->ot = ctx->otBase + sizeof(s32) *"
+        ]
+      ]
+    },
+    "main/GsTMDdivTF4NL": {
+      "source": "src/main/matched/GsTMDdivTF4NL.c",
+      "why": "GsOT is a PS1-layout record (ot_work, 20-byte stride in vblank_function; org at +4 as tmd_gte_builders.c reads it) and the divide work area (the scratchpad Work/GsWORK, shared with the retail divide routines) keeps its console layout: OT pointer at +20, slot pointers at +168/+240.  The pointer members become 4-byte cells; the OT bucket address is the console's 32-bit sum (element size written out); the slot pointers are stored as 32-bit handles.  Nothing in the file reads them back.",
+      "edits": [
+        [
+          "    s32 *ot;",
+          "    u32 ot;"
+        ],
+        [
+          "    s32 *otBase;",
+          "    u32 otBase;"
+        ],
+        [
+          "    WorkSlot *ptr[4];",
+          "    u32       ptr[4];"
+        ],
+        [
+          "work->ptr[0] = p0;",
+          "work->ptr[0] = (u32)(unsigned long)p0;"
+        ],
+        [
+          "work->ptr[1] = p1;",
+          "work->ptr[1] = (u32)(unsigned long)p1;"
+        ],
+        [
+          "work->ptr[2] = p2;",
+          "work->ptr[2] = (u32)(unsigned long)p2;"
+        ],
+        [
+          "work->ptr[3] = p3;",
+          "work->ptr[3] = (u32)(unsigned long)p3;"
+        ],
+        [
+          "work->ot = ctx->otBase +",
+          "work->ot = ctx->otBase + sizeof(s32) *"
+        ]
+      ]
+    },
+    "main/GsTMDdivTG3L": {
+      "source": "src/main/matched/GsTMDdivTG3L.c",
+      "why": "GsOT is a PS1-layout record (ot_work, 20-byte stride in vblank_function; org at +4 as tmd_gte_builders.c reads it) and the divide work area (the scratchpad Work/GsWORK, shared with the retail divide routines) keeps its console layout: OT pointer at +20, slot pointers at +168/+240.  The pointer members become 4-byte cells; the OT bucket address is the console's 32-bit sum (element size written out); the slot pointers are stored as 32-bit handles.  Nothing in the file reads them back.",
+      "edits": [
+        [
+          "    s32 *ot;",
+          "    u32 ot;"
+        ],
+        [
+          "    s32 *otBase;",
+          "    u32 otBase;"
+        ],
+        [
+          "    WorkSlot *ptr[3];",
+          "    u32       ptr[3];"
+        ],
+        [
+          "work->ptr[0] = p0;",
+          "work->ptr[0] = (u32)(unsigned long)p0;"
+        ],
+        [
+          "work->ptr[1] = p1;",
+          "work->ptr[1] = (u32)(unsigned long)p1;"
+        ],
+        [
+          "work->ptr[2] = p2;",
+          "work->ptr[2] = (u32)(unsigned long)p2;"
+        ],
+        [
+          "work->ot = ctx->otBase +",
+          "work->ot = ctx->otBase + sizeof(s32) *"
+        ]
+      ]
+    },
+    "main/GsTMDdivTG3LFG": {
+      "source": "src/main/matched/GsTMDdivTG3LFG.c",
+      "why": "GsOT is a PS1-layout record (ot_work, 20-byte stride in vblank_function; org at +4 as tmd_gte_builders.c reads it) and the divide work area (the scratchpad Work/GsWORK, shared with the retail divide routines) keeps its console layout: OT pointer at +20, slot pointers at +168/+240.  The pointer members become 4-byte cells; the OT bucket address is the console's 32-bit sum (element size written out); the slot pointers are stored as 32-bit handles.  Nothing in the file reads them back.",
+      "edits": [
+        [
+          "    u32     *tag;",
+          "    u32     tag;"
+        ],
+        [
+          "    u32 *org;",
+          "    u32 org;"
+        ],
+        [
+          "w->pslot[0] = p0;",
+          "w->pslot[0] = (u32)(unsigned long)p0;"
+        ],
+        [
+          "w->pslot[1] = p1;",
+          "w->pslot[1] = (u32)(unsigned long)p1;"
+        ],
+        [
+          "w->pslot[2] = p2;",
+          "w->pslot[2] = (u32)(unsigned long)p2;"
+        ],
+        [
+          "w->tag = ot->org +",
+          "w->tag = ot->org + sizeof(u32) *"
+        ]
+      ]
+    },
+    "main/GsTMDdivTG3NL": {
+      "source": "src/main/matched/GsTMDdivTG3NL.c",
+      "why": "GsOT is a PS1-layout record (ot_work, 20-byte stride in vblank_function; org at +4 as tmd_gte_builders.c reads it) and the divide work area (the scratchpad Work/GsWORK, shared with the retail divide routines) keeps its console layout: OT pointer at +20, slot pointers at +168/+240.  The pointer members become 4-byte cells; the OT bucket address is the console's 32-bit sum (element size written out); the slot pointers are stored as 32-bit handles.  Nothing in the file reads them back.",
+      "edits": [
+        [
+          "    s32 *ot;",
+          "    u32 ot;"
+        ],
+        [
+          "    s32 *otBase;",
+          "    u32 otBase;"
+        ],
+        [
+          "    WorkSlot *ptr[3];",
+          "    u32       ptr[3];"
+        ],
+        [
+          "work->ptr[0] = p0;",
+          "work->ptr[0] = (u32)(unsigned long)p0;"
+        ],
+        [
+          "work->ptr[1] = p1;",
+          "work->ptr[1] = (u32)(unsigned long)p1;"
+        ],
+        [
+          "work->ptr[2] = p2;",
+          "work->ptr[2] = (u32)(unsigned long)p2;"
+        ],
+        [
+          "work->ot = ctx->otBase +",
+          "work->ot = ctx->otBase + sizeof(s32) *"
+        ]
+      ]
+    },
+    "main/GsTMDdivTG4L": {
+      "source": "src/main/matched/GsTMDdivTG4L.c",
+      "why": "GsOT is a PS1-layout record (ot_work, 20-byte stride in vblank_function; org at +4 as tmd_gte_builders.c reads it) and the divide work area (the scratchpad Work/GsWORK, shared with the retail divide routines) keeps its console layout: OT pointer at +20, slot pointers at +168/+240.  The pointer members become 4-byte cells; the OT bucket address is the console's 32-bit sum (element size written out); the slot pointers are stored as 32-bit handles.  Nothing in the file reads them back.",
+      "edits": [
+        [
+          "    s32 *ot;",
+          "    u32 ot;"
+        ],
+        [
+          "    s32 *otBase;",
+          "    u32 otBase;"
+        ],
+        [
+          "    WorkSlot *ptr[4];",
+          "    u32       ptr[4];"
+        ],
+        [
+          "work->ptr[0] = p0;",
+          "work->ptr[0] = (u32)(unsigned long)p0;"
+        ],
+        [
+          "work->ptr[1] = p1;",
+          "work->ptr[1] = (u32)(unsigned long)p1;"
+        ],
+        [
+          "work->ptr[2] = p2;",
+          "work->ptr[2] = (u32)(unsigned long)p2;"
+        ],
+        [
+          "work->ptr[3] = p3;",
+          "work->ptr[3] = (u32)(unsigned long)p3;"
+        ],
+        [
+          "work->ot = ctx->otBase +",
+          "work->ot = ctx->otBase + sizeof(s32) *"
+        ]
+      ]
+    },
+    "main/GsTMDdivTG4LFG": {
+      "source": "src/main/matched/GsTMDdivTG4LFG.c",
+      "why": "GsOT is a PS1-layout record (ot_work, 20-byte stride in vblank_function; org at +4 as tmd_gte_builders.c reads it) and the divide work area (the scratchpad Work/GsWORK, shared with the retail divide routines) keeps its console layout: OT pointer at +20, slot pointers at +168/+240.  The pointer members become 4-byte cells; the OT bucket address is the console's 32-bit sum (element size written out); the slot pointers are stored as 32-bit handles.  Nothing in the file reads them back.",
+      "edits": [
+        [
+          "    s32 *ot;",
+          "    u32 ot;"
+        ],
+        [
+          "    s32 *otBase;",
+          "    u32 otBase;"
+        ],
+        [
+          "    WorkSlot *ptr[4];",
+          "    u32       ptr[4];"
+        ],
+        [
+          "work->ptr[0] = p0;",
+          "work->ptr[0] = (u32)(unsigned long)p0;"
+        ],
+        [
+          "work->ptr[1] = p1;",
+          "work->ptr[1] = (u32)(unsigned long)p1;"
+        ],
+        [
+          "work->ptr[2] = p2;",
+          "work->ptr[2] = (u32)(unsigned long)p2;"
+        ],
+        [
+          "work->ptr[3] = p3;",
+          "work->ptr[3] = (u32)(unsigned long)p3;"
+        ],
+        [
+          "work->ot = ctx->otBase +",
+          "work->ot = ctx->otBase + sizeof(s32) *"
+        ]
+      ]
+    },
+    "main/GsTMDdivTG4NL": {
+      "source": "src/main/matched/GsTMDdivTG4NL.c",
+      "why": "GsOT is a PS1-layout record (ot_work, 20-byte stride in vblank_function; org at +4 as tmd_gte_builders.c reads it) and the divide work area (the scratchpad Work/GsWORK, shared with the retail divide routines) keeps its console layout: OT pointer at +20, slot pointers at +168/+240.  The pointer members become 4-byte cells; the OT bucket address is the console's 32-bit sum (element size written out); the slot pointers are stored as 32-bit handles.  Nothing in the file reads them back.",
+      "edits": [
+        [
+          "    u32     *tag;",
+          "    u32     tag;"
+        ],
+        [
+          "    u32 *org;",
+          "    u32 org;"
+        ],
+        [
+          "w->pslot[0] = p0;",
+          "w->pslot[0] = (u32)(unsigned long)p0;"
+        ],
+        [
+          "w->pslot[1] = p1;",
+          "w->pslot[1] = (u32)(unsigned long)p1;"
+        ],
+        [
+          "w->pslot[2] = p2;",
+          "w->pslot[2] = (u32)(unsigned long)p2;"
+        ],
+        [
+          "w->pslot[3] = p3;",
+          "w->pslot[3] = (u32)(unsigned long)p3;"
+        ],
+        [
+          "w->tag = ot->org +",
+          "w->tag = ot->org + sizeof(u32) *"
+        ]
+      ]
+    },
+    "main/GsTMDdivTNF3": {
+      "source": "src/main/matched/GsTMDdivTNF3.c",
+      "why": "GsOT is a PS1-layout record (ot_work, 20-byte stride in vblank_function; org at +4 as tmd_gte_builders.c reads it) and the divide work area (the scratchpad Work/GsWORK, shared with the retail divide routines) keeps its console layout: OT pointer at +20, slot pointers at +168/+240.  The pointer members become 4-byte cells; the OT bucket address is the console's 32-bit sum (element size written out); the slot pointers are stored as 32-bit handles.  Nothing in the file reads them back.",
+      "edits": [
+        [
+          "    s32 *ot;",
+          "    u32 ot;"
+        ],
+        [
+          "    s32 *otBase;",
+          "    u32 otBase;"
+        ],
+        [
+          "    WorkSlot *ptr[3];",
+          "    u32       ptr[3];"
+        ],
+        [
+          "work->ptr[0] = p0;",
+          "work->ptr[0] = (u32)(unsigned long)p0;"
+        ],
+        [
+          "work->ptr[1] = p1;",
+          "work->ptr[1] = (u32)(unsigned long)p1;"
+        ],
+        [
+          "work->ptr[2] = p2;",
+          "work->ptr[2] = (u32)(unsigned long)p2;"
+        ],
+        [
+          "work->ot = ctx->otBase +",
+          "work->ot = ctx->otBase + sizeof(s32) *",
+          2
+        ]
+      ]
+    },
+    "main/GsTMDdivTNF4": {
+      "source": "src/main/matched/GsTMDdivTNF4.c",
+      "why": "GsOT is a PS1-layout record (ot_work, 20-byte stride in vblank_function; org at +4 as tmd_gte_builders.c reads it) and the divide work area (the scratchpad Work/GsWORK, shared with the retail divide routines) keeps its console layout: OT pointer at +20, slot pointers at +168/+240.  The pointer members become 4-byte cells; the OT bucket address is the console's 32-bit sum (element size written out); the slot pointers are stored as 32-bit handles.  Nothing in the file reads them back.",
+      "edits": [
+        [
+          "    s32 *ot;",
+          "    u32 ot;"
+        ],
+        [
+          "    s32 *otBase;",
+          "    u32 otBase;"
+        ],
+        [
+          "    WorkSlot *ptr[4];",
+          "    u32       ptr[4];"
+        ],
+        [
+          "work->ptr[0] = p0;",
+          "work->ptr[0] = (u32)(unsigned long)p0;"
+        ],
+        [
+          "work->ptr[1] = p1;",
+          "work->ptr[1] = (u32)(unsigned long)p1;"
+        ],
+        [
+          "work->ptr[2] = p2;",
+          "work->ptr[2] = (u32)(unsigned long)p2;"
+        ],
+        [
+          "work->ptr[3] = p3;",
+          "work->ptr[3] = (u32)(unsigned long)p3;"
+        ],
+        [
+          "work->ot = ctx->otBase +",
+          "work->ot = ctx->otBase + sizeof(s32) *"
+        ]
+      ]
+    },
+    "main/GsTMDdivTNG3": {
+      "source": "src/main/matched/GsTMDdivTNG3.c",
+      "why": "GsOT is a PS1-layout record (ot_work, 20-byte stride in vblank_function; org at +4 as tmd_gte_builders.c reads it) and the divide work area (the scratchpad Work/GsWORK, shared with the retail divide routines) keeps its console layout: OT pointer at +20, slot pointers at +168/+240.  The pointer members become 4-byte cells; the OT bucket address is the console's 32-bit sum (element size written out); the slot pointers are stored as 32-bit handles.  Nothing in the file reads them back.",
+      "edits": [
+        [
+          "    s32 *ot;",
+          "    u32 ot;"
+        ],
+        [
+          "    s32 *otBase;",
+          "    u32 otBase;"
+        ],
+        [
+          "    WorkSlot *ptr[3];",
+          "    u32       ptr[3];"
+        ],
+        [
+          "work->ptr[0] = p0;",
+          "work->ptr[0] = (u32)(unsigned long)p0;"
+        ],
+        [
+          "work->ptr[1] = p1;",
+          "work->ptr[1] = (u32)(unsigned long)p1;"
+        ],
+        [
+          "work->ptr[2] = p2;",
+          "work->ptr[2] = (u32)(unsigned long)p2;"
+        ],
+        [
+          "work->ot = ctx->otBase +",
+          "work->ot = ctx->otBase + sizeof(s32) *"
+        ]
+      ]
+    },
+    "main/GsTMDdivTNG4": {
+      "source": "src/main/matched/GsTMDdivTNG4.c",
+      "why": "GsOT is a PS1-layout record (ot_work, 20-byte stride in vblank_function; org at +4 as tmd_gte_builders.c reads it) and the divide work area (the scratchpad Work/GsWORK, shared with the retail divide routines) keeps its console layout: OT pointer at +20, slot pointers at +168/+240.  The pointer members become 4-byte cells; the OT bucket address is the console's 32-bit sum (element size written out); the slot pointers are stored as 32-bit handles.  Nothing in the file reads them back.",
+      "edits": [
+        [
+          "    s32 *ot;",
+          "    u32 ot;"
+        ],
+        [
+          "    s32 *otBase;",
+          "    u32 otBase;"
+        ],
+        [
+          "    WorkSlot *ptr[4];",
+          "    u32       ptr[4];"
+        ],
+        [
+          "work->ptr[0] = p0;",
+          "work->ptr[0] = (u32)(unsigned long)p0;"
+        ],
+        [
+          "work->ptr[1] = p1;",
+          "work->ptr[1] = (u32)(unsigned long)p1;"
+        ],
+        [
+          "work->ptr[2] = p2;",
+          "work->ptr[2] = (u32)(unsigned long)p2;"
+        ],
+        [
+          "work->ptr[3] = p3;",
+          "work->ptr[3] = (u32)(unsigned long)p3;"
+        ],
+        [
+          "work->ot = ctx->otBase +",
+          "work->ot = ctx->otBase + sizeof(s32) *"
+        ]
+      ]
+    },
+    "main/DivideG3": {
+      "source": "src/main/matched/DivideG3.c",
+      "why": "GsOT is a PS1-layout record (ot_work, 20-byte stride in vblank_function; org at +4 as tmd_gte_builders.c reads it) and the divide work area (the scratchpad Work/GsWORK, shared with the retail divide routines) keeps its console layout: OT pointer at +20, slot pointers at +168/+240.  The pointer members become 4-byte cells; the OT bucket address is the console's 32-bit sum (element size written out); the slot pointers are stored as 32-bit handles.  Nothing in the file reads them back.",
+      "edits": [
+        [
+          "    s32 *ot;",
+          "    u32 ot;"
+        ],
+        [
+          "    WorkSlot *ptr[3];",
+          "    u32       ptr[3];"
+        ],
+        [
+          "work->ptr[0] = p0;",
+          "work->ptr[0] = (u32)(unsigned long)p0;"
+        ],
+        [
+          "work->ptr[1] = p1;",
+          "work->ptr[1] = (u32)(unsigned long)p1;"
+        ],
+        [
+          "work->ptr[2] = p2;",
+          "work->ptr[2] = (u32)(unsigned long)p2;"
+        ],
+        [
+          "        work->ot = ot;",
+          "        work->ot = (u32)(unsigned long)ot;"
+        ]
+      ]
+    },
+    "main/get_dstack": {
+      "source": "src/main/matched/get_dstack.c",
+      "why": "GsCOORD0 (the old GsCOORDINATE: super at +32, sub at +36) and the 40-byte matrix-stack records at GsDSTACK (coordinate at +4; GsGetObjLw walks them at a 40-byte stride) are PS1 memory: the links become 4-byte cells, read back zero-extended; the chain cursor `*pp` is the caller's 4-byte cell (GsGetObjLw passes &tmp, an s32), so it is read and written 4 bytes wide",
+      "edits": [
+        [
+          "    struct GsCOORD0 *super;",
+          "    u32 super;"
+        ],
+        [
+          "    struct GsCOORD0 *sub;",
+          "    u32 sub;"
+        ],
+        [
+          "    GsCOORD0 *coord;",
+          "    u32 coord;"
+        ],
+        [
+          "s32 get_dstack(GsCOORD0 **pp) {",
+          "s32 get_dstack(u32 *pp) {"
+        ],
+        [
+          "    for (i = 0; *pp != 0; i++) {",
+          "    for (i = 0; *pp != 0; i++) {"
+        ],
+        [
+          "        if (*pp == (GsCOORD0 *)1) {",
+          "        if (*pp == 1) {"
+        ],
+        [
+          "*pp = (*pp)->super;",
+          "*pp = ((GsCOORD0 *)(unsigned long)*pp)->super;"
+        ]
+      ]
+    },
+    "main/get_dstack2": {
+      "source": "src/main/matched/get_dstack2.c",
+      "why": "GsCOORD0 (the old GsCOORDINATE: super at +32, sub at +36) and the 40-byte matrix-stack records at GsDSTACK (coordinate at +4; GsGetObjLw walks them at a 40-byte stride) are PS1 memory: the links become 4-byte cells, read back zero-extended",
+      "edits": [
+        [
+          "    struct GsCOORD0 *super;",
+          "    u32 super;"
+        ],
+        [
+          "    struct GsCOORD0 *sub;",
+          "    u32 sub;"
+        ],
+        [
+          "    GsCOORD0 *coord;",
+          "    u32 coord;"
+        ],
+        [
+          "        GsDSTACK[i].coord = c;",
+          "        GsDSTACK[i].coord = (u32)(unsigned long)c;"
+        ],
+        [
+          "        c = c->super;",
+          "        c = (GsCOORD0 *)(unsigned long)c->super;"
+        ]
+      ]
+    },
+    "main/GsInitCoordinate": {
+      "source": "src/main/matched/GsInitCoordinate.c",
+      "why": "GsCOORD0 (the old GsCOORDINATE: super at +32, sub at +36) and the 40-byte matrix-stack records at GsDSTACK (coordinate at +4; GsGetObjLw walks them at a 40-byte stride) are PS1 memory: the links become 4-byte cells, read back zero-extended",
+      "edits": [
+        [
+          "    struct GsCOORD0 *super;",
+          "    u32 super;"
+        ],
+        [
+          "    struct GsCOORD0 *sub;",
+          "    u32 sub;"
+        ],
+        [
+          "    base->super = super;",
+          "    base->super = (u32)(unsigned long)super;"
+        ],
+        [
+          "        super->sub = base;",
+          "        super->sub = (u32)(unsigned long)base;"
+        ]
+      ]
+    },
+    "main/GsSetRefView": {
+      "source": "src/main/matched/GsSetRefView.c",
+      "why": "GsRVIEW2.super is a 32-bit GsCOORDINATE2 handle at +28 on the console (the pc-port GsSetRefView2 reads it the same way)",
+      "edits": [
+        [
+          "    void *super;\n} GsRVIEW2;",
+          "    u32 super;\n} GsRVIEW2;"
+        ],
+        [
+          "    n = get_dstack2(view->super);",
+          "    n = get_dstack2((void *)(unsigned long)view->super);"
+        ]
+      ]
+    },
+    "main/GsLinkObject": {
+      "source": "src/main/matched/GsLinkObject.c",
+      "why": "the 112-byte coordinate record keeps its console layout: p100 / p104 / link are 32-bit cells at +100 / +104 / +108",
+      "edits": [
+        [
+          "    void *p100;",
+          "    u32 p100;"
+        ],
+        [
+          "    void *p104;",
+          "    u32 p104;"
+        ],
+        [
+          "    Ent28 *link;",
+          "    u32 link;"
+        ],
+        [
+          "    o->link = &tbl[idx];",
+          "    o->link = (u32)(unsigned long)&tbl[idx];"
+        ]
+      ]
+    },
+    "main/GsLinkObject2": {
+      "source": "src/main/matched/GsLinkObject2.c",
+      "why": "the element pointer is a 32-bit cell at +8 of the console record",
+      "edits": [
+        [
+          "    Elem28 *cur;",
+          "    u32 cur;"
+        ],
+        [
+          "    c->cur = base + n;",
+          "    c->cur = (u32)(unsigned long)(base + n);"
+        ]
+      ]
+    },
+    "main/mul_dmat": {
+      "source": "src/main/matched/mul_dmat.c",
+      "why": "the 40-byte matrix-stack record at GsDSTACK: coordinate at +4 (a 4-byte cell, get_dstack writes it), the cached matrix at +8",
+      "edits": [
+        [
+          "    s32 *dataPtr;",
+          "    u32 dataPtr;"
+        ],
+        [
+          "a1->dataPtr",
+          "((s32 *)(unsigned long)a1->dataPtr)",
+          7
+        ]
+      ]
+    },
+    "main/mul_dmat_light": {
+      "source": "src/main/matched/mul_dmat_light.c",
+      "why": "the 40-byte matrix-stack record at GsDSTACK: coordinate at +4 (a 4-byte cell, get_dstack writes it)",
+      "edits": [
+        [
+          "    s32 *field_04;",
+          "    u32 field_04;"
+        ],
+        [
+          "    gte_rotate_y_matrix(arg0, ((s32 *)arg1->field_04)[1]);",
+          "    gte_rotate_y_matrix(arg0, ((s32 *)(unsigned long)arg1->field_04)[1]);"
+        ],
+        [
+          "    gte_rotate_x_matrix(arg0, ((s32 *)arg1->field_04)[0]);",
+          "    gte_rotate_x_matrix(arg0, ((s32 *)(unsigned long)arg1->field_04)[0]);"
+        ],
+        [
+          "    gte_rotate_z_matrix(arg0, ((s32 *)arg1->field_04)[2]);",
+          "    gte_rotate_z_matrix(arg0, ((s32 *)(unsigned long)arg1->field_04)[2]);"
+        ]
+      ]
+    },
+    "main/mul_rdmat": {
+      "source": "src/main/matched/mul_rdmat.c",
+      "why": "the 40-byte matrix-stack record at GsDSTACK (GsSetRefView walks it at a 40-byte stride): coordinate at +4, a 4-byte cell get_dstack2 writes",
+      "edits": [
+        [
+          "    ObjRec_ *rec;",
+          "    u32 rec;"
+        ],
+        [
+          "o->rec->",
+          "((ObjRec_ *)(unsigned long)o->rec)->",
+          7
+        ]
+      ]
+    },
+    "main/bustup_sprite_init": {
+      "source": "src/main/matched/bustup_sprite_init.c",
+      "why": "arg2 is the bust-up image block whose first word is a 4-byte PS1 pointer cell (the frame table); `p = *arg2` read it 8 bytes wide (UBSan, scenes 80 / 91).  Read as a cell, zero-extended",
+      "edits": [
+        [
+          "    p = *arg2;",
+          "    p = (s16 *)(unsigned long)*(u32 *)arg2;"
+        ]
+      ]
+    },
+    "main/msg_str_disp": {
+      "source": "src/main/matched/msg_str_disp.c",
+      "why": "The console's frame (0x80081398: addiu sp,-0x2f8; prefix at sp+0x84, buf at sp+0x8c, tmpBuf at sp+0x28c, work at sp+0x2a4) puts tmpBuf right after buf[512], so strcpy(buf, str) of a longer message runs on into tmpBuf, which every reader rewrites first (strcpy/sprintf): harmless there.  Rei's ending epilogue (ENDING ending_result_disp) passes a 530-byte message: on the port GCC's frame put the stack canary after buf and the run aborted (stack smashing, found by the checkpoint suite, end_12_rei).  The three buffers become one record in the console's order; prefix stays a local.",
+      "edits": [
+        [
+          "    u8 work[64];\n    u8 tmpBuf[24];\n    u8 buf[512];\n    u8 prefix[8];\n",
+          "    u8 prefix[8]; struct { u8 buf[512]; u8 tmpBuf[24]; u8 work[64]; } pc_fr; /* sp+0x8c.. */\n#define buf pc_fr.buf\n#define tmpBuf pc_fr.tmpBuf\n#define work pc_fr.work\n"
+        ]
+      ]
+    },
+    "ENDING/ending_serifu_cmd": {
+      "why": "tbl (the caller's sss_so, a PS1 address) is a table of 4-byte PS1 row pointers, each a table of 4-byte entry pointers; declared `s32 ***tbl`, the PC build read tbl[row] and [col] 8 bytes wide (two console cells as one pointer) on the portrait arm (cases 1 / 12 / ..): the UBSan explorer run card-end_00_shiori-s3 reported a null s32 load at each `tbl[row][col][0]`.  The parameter is an s32 (the caller passes sss_so, an s32, through the generator's unprototyped view of this K&R definition) and each level is read as a 4-byte cell and zero-extended, as the console's lw does.",
+      "edits": [
+        [
+          "s32 ***tbl;",
+          "s32 tbl;"
+        ],
+        [
+          "(tbl[row][col][0]",
+          "(((s32 *)(unsigned long)((u32 *)(unsigned long)((u32 *)(unsigned long)(u32)tbl)[row])[col])[0]",
+          4
+        ],
+        [
+          "ent = tbl[row][col];",
+          "ent = ((s32 *)(unsigned long)((u32 *)(unsigned long)((u32 *)(unsigned long)(u32)tbl)[row])[col]);",
+          4
+        ]
+      ]
+    },
+    "DATE2/date2_serifu_prefix_set": {
+      "why": "pp is a PS1 cell (ss_serifu's entry +4, a 4-byte pointer to the serifu's string pointer); `p = *pp` read the u8 * 8 bytes wide, so the console's next cell became the pointer's high half.  Read as a 4-byte cell and zero-extended (found reading the explorer's ENDING finding's siblings, 2026-11-01).",
+      "edits": [
+        [
+          "        p = *pp;",
+          "        p = (u8 *)(unsigned long)*(u32 *)pp;",
+          2
+        ]
+      ]
+    },
+    "TACO/taco_fan_disp": {
+      "why": "`out` is the caller's `s32 buf[40]` (taco_burst_disp, 160 bytes at sp+64 of the console's 224-byte frame): forty 4-byte PS1 primitive handles.  Declared `Prim **out` and walked with q++, the PC build stored forty 8-byte pointers, 320 bytes, past the buffer: the stack protector aborted the port in TACO's game (explorer, card-ev_final_taco98-s2, sub-step 11).  Each cell is a 4-byte handle, zero-extended where it is used.",
+      "edits": [
+        [
+          "Prim **out;",
+          "u32 *out;"
+        ],
+        [
+          "    Prim **q;",
+          "    u32 *q;"
+        ],
+        [
+          "        *q = prim_alloc(28, activeBuff);",
+          "        *q = (u32)(unsigned long)prim_alloc(28, activeBuff);"
+        ],
+        [
+          "        SetPolyG3(*q);",
+          "        SetPolyG3(((Prim *)(unsigned long)*q));"
+        ],
+        [
+          "        SetSemiTrans(*q, 1);",
+          "        SetSemiTrans(((Prim *)(unsigned long)*q), 1);"
+        ],
+        [
+          "        SetShadeTex(*q, 1);",
+          "        SetShadeTex(((Prim *)(unsigned long)*q), 1);"
+        ],
+        [
+          "(*q)->",
+          "((Prim *)(unsigned long)*q)->",
+          21
+        ],
+        [
+          "        AddPrim(&ot_buff0[activeBuff][4], *q);",
+          "        AddPrim(&ot_buff0[activeBuff][4], ((Prim *)(unsigned long)*q));"
+        ]
+      ]
+    },
+    "ETC/etc_menu_dispatch": {
+      "why": "general_path walks etc_bg_tbl, a PS1 table of 4-byte pointers to the value tables: `slot2 = (s32 **)&etc_bg_tbl + a2; table = *slot2;` strode and read 8 bytes on the host (cell a2 at +8*a2, two console cells as one pointer), and the compare chain `slot2 == (s32 **)&etc_bg_tbl_1 ..` tested host-stride addresses against the console's 4-byte cell addresses (only a2 = 0 matched one).  slot2 is a u32 cell pointer, the cell zero-extended where it is read (audit_ps1_pointer_cells.py PS1-CELL, 2026-11-01).",
+      "edits": [
+        [
+          "    s32 **slot2;",
+          "    u32 *slot2;"
+        ],
+        [
+          "    slot2 = (s32 **)&etc_bg_tbl + a2;",
+          "    slot2 = (u32 *)&etc_bg_tbl + a2;"
+        ],
+        [
+          "    table = *slot2;",
+          "    table = (s32 *)(unsigned long)*slot2;"
+        ],
+        [
+          "slot2 == (s32 **)&",
+          "slot2 == (u32 *)&",
+          5
+        ]
+      ]
+    },
+    "OPTION/option_menu1_main1": {
+      "why": "p walks option_menu1_lbl_tbl, a PS1 table of 4-byte string pointers (the debug menu's labels, `extern u8 *option_menu1_lbl_tbl[]`): `debug_string_show(*p, ..); p++;` read 8 bytes per label (two console cells as one pointer) and strode 8.  p is a u32 cell pointer, each label zero-extended where it is passed (audit_ps1_pointer_cells.py PS1-CELL, 2026-11-01).",
+      "edits": [
+        [
+          "    u8 **p;",
+          "    u32 *p;"
+        ],
+        [
+          "    p = option_menu1_lbl_tbl;",
+          "    p = (u32 *)option_menu1_lbl_tbl;"
+        ],
+        [
+          "        debug_string_show(*p, -32, y);",
+          "        debug_string_show((u8 *)(unsigned long)*p, -32, y);"
+        ]
+      ]
+    },
+    "main/ContDataEntry": {
+      "source": "src/main/matched/ContDataEntry.c",
+      "why": "SsUtGetProgAtr(ch, prog, &count) fills a program record: bytes 0..4 and the halfword at +6 (sb x5, sh at out+6).  On the console `count` is the byte at sp+188 of ContDataEntry's 216-byte frame (addiu a2,sp,188 at 0x80093AEC) and sp+189..195 are frame bytes nothing else in the function touches (its other slots: 64/68, 88..116, 136, 156..187, 216/220), so the record's other seven bytes land harmlessly.  On the port `u8 count` is one byte at a GCC-chosen (odd) address: the record ran seven bytes into the neighbouring locals, and the explorer's UBSan campaign reported the halfword store misaligned at every boot (SsUtGetProgAtr.c:39-44, `out` = &count, an address on the game stack, 2026-11-01; filed then as an odd `_svm_pg`).  count becomes the first byte of an 8-byte, 4-aligned record, as the console's frame gives it.",
+      "edits": [
+        [
+          "    u8  unused;\n    u8  count;\n",
+          "    u8  unused;     union { u8 v; u8 rec[8]; s32 align; } pc_count;\n#define count pc_count.v\n"
+        ]
+      ]
+    }
+  }
+}

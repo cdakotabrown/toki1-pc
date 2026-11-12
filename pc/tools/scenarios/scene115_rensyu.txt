@@ -1,0 +1,9 @@
+# Step 115: RENSYU, the sports-club practice match (overlay RENSYU.EXN).
+# rensyu_main0 sub-sub 3 calls game_reset unless the club is a sports club
+# (6..10; basyo_pack bits 12..15), which is why SCENE_NAV=115 from the
+# title bounces.  The game gets here from the holiday screen's club icon on
+# the third Sunday of Mar/Jun/Sep/Dec (holiday_club_exit, goto_step(115)).
+start album
+album date=95/6/18 club=baseball     # Sun 18 Jun 1995, third Sunday; baseball club
+do goto 115
+expect now_step=115 within 900 hold 300

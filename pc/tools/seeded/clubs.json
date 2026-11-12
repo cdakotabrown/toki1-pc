@@ -1,0 +1,71 @@
+{
+ "group": "clubs",
+ "comment": "Club scenes: the club (basyo_pack bits 12..15, the album field `club`) decides what they show (KONAMI-DEBUG-FACILITIES.md section 6).  One start per club through the crafted album, entered with goto_step's stores: schedule_day_main.c case 36 picks 112 (club < 6) or 113, cases 37/38/39 go to 116/117/118, case 66 to 95.",
+ "starts": [
+  {"id": "bunkasai", "scene": 112, "overlay": "BUNKASAI", "base": "album",
+   "album": {"date": "96/10/27", "set": {}},
+   "variants": {
+    "literature": {"album": {"date": "96/10/27", "set": {"club": "literature"}}},
+    "drama": {"album": {"date": "96/10/27", "set": {"club": "drama"}}},
+    "science": {"album": {"date": "96/10/27", "set": {"club": "science"}}},
+    "computer": {"album": {"date": "96/10/27", "set": {"club": "computer"}}},
+    "art": {"album": {"date": "96/10/27", "set": {"club": "art"}}},
+    "brass": {"album": {"date": "96/10/27", "set": {"club": "brass"}}}
+   },
+   "input": {"kind": "explore", "seeds": [1], "vblanks": 9000},
+   "covers": ["BUNKASAI 112: the culture festival as a member of each culture club (schedule_day_main.c case 36, club < 6)"]},
+  {"id": "bunkaken", "scene": 113, "overlay": "BUNKAKEN", "base": "album",
+   "album": {"date": "96/10/27", "set": {"club": "tennis"}},
+   "input": {"kind": "explore", "seeds": [1, 2, 3], "vblanks": 12000},
+   "covers": ["BUNKAKEN 113: the culture festival as a visitor (club >= 6), random input over the booth menus"]},
+  {"id": "master116", "scene": 116, "overlay": "MASTER", "base": "album",
+   "album": {"date": "97/6/1", "set": {}},
+   "variants": {
+    "baseball": {"album": {"date": "97/6/1", "set": {"club": "baseball", "para_tai": 200}}},
+    "soccer": {"album": {"date": "97/6/1", "set": {"club": "soccer", "para_tai": 200}}},
+    "swimming": {"album": {"date": "97/6/1", "set": {"club": "swimming", "para_tai": 200}}},
+    "basketball": {"album": {"date": "97/6/1", "set": {"club": "basketball", "para_tai": 200}}}
+   },
+   "input": {"kind": "explore", "seeds": [1], "vblanks": 6000},
+   "covers": ["MASTER 116: the club tournament per sports club (schedule_day_main.c case 37)"]},
+  {"id": "master117", "scene": 117, "overlay": "MASTER", "base": "album",
+   "album": {"date": "97/6/1", "set": {}},
+   "variants": {
+    "soccer": {"album": {"date": "97/6/1", "set": {"club": "soccer", "para_tai": 200}}},
+    "tennis": {"album": {"date": "97/6/1", "set": {"club": "tennis", "para_tai": 200}}},
+    "basketball": {"album": {"date": "97/6/1", "set": {"club": "basketball", "para_tai": 200}}}
+   },
+   "input": {"kind": "explore", "seeds": [1], "vblanks": 6000},
+   "covers": ["MASTER 117: the national meet per sports club (schedule_day_main.c case 38)"]},
+  {"id": "master118", "scene": 118, "overlay": "MASTER", "base": "album",
+   "album": {"date": "97/6/1", "set": {}},
+   "variants": {
+    "literature": {"album": {"date": "97/6/1", "set": {"club": "literature", "para_bun": 200}}},
+    "science": {"album": {"date": "97/6/1", "set": {"club": "science", "para_ri": 200}}},
+    "art": {"album": {"date": "97/6/1", "set": {"club": "art", "para_gei": 200}}},
+    "brass": {"album": {"date": "97/6/1", "set": {"club": "brass", "para_gei": 200}}}
+   },
+   "input": {"kind": "explore", "seeds": [1], "vblanks": 6000},
+   "covers": ["MASTER 118: the culture award per culture club (schedule_day_main.c case 39)"]},
+  {"id": "rensyu", "scene": 115, "overlay": "RENSYU", "base": "album",
+   "album": {"date": "96/6/2", "set": {}},
+   "variants": {
+    "soccer": {"album": {"date": "96/6/2", "set": {"club": "soccer"}}},
+    "tennis": {"album": {"date": "96/6/2", "set": {"club": "tennis"}}},
+    "swimming": {"album": {"date": "96/6/2", "set": {"club": "swimming"}}},
+    "basketball": {"album": {"date": "96/6/2", "set": {"club": "basketball"}}}
+   },
+   "input": {"kind": "explore", "seeds": [1], "vblanks": 6000},
+   "covers": ["RENSYU 115: the practice match per sports club (club 6..10; baseball is the suite's ev_rensyu95)"]},
+  {"id": "kangei", "scene": 95, "overlay": "KANGEI", "base": "album",
+   "album": {"date": "96/7/28", "set": {}},
+   "variants": {
+    "drama": {"album": {"date": "96/7/28", "set": {"club": "drama"}}},
+    "brass": {"album": {"date": "96/7/28", "set": {"club": "brass"}}},
+    "soccer": {"album": {"date": "96/7/28", "set": {"club": "soccer"}}},
+    "basketball": {"album": {"date": "96/7/28", "set": {"club": "basketball"}}}
+   },
+   "input": {"kind": "explore", "seeds": [1], "vblanks": 8000},
+   "covers": ["KANGEI 95: the club camp per club (schedule_day_main.c case 66; club != 11)"]}
+ ]
+}

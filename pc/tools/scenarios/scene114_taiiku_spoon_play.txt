@@ -1,0 +1,24 @@
+# Step 114: TAIIKU, the spoon relay PLAYED: the event menu, the spoon relay
+# picked (the pointer route of coverage item mg.taiiku.spoon,
+# config/patch/coverage_plan.json: x 60, y 52 -> 53 on the 3-px grid), the
+# instruction panel, then the race under the circle / L1 / R1 cycle the
+# campaign presses, so the cue cards (SPOON.BIN page 6: Go! / Right / Left)
+# show.  For the visual sweep (docs/translation/VISUAL-SWEEP.md):
+#   python3 pc/tools/scenario.py pc/tools/scenarios/scene114_taiiku_spoon_play.txt \
+#       --set TOKI_LANG=en --set PC_SWEEP_DIR=$PWD/build/sweep/runs/taiiku
+# The run is the state of scene114_taiiku_spoon.txt plus input; `expect`
+# holds 7000 frames so the race is played (the target is the scene).
+start album
+album date=95/10/8
+do poke 0x8012B3A8:8 0
+do poke 0x800EF6D4:1 1
+do goto 114
+input wait taiiku now_step=114 within 1500
+input +420 circle
+input wait menu now_step=114 cursor_cw_disp:1=0x84 within 1800 mash cross/60
+input point 60 53
+input +20 circle
+input +600 circle*4
+input +60 circle
+input wait raced now_sub_sub_step:1=250 within 6500 mash circle,l1,r1/8
+expect now_step=114 within 300 hold 7000

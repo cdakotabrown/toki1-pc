@@ -1,0 +1,211 @@
+{
+ "group": "girls",
+ "doc": "The planning night before each girl's first appearance (inventory 2.1/2.2) with the week's activity and the stat her touzyou check needs; the appearance day is the kernel rand's (rand % 3 per school day), so the milestone is the scene, not a day. Yumi's debut (96/4/4, fixed) is months.json m96_04.",
+ "checkpoints": [
+  {
+   "id": "g01_mio",
+   "date": "95/5/14",
+   "activity": 0,
+   "segment": {
+    "kind": "event",
+    "waits": [
+     [
+      "touzyou",
+      "now_step=0x5b now_girl:1=1",
+      72000,
+      true
+     ]
+    ]
+   },
+   "set": {
+    "para_bun": 62
+   },
+   "covers": [
+    "GIRL-01 Mio: humanities week, para_bun >= 55 (touzyou_check, rand % 3 per school day)"
+   ]
+  },
+  {
+   "id": "g02_yuina",
+   "date": "95/6/11",
+   "activity": 1,
+   "segment": {
+    "kind": "event",
+    "waits": [
+     [
+      "touzyou",
+      "now_step=0x5b now_girl:1=2",
+      72000,
+      true
+     ]
+    ]
+   },
+   "set": {
+    "para_ri": 66
+   },
+   "covers": [
+    "GIRL-02 Yuina: science week, para_ri >= 60"
+   ]
+  },
+  {
+   "id": "g03_ayako",
+   "date": "95/9/10",
+   "activity": 2,
+   "segment": {
+    "kind": "event",
+    "waits": [
+     [
+      "touzyou",
+      "now_step=0x5b now_girl:1=3",
+      72000,
+      true
+     ]
+    ]
+   },
+   "set": {
+    "para_gei": 56
+   },
+   "covers": [
+    "GIRL-03 Ayako: art week, para_gei >= 50"
+   ]
+  },
+  {
+   "id": "g04_saki",
+   "date": "95/10/22",
+   "activity": 7,
+   "segment": {
+    "kind": "event",
+    "waits": [
+     [
+      "touzyou",
+      "now_step=0x5b now_girl:1=4",
+      72000,
+      true
+     ]
+    ]
+   },
+   "set": {
+    "para_kon": 40
+   },
+   "covers": [
+    "GIRL-04 Saki: any week, her home place != your club, para_kon >= 36",
+    "activity 7 (rest): with activity 0 Mio (para_bun >= 55) debuts first, and once two of girls 1..9 are met touzyou_check2 wants para_kon >= 96, so Saki never comes; a rand debut (touzyou_check: rand() % 3 per week): the long cycle takes the Dec 95 exam week's forced icon, the light row keeps the reference's trace under 64 MiB"
+   ],
+   "mash": "long",
+   "light_trace": true,
+   "max_frames": 80000
+  },
+  {
+   "id": "g05_yukari",
+   "date": "95/11/12",
+   "activity": 3,
+   "segment": {
+    "kind": "event",
+    "waits": [
+     [
+      "touzyou",
+      "now_step=0x5b now_girl:1=5",
+      72000,
+      true
+     ]
+    ]
+   },
+   "set": {
+    "para_un": 85,
+    "para_you": 86
+   },
+   "covers": [
+    "GIRL-05 Yukari: sports week, Shiori's home place != 8, para_un and para_you >= 81"
+   ]
+  },
+  {
+   "id": "g06_nozomi",
+   "date": "95/11/26",
+   "activity": 3,
+   "segment": {
+    "kind": "event",
+    "waits": [
+     [
+      "touzyou",
+      "now_step=0x5b now_girl:1=6",
+      72000,
+      true
+     ]
+    ]
+   },
+   "set": {
+    "para_un": 60,
+    "para_kon": 38
+   },
+   "covers": [
+    "GIRL-06 Nozomi: sports week, Shiori's home place != 9, para_un and para_kon >= 31"
+   ]
+  },
+  {
+   "id": "g07_mira",
+   "date": "96/5/12",
+   "activity": 6,
+   "segment": {
+    "kind": "event",
+    "waits": [
+     [
+      "touzyou",
+      "now_step=0x5b now_girl:1=7",
+      72000,
+      true
+     ]
+    ]
+   },
+   "set": {
+    "para_you": 130
+   },
+   "covers": [
+    "GIRL-07 Mira: looks week; two of girls 1..9 met (Yuko, Mio) -> touzyou_check2, para_you >= 126"
+   ]
+  },
+  {
+   "id": "g08_yuko",
+   "date": "95/6/25",
+   "activity": 5,
+   "segment": {
+    "kind": "event",
+    "waits": [
+     [
+      "touzyou",
+      "now_step=0x5b now_girl:1=8",
+      72000,
+      true
+     ]
+    ]
+   },
+   "set": {
+    "para_zat": 95,
+    "girl.yuko.flags": "|0x600"
+   },
+   "covers": [
+    "GIRL-08 Yuko: stage 3 done (flags bits 9..11 = 3), misc. week, para_zat >= 91 -> stage 4, met"
+   ]
+  },
+  {
+   "id": "g09_megumi",
+   "date": "95/12/31",
+   "activity": 5,
+   "segment": {
+    "kind": "event",
+    "waits": [
+     [
+      "newyear",
+      "now_step=0x53",
+      24000,
+      false
+     ]
+    ]
+   },
+   "set": {
+    "girl.megumi.tokimeki": 24
+   },
+   "covers": [
+    "GIRL-09 Megumi: New Year shrine, unmet, tokimeki base >= 20, odd frame (rand-like)"
+   ]
+  }
+ ]
+}

@@ -1,0 +1,25 @@
+# name	now_step (-1: all)	calls	mean_gap_ticks	total_ticks  (pc/tools/measure_cpu_costs.py analyze-hal: HAL_ABSORB folded in)
+CdIntToPos	-1	1	164	164
+CdIntToPos	16	1	164	164
+CdMix	-1	1	631	631
+CdMix	0	1	631	631
+ClearOTagR	-1	2	652	1304
+ClearOTagR	16	2	652	1304
+DecDCTReset	-1	1	616	616
+DecDCTReset	16	1	616	616
+DecDCToutCallback	-1	1	263	263
+DecDCToutCallback	16	1	263	263
+SetDefDispEnv	-1	2	88	176
+SetDefDispEnv	16	2	88	176
+SetDefDrawEnv	-1	2	70	140
+SetDefDrawEnv	16	2	70	140
+SsSetMVol	-1	1	489	489
+SsSetMVol	0	1	489	489
+SsStart2	-1	1	749	749
+SsStart2	0	1	749	749
+StSetMask	-1	1	96	96
+StSetMask	16	1	96	96
+StSetRing	-1	1	644	644
+StSetRing	16	1	644	644
+StSetStream	-1	1	28	28
+StSetStream	16	1	28	28

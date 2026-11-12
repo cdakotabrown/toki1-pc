@@ -1,0 +1,18 @@
+# The sports festival (TAIIKU, scene 114): page 2's second event, ball
+# rolling (step 15; TAMA2.TMD, GsTMDfastTG3LFG).  The menu and its steps:
+# taiiku_page1_line0.txt.  The partner plates (sub-step 2/2) take a circle
+# with the hand on a plate; the hand goes down 60 and left 60 from the
+# menu line, as in pc/tools/playthrough/spring_events.txt.
+trace taiiku_state:4
+wait taiiku_menu now_step=0x72 taiiku_state=8 within 3000 mash cross/60
+point -81 89                # line 2: "another event"
+wait taiiku_another now_step=0x72 taiiku_state!=8 within 600 mash circle/30
+wait taiiku_page2 now_step=0x72 taiiku_state=10 within 1200 mash cross/60
+point -81 74
+wait taiiku_picked now_step=0x72 taiiku_state!=10 within 600 mash circle/30
+check taiiku_event_15 taiiku_state=15
+wait ball_partner now_step=0x72 now_sub_step=2 now_sub_sub_step=2 within 2400
++30 down*20
++30 left*20
+wait ball_picked now_step=0x72 now_sub_step=2 now_sub_sub_step=3 within 3000 mash circle/20
+wait festival_done now_step!=0x72 within 24000 mash circle/10

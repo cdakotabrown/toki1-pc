@@ -1,0 +1,69 @@
+Heartthrob Memorial PC Enhanced (unofficial native PC port for
+Tokimeki Memorial: Forever with You): licences
+================================================================
+
+This program is free software under the GNU General Public License,
+version 3 (GPL-3.0.txt).  You may redistribute and modify it under that
+licence; it comes with NO WARRANTY.
+
+Corresponding source: every release of this program is published together
+with a source archive named like the download plus "-source.tar.gz"
+(for example tokimeki-pc-windows-source.tar.gz).  It holds the complete
+source tree the program was built from and the DuckStation SPU files with
+this project's patches applied, and is published in the same place as the
+program.  If you received this program without that archive, ask whoever
+gave it to you for it: the GPL requires them to provide it.
+
+It contains no disc data (no art, music, video or Japanese script text):
+the game's files are extracted on your computer from your own disc.  It
+does contain an unofficial English translation of the game's script, a fan
+translation of Konami's text.
+
+The PC port's own code is GPL-3.0-or-later; two of its files, which
+contain DuckStation-derived code, are GPL-3.0-only.  The decompilation
+project it is built from is MIT outside the PC port (PROJECT-MIT.txt).
+This program as a whole is GPL-3.0.
+
+Third-party code built into this program:
+
+  DuckStation SPU    the SPU (sound chip) core of DuckStation,
+                     https://github.com/stenzek/duckstation
+                     Copyright (C) 2019-2024 Connor McLaughlin.
+                     GPL-3.0, commit aa955b8ae28314ae061613f0ddf13183a98aca03,
+                     with this project's patches; fetched from DuckStation
+                     at build time (pc/3rd/SPU-CORE.md) -- GPL-3.0.txt
+  DuckStation-       the 18.9 kHz XA-ADPCM resampler (pc/hal/cd_audio.c,
+  derived code       from DuckStation rev ee538ae0e) and the GPU draw-time
+                     rules (pc/hal/gpu.c, commit aa955b8ae).
+                     Copyright (C) Connor McLaughlin.  GPL-3.0 -- GPL-3.0.txt
+                     The CD drive timing (pc/hal/cd.c) and the MDEC model
+                     (pc/hal/mdec_native.c) build on DuckStation's research.
+  Mednafen-derived   the polygon rasteriser, texture/CLUT cache and size
+  code               limits in pc/hal/gpu.c, derived from Mednafen's PSX GPU,
+                     and the XA interpolation weights in pc/hal/cd_audio.c.
+                     Copyright (C) Mednafen Team.  GPL-2.0 or later, used
+                     under GPL-3.0 -- GPL-3.0.txt
+  SDL2               Simple DirectMedia Layer 2.32 (zlib licence),
+                     statically linked -- SDL2.txt
+  Mednafen GPU       NOT INCLUDED. pc/3rd/mednafen-gpu (GPL-2.0 or later,
+  (parity backend)   used under GPL-3.0 -- GPL-3.0.txt) is an optional
+                     parity backend you can build yourself with
+                     `make -f pc/Makefile MDFN_GPU_BACKEND=1`; the shipped
+                     build does not include it.
+  TinySoundFont      pc/3rd/tsf.h (MIT) -- TinySoundFont.txt
+  stb_image,         pc/3rd/stb, pc/3rd/audio-decoders (public domain or
+  stb_image_write,   MIT) -- stb.txt
+  stb_vorbis
+  dr_flac, dr_wav    pc/3rd/audio-decoders (public domain or MIT-0)
+                     -- dr_libs.txt
+  PSY-Q-style SDK    pc/include/libgpu.h and related headers, taken from the
+  headers            PSY-Z project's psyz/include (https://github.com/
+                     Xeeynamo/psyz)
+  SHA-1 / SHA-256    pc/hal/pc_hash.c (written for this port; public domain)
+  MinGW-w64 runtime  Windows build only: libgcc, libstdc++ (GPL-3.0 with
+                     the GCC Runtime Library Exception), winpthreads
+                     (MIT / BSD-3-Clause) -- MinGW-runtime.txt
+
+The full texts follow this list in the program's About / licences page
+(settings menu, Ctrl+O) and `tokimeki-pc --licenses`; the program carries
+them inside itself.

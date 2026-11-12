@@ -1,0 +1,84 @@
+# Every list of the title Options screen, each entry highlighted once
+# (docs/translation/VISUAL-SWEEP.md: the sub-lists are sprite frames of
+# FUKUTEST/OPTION.NBN, invisible to the drawn-text log).  Navigation from
+# pc/tools/checkpoints/play/option_config.txt: with a pad the hand snaps to
+# the rows of menu 0 (now_icon) and the d-pad steps them; circle opens row
+# r as sub-step r + 1; cross goes back.  Inside a list the d-pad steps the
+# entries (menu_csr), so a few down presses show every entry's highlighted
+# frame.  The extras (row 6) need a system file with a clear: run it with
+# --start-card <a cleared card> for those (without one the extras menu is
+# empty and the script still passes: its rows are reported, not required).
+#
+#   python3 pc/tools/playthrough.py pc/tools/playthrough/english_options_full.txt \
+#       --set TOKI_LANG=en --shots
+trace menu_csr:1 now_icon:1
+hold 2
+
+phase options_full
+wait title_menu now_step=0x12 now_sub_step=2 now_sub_sub_step=1 within 3000
++30 down
++30 start
+wait opt_cfg now_step=0x20 now_sub_step=0 now_sub_sub_step=2 within 1500
+shot opt_menu 20
+wait hand_r0 now_icon:1=0 within 900 mash down/20
++20 circle
+wait opt_r0 now_step=0x20 now_sub_step=1 within 600
+shot text_speed_0 60
++70 down
+shot text_speed_1 20
++30 down
+shot text_speed_2 20
+wait opt_back_r0 now_step=0x20 now_sub_step=0 now_sub_sub_step=2 within 3000 mash cross/30
+wait hand_r1 now_icon:1=1 within 900 mash down/20
++20 circle
+wait opt_r1 now_step=0x20 now_sub_step=2 within 600
+shot icon_mode_0 60
++70 down
+shot icon_mode_1 20
++30 down
+shot icon_mode_2 20
+wait opt_back_r1 now_step=0x20 now_sub_step=0 now_sub_sub_step=2 within 3000 mash cross/30
+wait hand_r3 now_icon:1=3 within 900 mash down/20
++20 circle
+wait opt_r3 now_step=0x20 now_sub_step=4 within 600
+shot menu_mode_0 60
++70 down
+shot menu_mode_1 20
++30 down
+shot menu_mode_2 20
++30 down
+shot menu_mode_3 20
+wait opt_back_r3 now_step=0x20 now_sub_step=0 now_sub_sub_step=2 within 3000 mash cross/30
+wait hand_r4 now_icon:1=4 within 900 mash down/20
++20 circle
+wait opt_r4 now_step=0x20 now_sub_step=5 within 600
+shot cursor_speed_0 60
++70 down
+shot cursor_speed_1 20
++30 down
+shot cursor_speed_2 20
++30 down
+shot cursor_speed_3 20
++30 down
+shot cursor_speed_4 20
+wait opt_back_r4 now_step=0x20 now_sub_step=0 now_sub_sub_step=2 within 3000 mash cross/30
+wait hand_r5 now_icon:1=5 within 900 mash down/20
++20 circle
+wait opt_r5 now_step=0x20 now_sub_step=6 within 600
+shot voice_0 60
++70 down
+shot voice_1 20
++30 down
+shot voice_2 20
+wait opt_back_r5 now_step=0x20 now_sub_step=0 now_sub_sub_step=2 within 3000 mash cross/30
+wait hand_extras now_icon:1=6 within 900 mash down/20
++20 circle
+wait opt_extras now_step=0x20 now_sub_step=7 within 600
+shot extras 60
++70 down
+shot extras_1 20
++30 down
+shot extras_2 20
++30 down
+shot extras_3 20
+end 120

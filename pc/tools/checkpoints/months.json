@@ -1,0 +1,475 @@
+{
+ "group": "months",
+ "doc": "The planning night (a Sunday) before the 1st of every month, Apr 95 - Mar 98, on the typical profile; the segment plays that week (or the named event, then on to the next night). Activities rotate so every weekly plan runs.",
+ "checkpoints": [
+  {
+   "id": "m95_04",
+   "base": "template",
+   "date": "95/4/4",
+   "profile": "none",
+   "activity": 0,
+   "segment": {
+    "kind": "name_entry"
+   },
+   "covers": [
+    "MONTH 95/4",
+    "the template album (pre-name-entry): name entry, prologue, the first week"
+   ]
+  },
+  {
+   "id": "m95_05",
+   "date": "95/4/30",
+   "activity": 5,
+   "segment": {
+    "kind": "week"
+   },
+   "covers": [
+    "MONTH 95/5"
+   ]
+  },
+  {
+   "id": "m95_06",
+   "date": "95/5/28",
+   "activity": 0,
+   "segment": {
+    "kind": "event",
+    "waits": [
+     [
+      "taiiku",
+      "now_step=0x72",
+      24000,
+      false
+     ],
+     "@taiiku_page1_line0"
+    ]
+   },
+   "covers": [
+    "MONTH 95/6",
+    "CAL-sports-festival (TAIIKU 114; page 1's first event, play/taiiku_page1_line0.txt)"
+   ]
+  },
+  {
+   "id": "m95_07",
+   "date": "95/6/25",
+   "activity": 1,
+   "segment": {
+    "kind": "week"
+   },
+   "covers": [
+    "MONTH 95/7"
+   ]
+  },
+  {
+   "id": "m95_08",
+   "date": "95/7/30",
+   "activity": 2,
+   "segment": {
+    "kind": "week"
+   },
+   "covers": [
+    "MONTH 95/8"
+   ]
+  },
+  {
+   "id": "m95_09",
+   "date": "95/8/27",
+   "activity": 3,
+   "segment": {
+    "kind": "week"
+   },
+   "covers": [
+    "MONTH 95/9"
+   ]
+  },
+  {
+   "id": "m95_10",
+   "date": "95/9/24",
+   "activity": 6,
+   "segment": {
+    "kind": "week"
+   },
+   "covers": [
+    "MONTH 95/10"
+   ]
+  },
+  {
+   "id": "m95_11",
+   "date": "95/10/29",
+   "activity": 4,
+   "segment": {
+    "kind": "week"
+   },
+   "covers": [
+    "MONTH 95/11"
+   ]
+  },
+  {
+   "id": "m95_12",
+   "date": "95/11/26",
+   "activity": 5,
+   "segment": {
+    "kind": "week"
+   },
+   "covers": [
+    "MONTH 95/12"
+   ]
+  },
+  {
+   "id": "m96_01",
+   "date": "95/12/31",
+   "activity": 0,
+   "segment": {
+    "kind": "event",
+    "waits": [
+     [
+      "newyear",
+      "now_step=0x53",
+      24000,
+      false
+     ]
+    ]
+   },
+   "covers": [
+    "MONTH 96/1",
+    "CAL-newyear 96 (95/12/31 is the planning night)"
+   ]
+  },
+  {
+   "id": "m96_02",
+   "date": "96/1/28",
+   "activity": 1,
+   "segment": {
+    "kind": "week"
+   },
+   "covers": [
+    "MONTH 96/2"
+   ]
+  },
+  {
+   "id": "m96_03",
+   "date": "96/2/25",
+   "activity": 2,
+   "segment": {
+    "kind": "week"
+   },
+   "covers": [
+    "MONTH 96/3"
+   ]
+  },
+  {
+   "id": "m96_04",
+   "date": "96/3/31",
+   "activity": 3,
+   "segment": {
+    "kind": "event",
+    "waits": [
+     [
+      "yumi_debut",
+      "now_step=0x5b now_girl:1=10",
+      24000,
+      false
+     ]
+    ]
+   },
+   "covers": [
+    "MONTH 96/4",
+    "GIRL-10 Yumi's debut on 96/4/4"
+   ]
+  },
+  {
+   "id": "m96_05",
+   "date": "96/4/28",
+   "activity": 5,
+   "segment": {
+    "kind": "week"
+   },
+   "covers": [
+    "MONTH 96/5"
+   ]
+  },
+  {
+   "id": "m96_06",
+   "date": "96/5/26",
+   "activity": 0,
+   "segment": {
+    "kind": "event",
+    "waits": [
+     [
+      "taiiku",
+      "now_step=0x72",
+      24000,
+      false
+     ],
+     "@taiiku_page2_line0"
+    ]
+   },
+   "covers": [
+    "MONTH 96/6",
+    "CAL-sports-festival (TAIIKU 114; page 2's first event, play/taiiku_page2_line0.txt)"
+   ]
+  },
+  {
+   "id": "m96_07",
+   "date": "96/6/30",
+   "activity": 1,
+   "segment": {
+    "kind": "week"
+   },
+   "covers": [
+    "MONTH 96/7"
+   ]
+  },
+  {
+   "id": "m96_08",
+   "date": "96/7/28",
+   "activity": 2,
+   "segment": {
+    "kind": "week"
+   },
+   "covers": [
+    "MONTH 96/8"
+   ]
+  },
+  {
+   "id": "m96_09",
+   "date": "96/8/25",
+   "activity": 3,
+   "segment": {
+    "kind": "week"
+   },
+   "covers": [
+    "MONTH 96/9"
+   ]
+  },
+  {
+   "id": "m96_10",
+   "date": "96/9/29",
+   "activity": 6,
+   "segment": {
+    "kind": "week"
+   },
+   "covers": [
+    "MONTH 96/10"
+   ]
+  },
+  {
+   "id": "m96_11",
+   "date": "96/10/27",
+   "activity": 4,
+   "segment": {
+    "kind": "week"
+   },
+   "covers": [
+    "MONTH 96/11"
+   ]
+  },
+  {
+   "id": "m96_12",
+   "date": "96/11/24",
+   "activity": 5,
+   "segment": {
+    "kind": "week"
+   },
+   "covers": [
+    "MONTH 96/12"
+   ]
+  },
+  {
+   "id": "m97_01",
+   "date": "96/12/29",
+   "activity": 0,
+   "segment": {
+    "kind": "event",
+    "waits": [
+     [
+      "newyear",
+      "now_step=0x53",
+      24000,
+      false
+     ]
+    ]
+   },
+   "covers": [
+    "MONTH 97/1",
+    "CAL-newyear 97"
+   ]
+  },
+  {
+   "id": "m97_02",
+   "date": "97/1/26",
+   "activity": 1,
+   "segment": {
+    "kind": "week"
+   },
+   "covers": [
+    "MONTH 97/2"
+   ]
+  },
+  {
+   "id": "m97_03",
+   "date": "97/2/23",
+   "activity": 2,
+   "segment": {
+    "kind": "week"
+   },
+   "covers": [
+    "MONTH 97/3"
+   ]
+  },
+  {
+   "id": "m97_04",
+   "date": "97/3/30",
+   "activity": 3,
+   "segment": {
+    "kind": "week"
+   },
+   "covers": [
+    "MONTH 97/4",
+    "CAL-career-counselling 97/4/4 (ETC 54)"
+   ]
+  },
+  {
+   "id": "m97_05",
+   "date": "97/4/27",
+   "activity": 5,
+   "segment": {
+    "kind": "week"
+   },
+   "covers": [
+    "MONTH 97/5"
+   ]
+  },
+  {
+   "id": "m97_06",
+   "date": "97/5/25",
+   "activity": 0,
+   "segment": {
+    "kind": "week"
+   },
+   "covers": [
+    "MONTH 97/6"
+   ]
+  },
+  {
+   "id": "m97_07",
+   "date": "97/6/29",
+   "activity": 1,
+   "segment": {
+    "kind": "week"
+   },
+   "covers": [
+    "MONTH 97/7"
+   ]
+  },
+  {
+   "id": "m97_08",
+   "date": "97/7/27",
+   "activity": 2,
+   "segment": {
+    "kind": "week"
+   },
+   "covers": [
+    "MONTH 97/8"
+   ]
+  },
+  {
+   "id": "m97_09",
+   "date": "97/8/31",
+   "activity": 3,
+   "segment": {
+    "kind": "week"
+   },
+   "covers": [
+    "MONTH 97/9"
+   ]
+  },
+  {
+   "id": "m97_10",
+   "date": "97/9/28",
+   "activity": 6,
+   "segment": {
+    "kind": "week"
+   },
+   "covers": [
+    "MONTH 97/10"
+   ]
+  },
+  {
+   "id": "m97_11",
+   "date": "97/10/26",
+   "activity": 4,
+   "segment": {
+    "kind": "week"
+   },
+   "covers": [
+    "MONTH 97/11"
+   ]
+  },
+  {
+   "id": "m97_12",
+   "date": "97/11/30",
+   "activity": 5,
+   "segment": {
+    "kind": "week"
+   },
+   "covers": [
+    "MONTH 97/12"
+   ]
+  },
+  {
+   "id": "m98_01",
+   "date": "97/12/28",
+   "activity": 0,
+   "segment": {
+    "kind": "event",
+    "waits": [
+     [
+      "newyear",
+      "now_step=0x53",
+      24000,
+      false
+     ],
+     [
+      "final_sports",
+      "now_step=0x75",
+      24000,
+      false
+     ]
+    ]
+   },
+   "covers": [
+    "MONTH 98/1",
+    "CAL-newyear 98, CLUB-final-sports (98/1/3, tennis level 10)"
+   ]
+  },
+  {
+   "id": "m98_02",
+   "date": "98/1/25",
+   "activity": 1,
+   "segment": {
+    "kind": "week"
+   },
+   "covers": [
+    "MONTH 98/2"
+   ]
+  },
+  {
+   "id": "m98_03",
+   "date": "98/2/22",
+   "activity": 5,
+   "segment": {
+    "kind": "ending",
+    "girl": 13
+   },
+   "expect_ending": 13,
+   "covers": [
+    "MONTH 98/3",
+    "END-13 Yoshio (the typical player: nobody at 500)",
+    "CAL-entrance-exam 98/2/23",
+    "CAL-feb26",
+    "CAL-feb28",
+    "CAL-graduation"
+   ]
+  }
+ ]
+}

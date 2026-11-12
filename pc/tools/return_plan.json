@@ -1,0 +1,206 @@
+{
+  "_doc": "pc/tools/ps1_source_edits.py: the result a void function leaves in $v0. A matched function declared void whose last act on every path is a call keeps that callee's $v0, and a caller that declares it as returning a value reads it on the console. On x86-64 %rax after a void function is whatever it last held (gcc pops a stack argument into %rax on the way out of TmdTG3). Each entry returns the callee's value, for the PC build only (matched sources unedited); audit_ps1_call_args.py reports the shape as VOID-READ. edits: [old, new(, count)] exact replacements, line count kept; a stale entry stops the build.",
+  "functions": {
+    "main/TmdF3": {
+      "source": "src/main/matched/TmdF3.c",
+      "why": "TmdF3 is void on the console too, but every path ends in a call to a GsTMD builder and nothing writes $v0 after the jal (retail listing: jal ... lw ra / jr ra), so the builder's packet cursor is TmdF3's result; GsSortObject4 stores it in GsOUT_PACKET_P. ev_final_taco98: gcc's `pop %rax` after the call handed GsSortObject4 the OT header address (ot_work) as the cursor and TACO's GT3 packets overwrote the ordering-table headers.",
+      "edits": [
+        [
+          "\nvoid ",
+          "\ns32 ",
+          7
+        ],
+        [
+          "    GsTMD",
+          "    return GsTMD",
+          6
+        ],
+        [
+          "return;",
+          "/* returned */",
+          5
+        ]
+      ]
+    },
+    "main/TmdTF3": {
+      "source": "src/main/matched/TmdTF3.c",
+      "why": "TmdTF3 is void on the console too, but every path ends in a call to a GsTMD builder and nothing writes $v0 after the jal (retail listing: jal ... lw ra / jr ra), so the builder's packet cursor is TmdTF3's result; GsSortObject4 stores it in GsOUT_PACKET_P. ev_final_taco98: gcc's `pop %rax` after the call handed GsSortObject4 the OT header address (ot_work) as the cursor and TACO's GT3 packets overwrote the ordering-table headers.",
+      "edits": [
+        [
+          "\nvoid ",
+          "\ns32 ",
+          7
+        ],
+        [
+          "    GsTMD",
+          "    return GsTMD",
+          6
+        ],
+        [
+          "return;",
+          "/* returned */",
+          5
+        ]
+      ]
+    },
+    "main/TmdG3": {
+      "source": "src/main/matched/TmdG3.c",
+      "why": "TmdG3 is void on the console too, but every path ends in a call to a GsTMD builder and nothing writes $v0 after the jal (retail listing: jal ... lw ra / jr ra), so the builder's packet cursor is TmdG3's result; GsSortObject4 stores it in GsOUT_PACKET_P. ev_final_taco98: gcc's `pop %rax` after the call handed GsSortObject4 the OT header address (ot_work) as the cursor and TACO's GT3 packets overwrote the ordering-table headers.",
+      "edits": [
+        [
+          "\nvoid ",
+          "\ns32 ",
+          7
+        ],
+        [
+          "    GsTMD",
+          "    return GsTMD",
+          5
+        ],
+        [
+          "    func_800A",
+          "    return func_800A",
+          1
+        ],
+        [
+          "return;",
+          "/* returned */",
+          5
+        ]
+      ]
+    },
+    "main/TmdTG3": {
+      "source": "src/main/matched/TmdTG3.c",
+      "why": "TmdTG3 is void on the console too, but every path ends in a call to a GsTMD builder and nothing writes $v0 after the jal (retail listing: jal ... lw ra / jr ra), so the builder's packet cursor is TmdTG3's result; GsSortObject4 stores it in GsOUT_PACKET_P. ev_final_taco98: gcc's `pop %rax` after the call handed GsSortObject4 the OT header address (ot_work) as the cursor and TACO's GT3 packets overwrote the ordering-table headers.",
+      "edits": [
+        [
+          "\nvoid ",
+          "\ns32 ",
+          7
+        ],
+        [
+          "    GsTMD",
+          "    return GsTMD",
+          6
+        ],
+        [
+          "return;",
+          "/* returned */",
+          5
+        ]
+      ]
+    },
+    "main/TmdF4": {
+      "source": "src/main/matched/TmdF4.c",
+      "why": "TmdF4 is void on the console too, but every path ends in a call to a GsTMD builder and nothing writes $v0 after the jal (retail listing: jal ... lw ra / jr ra), so the builder's packet cursor is TmdF4's result; GsSortObject4 stores it in GsOUT_PACKET_P. ev_final_taco98: gcc's `pop %rax` after the call handed GsSortObject4 the OT header address (ot_work) as the cursor and TACO's GT3 packets overwrote the ordering-table headers.",
+      "edits": [
+        [
+          "\nvoid ",
+          "\ns32 ",
+          7
+        ],
+        [
+          "    GsTMD",
+          "    return GsTMD",
+          6
+        ],
+        [
+          "return;",
+          "/* returned */",
+          5
+        ]
+      ]
+    },
+    "main/TmdTF4": {
+      "source": "src/main/matched/TmdTF4.c",
+      "why": "TmdTF4 is void on the console too, but every path ends in a call to a GsTMD builder and nothing writes $v0 after the jal (retail listing: jal ... lw ra / jr ra), so the builder's packet cursor is TmdTF4's result; GsSortObject4 stores it in GsOUT_PACKET_P. ev_final_taco98: gcc's `pop %rax` after the call handed GsSortObject4 the OT header address (ot_work) as the cursor and TACO's GT3 packets overwrote the ordering-table headers.",
+      "edits": [
+        [
+          "\nvoid ",
+          "\ns32 ",
+          7
+        ],
+        [
+          "    GsTMD",
+          "    return GsTMD",
+          4
+        ],
+        [
+          "    func_800A",
+          "    return func_800A",
+          2
+        ],
+        [
+          "return;",
+          "/* returned */",
+          5
+        ]
+      ]
+    },
+    "main/TmdG4": {
+      "source": "src/main/matched/TmdG4.c",
+      "why": "TmdG4 is void on the console too, but every path ends in a call to a GsTMD builder and nothing writes $v0 after the jal (retail listing: jal ... lw ra / jr ra), so the builder's packet cursor is TmdG4's result; GsSortObject4 stores it in GsOUT_PACKET_P. ev_final_taco98: gcc's `pop %rax` after the call handed GsSortObject4 the OT header address (ot_work) as the cursor and TACO's GT3 packets overwrote the ordering-table headers.",
+      "edits": [
+        [
+          "\nvoid ",
+          "\ns32 ",
+          7
+        ],
+        [
+          "    GsTMD",
+          "    return GsTMD",
+          4
+        ],
+        [
+          "    func_800A",
+          "    return func_800A",
+          2
+        ],
+        [
+          "return;",
+          "/* returned */",
+          5
+        ]
+      ]
+    },
+    "main/TmdTG4": {
+      "source": "src/main/matched/TmdTG4.c",
+      "why": "TmdTG4 is void on the console too, but every path ends in a call to a GsTMD builder and nothing writes $v0 after the jal (retail listing: jal ... lw ra / jr ra), so the builder's packet cursor is TmdTG4's result; GsSortObject4 stores it in GsOUT_PACKET_P. ev_final_taco98: gcc's `pop %rax` after the call handed GsSortObject4 the OT header address (ot_work) as the cursor and TACO's GT3 packets overwrote the ordering-table headers.",
+      "edits": [
+        [
+          "\nvoid ",
+          "\ns32 ",
+          7
+        ],
+        [
+          "    GsTMD",
+          "    return GsTMD",
+          6
+        ],
+        [
+          "return;",
+          "/* returned */",
+          5
+        ]
+      ]
+    },
+    "main/_SpuIsInAllocateArea_": {
+      "source": "src/main/matched/_SpuIsInAllocateArea_.c",
+      "why": "void on the console too, but its last act is `jal _SpuIsInAllocateArea` and the epilogue writes no v0, so the callee's 0 / 1 is the result; SpuSetReverb and SpuSetReverbModeParam branch on it (`if (_SpuIsInAllocateArea_(...) != 0)`).  On x86-64 %rax after the void wrapper is not that value.  Found by audit_ps1_call_args.py VOID-READ (2026-11-01: 347 live rows once naked aliases count as returning; this and the TmdXX dispatchers are the ones a branch consumes outside the dead EVENT / GYOZI).",
+      "edits": [
+        [
+          "extern void _SpuIsInAllocateArea(s32 arg);",
+          "extern s32 _SpuIsInAllocateArea(s32 arg);"
+        ],
+        [
+          "void _SpuIsInAllocateArea_(s32 a0) {",
+          "s32 _SpuIsInAllocateArea_(s32 a0) {"
+        ],
+        [
+          "    _SpuIsInAllocateArea(a0 << shift);",
+          "    return _SpuIsInAllocateArea(a0 << shift);"
+        ]
+      ]
+    }
+  }
+}

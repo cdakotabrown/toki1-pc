@@ -1,0 +1,18 @@
+# The sports festival (TAIIKU, scene 114): the first event of page 1.
+#
+# taiiku_main runs on its own step taiiku_state (src/overlay/TAIIKU/
+# taiiku_main.c): 6 the opening text, 8 page 1's event menu, 9..10 page 2,
+# 12..15 the four events, 16 the race and the result, 17..18 back to the
+# schedule.  The text pages on cross.  taiiku_menu takes a circle with the
+# hand on a line (menu_check; taiiku_menu_init's lines are at y 48 / 64 /
+# 80 from x -128; the hit boxes measured on the port are y 52..64, 68..80,
+# 86..98): page 1 line 0 -> step 12, line 1 -> 13, line 2 flips to page 2,
+# whose lines 0 / 1 -> 14 / 15.  menu_mode is the system file's option,
+# not the album's, so a checkpoint card keeps the pointer menus.
+trace taiiku_state:4
+wait taiiku_menu now_step=0x72 taiiku_state=8 within 3000 mash cross/60
+point -81 59
+wait taiiku_picked now_step=0x72 taiiku_state!=8 within 600 mash circle/30
+check taiiku_event_12 taiiku_state=12
+# the race: circle tapped every 10 frames to the end and the result
+wait festival_done now_step!=0x72 within 24000 mash circle/10

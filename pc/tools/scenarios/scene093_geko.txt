@@ -1,0 +1,14 @@
+# Step 93: GEKO, the after-school scenes (geko_scene_main).  It switches on
+# the scene family event_girl_no (0..13) and then work_tarao; an unknown pair
+# calls game_reset (the title boot has 0/0, and family 0 takes only 1, 2,
+# 8).  The game sets both from schedule type 69 (.a -> B1B4, .b -> B1B0).
+# The scene's first line waits for a button (93/0/15): two crosses.
+start album
+album date=95/5/15
+do poke event_girl_no:4 0
+do poke work_tarao:4 1
+do goto 93
+input wait geko_text now_step=93 now_sub_sub_step=15 within 1500
+input +60 cross
+input +60 cross
+expect now_step=93 within 900 hold 400

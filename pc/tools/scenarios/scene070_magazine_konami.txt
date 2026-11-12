@@ -1,0 +1,31 @@
+# Step 70 (0x46): the magazine with the KONAMI CODE ("information added to the magazine").
+# konami_command_check (pad_scan, every frame) compares the held pad with
+# up up down down left right left right x o (each press released, the next
+# within 16 frames; x straight into o) and sets 0x800BA1EC for ~240
+# frames.  The code is entered on the holiday icon menu with the hand on
+# the magazine icon (10), so its final o opens the magazine with the flag
+# set; dismissing the narration within the flag's life makes magazine_main
+# step_mode 1 continue to step_mode 2: one extra hint line
+# (sndisp(magazine_main_tbl0[magazine_slot_get()]), text only: no extra
+# page or sprite).  Sunday 1995-06-04: the summer-1995 issue.
+start album
+album date=95/6/4
+do goto 70
+input wait holiday now_step=0x46 now_sub_step=1 within 1500
+input +60 left+up*80
+input +82 right*20
+input +22 down*38
+input +40 up*3
+input +7 up*3
+input +7 down*3
+input +7 down*3
+input +7 left*3
+input +7 right*3
+input +7 left*3
+input +7 right*3
+input +7 cross*3
+input +3 circle*3
+input wait magazine now_step=0x46 now_sub_step=0x20 now_sub_sub_step=1 within 600
+input +90 circle
+input wait extra now_step=0x46 now_sub_step=0x20 step_mode:1=2 within 300
+expect now_step=0x46 now_sub_step=0x20 within 300 hold 120

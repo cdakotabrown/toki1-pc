@@ -1,0 +1,19 @@
+# Step 130: EN_NICHI, the summer festival date's goldfish scooping played
+# to its result board (本日の結果 N 匹, KINGYO.BIN).  The state is coverage
+# item mg.en_nichi.goldfish's (config/patch/coverage_plan.json): the date
+# record (0x800EEE80) and the girl (0x800EE79E) before the jump, and
+# 2,600 frames in the catch count / timer words the item seeds (SEEDED, so
+# the round ends with a catch to show).  For the visual sweep and gate
+# (docs/translation/VISUAL-SWEEP.md, config/patch/visual_reference.json):
+#   python3 pc/tools/scenario.py pc/tools/scenarios/scene130_en_nichi_goldfish.txt \
+#       --set TOKI_LANG=en --set PC_SWEEP_DIR=$PWD/build/sweep/runs/kingyo
+start album
+album date=95/8/20
+do poke 0x800EEE80:3 0x000046
+do poke 0x800EE79E:1 0x5f
+do goto 130
+do after 2600 poke 0x80139EB4:4 100
+do after 0 poke 0x80139EB8:4 3
+input wait festival now_step=130 within 1500
+input wait played now_step!=130 within 4800 mash circle/60
+expect now_step!=130 within 2400 hold 30

@@ -1,0 +1,43 @@
+# English options menu (docs/translation/BROKEN-STRINGS-AUDIT.md): title ->
+# Options -> every list (text speed, icon mode, mouse, menu mode, cursor
+# speed, voice), each opened and closed, with a screenshot.  The cursor-speed
+# and voice labels were among the 43 strings the PC port showed in Japanese
+# in English mode before 2026-11-02 (the boot-data overwrite).
+#
+#   python3 pc/tools/playthrough.py pc/tools/playthrough/english_options.txt \
+#       --set TOKI_LANG=en --shots [--set TOKI_TEXTLOG=$PWD/build/options.jsonl]
+#
+# Same presses as tools/patch/coverage_campaign.py's sys.options.* items.
+
+hold 2
+
+phase options
+wait title_menu now_step=0x12 now_sub_step=2 now_sub_sub_step=1 within 3000
++30 down
++20 circle
+wait options now_step=0x20 within 900
+shot options_menu 60
++80 circle                  # text speed
+shot text_speed 90
++120 cross
++80 down
++20 circle                  # icon mode
+shot icon_mode 90
++120 cross
++80 down
++20 circle                  # mouse
+shot mouse 90
++120 cross
++80 down
++20 circle                  # menu mode
+shot menu_mode 90
++120 cross
++80 down
++20 circle                  # cursor speed
+shot cursor_speed 90
++120 cross
++80 down
++20 circle                  # voice
+shot voice 90
++120 cross
+end 60

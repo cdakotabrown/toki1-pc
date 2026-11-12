@@ -1,0 +1,49 @@
+# The title's album screen (NAME_ENT step 0x13, sub-step 2: name_ent_main2):
+# copy album 1 into the empty slot 2, then delete the copy, then back on
+# the album list for the load.  Read from src/overlay/NAME_ENT:
+#
+# - the album list (sub-sub-step 2, name_ent_main2_2) and the copy / delete
+#   screens run name_ent_menu_select: menu_check(1, hand) picks one of four
+#   buttons, circle (0x20) takes it: 0 copy -> 0xc0, 1 new album -> 0xa0,
+#   2 delete -> 0xe0, 3 load -> 0.  Buttons measured on the port (a raster
+#   sweep of the hand, menu 1's now_icon): copy x -141..-105 y -91..-82,
+#   new x -99..-63 y -91..-82, delete x -141..-105 y -73..-64, load x
+#   -99..-63 y -73..-64.
+# - the albums are menu 0: slot i at column i/7, row i%7 (the highlight at
+#   x (i/7)*31-130, y (i%7)*16-11); slot 0 measured at x -138..-111,
+#   y -20..-10, slot 1 at y -1..8.
+# - copy: 0xc1 (name_ent_selectc1) takes an album whose album_status1 is 1
+#   (circle or start, 0x820), 0xc3 (name_ent_selectc3) a destination: an
+#   empty one makes the file (card_file_make) and goes to 0xc6, which
+#   writes it (name_ent_album_copyc7 / c8: card_slot_write_main,
+#   card_file_write_main) and returns to sub-sub-step 0.
+# - delete: 0xe1 (name_ent_selecte1) takes a used album, 0xe3
+#   (name_ent_selecte3) circle confirms (0xe4 / 0xe5: card_file_delete),
+#   cross cancels.
+# album_status1 (0x800F01F5) holds one byte per slot.  Each tap waits for
+# the hand to stand on its target.
+trace album_status1:4
+point -123 -88              # copy
+wait hand_copy cursor_cw_x:2=-123 cursor_cw_y:2=-88 within 300
++4 circle
+wait copy_from now_step=0x13 now_sub_step=2 now_sub_sub_step=0xc1 within 300
+point -126 -13              # album 1
+wait hand_album1 cursor_cw_x:2=-126 cursor_cw_y:2=-13 within 300
++4 circle
+wait copy_to now_step=0x13 now_sub_step=2 now_sub_sub_step=0xc3 within 300
+point -126 5                # slot 2 (empty)
+wait hand_slot2 cursor_cw_x:2=-126 cursor_cw_y:2=5 within 300
++4 circle
+wait copied album_status1:2=0x0101 within 3000
+wait list_after_copy now_step=0x13 now_sub_step=2 now_sub_sub_step=2 within 3000
+point -123 -70              # delete
+wait hand_delete cursor_cw_x:2=-123 cursor_cw_y:2=-70 within 300
++4 circle
+wait delete_pick now_step=0x13 now_sub_step=2 now_sub_sub_step=0xe1 within 300
+point -126 5                # the copy
+wait hand_copy2 cursor_cw_x:2=-126 cursor_cw_y:2=5 within 300
++4 circle
+wait delete_confirm now_step=0x13 now_sub_step=2 now_sub_sub_step=0xe3 within 600
++30 circle
+wait deleted album_status1:2=0x0001 within 3000
+wait list_after_delete now_step=0x13 now_sub_step=2 now_sub_sub_step=2 within 3000

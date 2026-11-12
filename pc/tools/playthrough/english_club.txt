@@ -1,0 +1,84 @@
+# English club join (docs/translation/BROKEN-STRINGS-AUDIT.md): english_tour.txt's
+# new game (Latin names AB / CD / E) and spring_events.txt's first week, up
+# to joining the tennis club on Sun 9 Apr, with screenshots of the join
+# message ("Joined the Tennis Club.") and the captain's club-day line --
+# the two strings the 2026-11-02 report saw in Japanese on the PC port.
+#
+#   python3 pc/tools/playthrough.py pc/tools/playthrough/english_club.txt \
+#       --set TOKI_LANG=en --shots [--set TOKI_TEXTLOG=$PWD/build/club.jsonl]
+#   (+ --retail with TOKI_DISC=build/patch/iso/patched_disc.cue: the console)
+
+hold 2
+trace cursor_cw_x:2 cursor_cw_y:2 now_icon:1 basyo_pack:2
+
+phase club
+wait title_menu now_step=0x12 now_sub_step=2 now_sub_sub_step=1 within 3000
++30 start
+wait album_prompt now_step=0x13 now_sub_step=2 now_sub_sub_step=0x41 within 3000
++60 circle
+wait album_pick now_step=0x13 now_sub_step=2 now_sub_sub_step=0x45 within 600
++30 left+up*80
++82 right*10
++12 down*29
++31 circle
+check album_1_chosen now_album:1=1
+wait sysfile_msg now_step=0x13 now_sub_step=2 now_sub_sub_step=0x47 within 600
++30 circle
+wait sysfile_prompt now_step=0x13 now_sub_step=2 now_sub_sub_step=0x49 within 600
++30 circle
+wait surname_entry now_step=0x14 now_sub_step=1 now_sub_sub_step=1 within 1200
++30 left+up*80
++82 right*13
++15 down*20
++22 circle
++10 right*5
++10 circle
++10 start
+wait given_entry now_step=0x14 now_sub_step=1 now_sub_sub_step=3 within 600
++20 right*6
++10 circle
++10 right*5
++10 circle
++10 start
+wait nick_entry now_step=0x14 now_sub_step=1 now_sub_sub_step=5 within 600
++20 right*5
++10 circle
++10 start
+wait birthday_entry now_step=0x14 now_sub_step=1 now_sub_sub_step=7 within 600
++30 start
+wait confirm now_step=0x14 now_sub_step=1 now_sub_sub_step=9 within 600
++30 start
+wait fuji_entry now_step=0x14 now_sub_step=2 now_sub_sub_step=1 within 600
++30 start
+wait fuji_confirm now_step=0x14 now_sub_step=2 now_sub_sub_step=3 within 600
++30 start
+wait prologue now_step=0x15 now_sub_step=0 now_sub_sub_step=1 within 600
++120 start
+wait schedule_ready now_step=0x34 now_sub_step=1 within 3000
++30 left+up*80              # park (-150,-100)
++82 right*4                 # (-138,-10): icon 5
++6 down*30
++38 circle
+wait lesson now_step=0x40 within 600
+branch week_end within 6000
+case holiday now_step=0x46 now_sub_step=1 now_month:1=4 now_day:1=9
+case geko now_step=0x56
+  wait holiday_after_event now_step=0x46 now_sub_step=1 now_month:1=4 now_day:1=9 within 6000 mash circle/45
+end-branch
+# --- Sun 9 Apr: join the tennis club ---
++30 left+up*80              # park
++82 right*20                # (-90,-28): icon 4, the club
++22 down*24
++30 circle
+wait club_list now_step=0x46 now_sub_step=7 now_sub_sub_step=1 within 600
+shot club_list 30
++30 left+up*80              # park
++82 right*47                # (-9,-1): tennis
++49 down*33
++40 circle
+wait joined basyo_pack:2=0x8000 within 300
+shot join_message 60
++200 circle                 # page on: the captain's line (sports clubs)
+shot captain_line 150
+wait night_0409 now_step=0x34 now_sub_step=1 within 2400 mash circle/60
+end 30

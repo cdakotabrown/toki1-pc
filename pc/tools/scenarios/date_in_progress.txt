@@ -1,0 +1,21 @@
+# A date in progress: step 80, DATE (date_main).  date_main0_scene_init
+# reads the girl from girl_no and the place from machiawase_mode.  The game
+# gets here from the holiday screen's heart icon: reserved_date_check(today)
+# finds the reservation and machiawase_set writes schedule_buf[cursor] =
+# {128, girl, place}, machiawase_basyo, now_girl, girl_no and
+# machiawase_flag, then calls goto_step(80).  The album carries the
+# reservation (Shiori, Sun 16 Apr 95, the neighbourhood park: 0x20104BE0,
+# the one date_save.txt makes by telephone); the pokes are machiawase_set's
+# writes.
+start album
+album date=95/4/16 reserved.0=0x20104BE0
+do poke reserved_date:4 0x20104BE0
+do poke schedule_cursor:1 0
+do poke schedule_buf hex:80000000      # {type 128, a = girl 0, b = place 0, c}
+do poke machiawase_basyo:1 0
+do poke machiawase_mode:1 0
+do poke now_girl:1 0
+do poke girl_no:1 0
+do poke machiawase_flag:1 0            # reserved_date bit 24
+do goto 80
+expect now_step=80 within 900 hold 600

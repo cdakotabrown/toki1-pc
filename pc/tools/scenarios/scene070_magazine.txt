@@ -1,0 +1,23 @@
+# Step 70 (0x46): the HOLIDAY screen, the magazine ("Memorial Spot",
+# in katakana).  holiday_icon_check: icon 10 (x -90, y +15 on the
+# holiday icon grid, icon_init_tbl1) -> device_cmd_send(1293) ->
+# goto_sub_step(32) -> magazine_step (magazine_init / magazine_main /
+# magazine_exit, src/main/matched/holiday.c).  The page is built by
+# config_screen_init (a misnomer: it is the magazine page builder) out of
+# FUKUTEST/MAINROM.NBN pages 11 / 2 / 7 / 12 / 4 (frames 118..156) plus
+# kanji strings for the film / concert / events.  It is NOT Yoshio's phone
+# and never loads JOHO.NBN (that is TEL's per-girl profile card).
+# Sunday 1995-06-04 = the summer-1995 issue (config_screen_init sel 1).
+# For the visual sweep and gate (docs/translation/VISUAL-SWEEP.md 3.1.2):
+#   python3 pc/tools/scenario.py pc/tools/scenarios/scene070_magazine.txt \
+#       --set TOKI_LANG=en --set PC_SWEEP_DIR=$PWD/build/sweep/runs/mag
+start album
+album date=95/6/4
+do goto 70
+input wait holiday now_step=0x46 now_sub_step=1 within 1500
+input +60 left+up*80
+input +82 right*20
+input +22 down*38
+input +50 circle
+input wait magazine now_step=0x46 now_sub_step=0x20 now_sub_sub_step=1 within 900
+expect now_step=0x46 now_sub_step=0x20 within 600 hold 120

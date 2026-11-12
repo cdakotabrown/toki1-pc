@@ -1,0 +1,18 @@
+# Step 130: EN_NICHI, the summer festival date's shooting gallery played
+# to its end banner (終了, SHATEKI.BIN).  The state is coverage item
+# mg.en_nichi.shooting's (config/patch/coverage_plan.json): the date record
+# (0x800EEE80) and the girl (0x800EE79E, the 1996 festival) before the
+# jump; the five shots are fired with circle.  For the visual sweep and
+# gate (docs/translation/VISUAL-SWEEP.md, config/patch/visual_reference.json):
+#   python3 pc/tools/scenario.py pc/tools/scenarios/scene130_en_nichi_shooting.txt \
+#       --set TOKI_LANG=en --set PC_SWEEP_DIR=$PWD/build/sweep/runs/shateki
+start album
+album date=95/8/20
+do poke 0x800EEE80:3 0x000046
+do poke 0x800EE79E:1 0x60
+do goto 130
+do when now_step=130 do echo festival
+do after 3000 echo played
+input wait festival now_step=130 within 1500
+input wait played now_step!=130 within 4800 mash circle/120
+expect now_step!=130 within 2400 hold 30

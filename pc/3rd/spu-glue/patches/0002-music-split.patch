@@ -1,0 +1,192 @@
+0002 music split (music packs, 2026-11-02): ds_spu_music_split /
+ds_spu_mix_split and the shadow reverb unit.  This project's own change;
+described in pc/3rd/SPU-CORE.md "Local patches".
+
+--- a/upstream/spu.cpp
++++ b/upstream/spu.cpp
+@@ -428,8 +428,81 @@
+ ALIGN_TO_CACHE_LINE static SPUState s_state;
+ ALIGN_TO_CACHE_LINE static std::array<u8, RAM_SIZE> s_ram{};
+ 
++// ---- tokimeki-pc patch: the music split (README.md "PC patches") ----------
++// The PC port's music packs (pc/hal/music_pack.c) silence the voices that
++// play the sequenced music and stream a replacement instead.  The split
++// changes NOTHING in the device: every voice is still sampled, the capture
++// buffers, ENDX, ADSR and the real reverb unit (its state and its work area
++// in s_ram) run exactly as before.  A second "rest" mix leaves the masked
++// voices out of the dry sum and feeds a shadow reverb unit (its own copy of
++// the work area and resampling buffers); `replace` sends the rest mix to the
++// output instead of the full one.  `music` (when given) receives the music's
++// own share, full minus rest, before the main volume.  With the split off
++// none of this runs and the output is the unpatched computation.
++struct PcShadowReverb
++{
++  std::array<std::array<s16, 128>, 2> downsample;
++  std::array<std::array<s16, 64>, 2> upsample;
++  s32 position;
++  u32 current_address;
++  s16 last_input[2];
++  s32 last_output[2];
++};
++struct PcSplit
++{
++  bool on;
++  bool replace;
++  u32 mask;
++  s16* music;           // the current GenerateSamples call's music-only frames, or null
++  u8* reverb_ram;       // null: s_ram; else the shadow work area (during the rest pass)
++  u8* shadow_ram;       // RAM_SIZE bytes, allocated on first use, never freed
++  PcShadowReverb shadow;
++};
++static PcSplit s_pc_split;
++static void PcSwapShadowReverb();
++
+ } // namespace SPU
+ 
++extern "C" void ds_spu_music_split(int on, u32 voice_mask, int replace)
++{
++  using namespace SPU;
++  if (on && !s_pc_split.on)
++  {
++    if (!s_pc_split.shadow_ram)
++      s_pc_split.shadow_ram = new u8[RAM_SIZE];
++    std::memcpy(s_pc_split.shadow_ram, s_ram.data(), RAM_SIZE);
++    s_pc_split.shadow.downsample = s_state.reverb_downsample_buffer;
++    s_pc_split.shadow.upsample = s_state.reverb_upsample_buffer;
++    s_pc_split.shadow.position = s_state.reverb_resample_buffer_position;
++    s_pc_split.shadow.current_address = s_state.reverb_current_address;
++    s_pc_split.shadow.last_input[0] = s_state.last_reverb_input[0];
++    s_pc_split.shadow.last_input[1] = s_state.last_reverb_input[1];
++    s_pc_split.shadow.last_output[0] = s_state.last_reverb_output[0];
++    s_pc_split.shadow.last_output[1] = s_state.last_reverb_output[1];
++  }
++  s_pc_split.on = on != 0;
++  s_pc_split.mask = on ? voice_mask : 0u;
++  s_pc_split.replace = on && replace;
++}
++
++extern "C" void ds_spu_music_capture(s16* music_frames)
++{
++  SPU::s_pc_split.music = music_frames;
++}
++
++void SPU::PcSwapShadowReverb()
++{
++  std::swap(s_pc_split.shadow.downsample, s_state.reverb_downsample_buffer);
++  std::swap(s_pc_split.shadow.upsample, s_state.reverb_upsample_buffer);
++  std::swap(s_pc_split.shadow.position, s_state.reverb_resample_buffer_position);
++  std::swap(s_pc_split.shadow.current_address, s_state.reverb_current_address);
++  std::swap(s_pc_split.shadow.last_input[0], s_state.last_reverb_input[0]);
++  std::swap(s_pc_split.shadow.last_input[1], s_state.last_reverb_input[1]);
++  std::swap(s_pc_split.shadow.last_output[0], s_state.last_reverb_output[0]);
++  std::swap(s_pc_split.shadow.last_output[1], s_state.last_reverb_output[1]);
++}
++// ---- end of the tokimeki-pc patch declarations -----------------------------
++
+ void SPU::Initialize()
+ {
+   // (X * D) / N / 768 -> (X * D) / (N * 768)
+@@ -2184,7 +2257,8 @@
+   const u32 real_address = ReverbMemoryAddress((address << 2) + offset);
+ 
+   s16 data;
+-  std::memcpy(&data, &s_ram[real_address], sizeof(data));
++  // tokimeki-pc patch: the shadow reverb unit reads its own work area
++  std::memcpy(&data, (s_pc_split.reverb_ram ? s_pc_split.reverb_ram : s_ram.data()) + real_address, sizeof(data));
+   return data;
+ }
+ 
+@@ -2192,7 +2266,8 @@
+ {
+   // TODO: This should check interrupts.
+   const u32 real_address = ReverbMemoryAddress(address << 2);
+-  std::memcpy(&s_ram[real_address], &data, sizeof(data));
++  // tokimeki-pc patch: the shadow reverb unit writes its own work area
++  std::memcpy((s_pc_split.reverb_ram ? s_pc_split.reverb_ram : s_ram.data()) + real_address, &data, sizeof(data));
+ }
+ 
+ void SPU::ProcessReverb(s32 left_in, s32 right_in, s32* left_out, s32* right_out)
+@@ -2390,12 +2465,27 @@
+ 
+       u32 reverb_on_register = s_state.reverb_on_register;
+ 
++      // tokimeki-pc patch: the rest mix (every voice outside the split mask)
++      const bool split = s_pc_split.on;
++      s32 rest_left = 0, rest_right = 0, rest_reverb_in_left = 0, rest_reverb_in_right = 0;
++
+       for (u32 voice = 0; voice < NUM_VOICES; voice++)
+       {
+         const auto [left, right] = SampleVoice(voice);
+         left_sum += left;
+         right_sum += right;
+ 
++        if (split && !((s_pc_split.mask >> voice) & 1u))
++        {
++          rest_left += left;
++          rest_right += right;
++          if (reverb_on_register & 1u)
++          {
++            rest_reverb_in_left += left;
++            rest_reverb_in_right += right;
++          }
++        }
++
+         if (reverb_on_register & 1u)
+         {
+           reverb_in_left += left;
+@@ -2410,6 +2500,7 @@
+         right_sum = 0;
+         reverb_in_left = 0;
+         reverb_in_right = 0;
++        rest_left = rest_right = rest_reverb_in_left = rest_reverb_in_right = 0;
+       }
+ 
+       // Update noise once per frame.
+@@ -2424,11 +2515,15 @@
+ 
+         left_sum += cd_audio_volume_left;
+         right_sum += cd_audio_volume_right;
++        rest_left += cd_audio_volume_left;
++        rest_right += cd_audio_volume_right;
+ 
+         if (s_state.SPUCNT.cd_audio_reverb)
+         {
+           reverb_in_left += cd_audio_volume_left;
+           reverb_in_right += cd_audio_volume_right;
++          rest_reverb_in_left += cd_audio_volume_left;
++          rest_reverb_in_right += cd_audio_volume_right;
+         }
+       }
+ 
+@@ -2440,6 +2535,31 @@
+       left_sum += reverb_out_left;
+       right_sum += reverb_out_right;
+ 
++      // tokimeki-pc patch: the rest mix's reverb (the shadow unit), the
++      // music's share, and the rest mix as the output when replacing.
++      if (split)
++      {
++        s32 rest_reverb_out_left, rest_reverb_out_right;
++        PcSwapShadowReverb();
++        s_pc_split.reverb_ram = s_pc_split.shadow_ram;
++        ProcessReverb(Clamp16(rest_reverb_in_left), Clamp16(rest_reverb_in_right), &rest_reverb_out_left,
++                      &rest_reverb_out_right);
++        s_pc_split.reverb_ram = nullptr;
++        PcSwapShadowReverb();
++        rest_left += rest_reverb_out_left;
++        rest_right += rest_reverb_out_right;
++        if (s_pc_split.music)
++        {
++          *(s_pc_split.music++) = static_cast<s16>(Clamp16(left_sum - rest_left));
++          *(s_pc_split.music++) = static_cast<s16>(Clamp16(right_sum - rest_right));
++        }
++        if (s_pc_split.replace)
++        {
++          left_sum = rest_left;
++          right_sum = rest_right;
++        }
++      }
++
+       // Apply main volume after clamping. A maximum volume should not overflow here because both are 16-bit values.
+       *(output_frame++) = static_cast<s16>(ApplyVolume(Clamp16(left_sum), s_state.main_volume_left.current_level));
+       *(output_frame++) = static_cast<s16>(ApplyVolume(Clamp16(right_sum), s_state.main_volume_right.current_level));

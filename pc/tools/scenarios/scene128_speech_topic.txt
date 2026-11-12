@@ -1,0 +1,22 @@
+# Step 128: BUNKA_SD, the literary club's speech contest (culture
+# festival).  bunka_sd_main with bunka_bukatu (0x8012B398) = 0 runs
+# sub-step 245 (bunka_sd_pad1 -> bunka_sd_step): B_BUNGEI.BIN is read to
+# 0x80180000, rollcall_init builds the topic board (class_w[100], cel by
+# bunka_sd_kind 0x8012B38C: 0 the player "My High School Life", 1 a male
+# student "My Existence", 2 Shiori "Looking Back on High School", 3 Mio
+# "Anemia and Me", 4 Miharu "May My Feelings Reach You") and the speech plays.  SEEDED
+# pokes: the return step words, the club, the kind (2: Shiori, a board of
+# two English pieces, one on page 4 where the kanji were and one on page 0).
+# English "Looking Back on" + "High School" (src/patch/art/B_BUNGEI,
+# frame_layout).  For the visual sweep and gate
+# (docs/translation/VISUAL-SWEEP.md, config/patch/visual_reference.json):
+#   python3 pc/tools/scenario.py pc/tools/scenarios/scene128_speech_topic.txt \
+#       --set TOKI_LANG=en --set PC_SWEEP_DIR=$PWD/build/sweep/runs/speech
+start album
+album date=97/11/3
+do poke 0x8012B390:8 0
+do poke 0x8012B398:4 0
+do poke 0x8012B38C:4 2
+do goto 128
+input wait speech now_step=128 now_sub_step=245 within 1500
+expect now_step=128 now_sub_step=245 now_sub_sub_step=7 within 1800 hold 60
