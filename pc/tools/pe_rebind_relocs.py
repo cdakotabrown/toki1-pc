@@ -16,7 +16,7 @@ symbolic reference for Windows (`cdq_head(%rip)`), but the COFF assembler
 resolves a reference to a global defined in the same object against the
 object's SECTION, so the object kept using its private copy: on 2026-11-02
 the CD queue ran on a dead cdq_head while get_CD_State2 and the trace read
-0x800E8DA0 (docs/pc-port/WINDOWS-BUILD.md "Symbol binding").
+0x800E8DA0.
 
 The Windows build compiles with -ffunction-sections -fdata-sections, so
 every global lives in a section of its own (`.bss$cdq_head`) and nothing

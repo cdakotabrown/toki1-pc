@@ -17,7 +17,7 @@
  *
  * The transport (sockets, a non-blocking stdin) is the host layer's
  * (pc/hal/dbg_platform.h): BSD sockets on Linux, Winsock and a stdin reader
- * thread on Windows.  Docs: docs/pc-port/DEBUG-TOOLS.md.
+ * thread on Windows.
  */
 #include <stdio.h>
 #include <stdlib.h>

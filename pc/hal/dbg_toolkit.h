@@ -12,8 +12,7 @@
  *
  * Nothing here runs unless an environment variable, a hotkey or a console
  * command asks for it; with none of them the game loop calls
- * dbg_frame_boundary(), which returns at once.  Documentation:
- * docs/pc-port/DEBUG-TOOLS.md.
+ * dbg_frame_boundary(), which returns at once.
  */
 #ifndef PC_DBG_TOOLKIT_H
 #define PC_DBG_TOOLKIT_H

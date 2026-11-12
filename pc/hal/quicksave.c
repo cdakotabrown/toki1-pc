@@ -14,7 +14,7 @@
  *   <saves>/quicksave/ID.ini   the index: [slot] id/kind/state/thumbnail/
  *                              saved/build_id/profile/scene..., [game] the
  *                              in-game date and stats when a game is in
- *                              progress (docs/pc-port/ENHANCED-MODE.md)
+ *                              progress
  *
  * Ids (quicksave.h): slot1..slot9 the quicksave slots, slot0 the automatic
  * undo (written before every load, so an accidental load can be undone),
@@ -35,7 +35,7 @@
  * a worker thread then encodes and writes the three files, each through a
  * temporary file and a rename, and the result toast is shown at a later
  * boundary.  The game runs on meanwhile: a save costs the frame only the
- * copy (measured: docs/pc-port/ENHANCED-MODE.md "Save write time").
+ * copy.
  * Listings, loads, deletes and quitting wait for the writer first.
  *
  * Every static here describes the host session (the selected slot, pending
@@ -272,8 +272,7 @@ static int index_text(const char *id, char *text, size_t cap) {
     localtime_r(&now, &tmv);
     strftime(stamp, sizeof stamp, "%Y-%m-%d %H:%M:%S", &tmv);
     n = snprintf(text, cap,
-                 "# Heartthrob Memorial PC Enhanced save (pc/hal/quicksave.c;\n"
-                 "# format: docs/pc-port/ENHANCED-MODE.md \"Quicksave slots\").\n"
+                 "# Heartthrob Memorial PC Enhanced save (pc/hal/quicksave.c).\n"
                  "[slot]\nformat = 1\n");
     if (k == QS_KIND_QUICK || k == QS_KIND_UNDO)
         n += snprintf(text + n, cap - (size_t)n, "slot = %d\n", num);

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Where the three parts of the project live (docs/REPO-SPLIT-PLAN.md).
+"""Where the three parts of the project live.
 
 The project is published as three repositories checked out side by side:
 toki1-decomp (the decompiled C and its tools), toki1-english (the English

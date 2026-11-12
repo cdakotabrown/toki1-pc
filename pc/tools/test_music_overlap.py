@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 """Songs never overlap at a scene change or inside a scene, in both profiles
-(docs/pc-port/ENHANCED-MODE.md, "Music at scene changes"; the 2026-11-02
-report of "two songs at once" in the sports festival's spoon relay).
+(the 2026-11-02 report of "two songs at once" in the sports festival's
+spoon relay).
 
 The port's song state is read from two logs every run can write:
   - TOKI_MUSIC_LOG (pc/hal/music_pack.c): open / start / stop / end /
@@ -18,8 +18,7 @@ Checks:
     CD_WAIT_MUSIC_FADE);
   - the sports festival (TAIIKU, scene 114) to the spoon relay plays the same
     songs, in the same order, with the same hand-overs in enhanced and parity
-    (the relay's sequencer record matches the console's frame for frame:
-    RENDER-PARITY-HANDOFF.md, 2026-11-02 "TAIIKU music");
+    (the relay's sequencer record matches the console's frame for frame);
   - the player log carries one [MUSIC] line per song event and none for the
     per-frame fade steps; TOKI_MUSIC_EVENTS=0 removes them, and observing
     changes nothing (parity's audio and trace are identical either way).

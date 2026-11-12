@@ -4,7 +4,7 @@
  * for diagnostics and, in pc/hal/cpu_cost.c, to key the retail CPU-time
  * table on function names.  pc/hal/win/win_dl.c answers both from the
  * executable's COFF symbol table with the semantics the Linux build gets
- * from glibc over a -rdynamic image (docs/pc-port/WINDOWS-BUILD.md):
+ * from glibc over a -rdynamic image:
  *   - dladdr names an address only when it lies in a GLOBAL function (a
  *     static function, like a non-exported one on Linux, gives
  *     dli_sname == NULL);

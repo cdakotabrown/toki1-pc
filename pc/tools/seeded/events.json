@@ -43,7 +43,7 @@
   {"id": "omimai", "scene": 97, "overlay": "OMIMAI", "base": "album",
    "album": {"date": "96/6/2", "set": {"girl.shiori.flags": "|0x0A", "girl.ayako.flags": "|0x0A", "girl.mira.flags": "|0x0A"}},
    "variants": {
-    "shiori": {"fields": [{"name": "girl_no:1", "value": 0, "why": "OMIMAI reads D_800EEEBD (girl_no; KONAMI-DEBUG-FACILITIES.md section 6: 97/98 need D_800EEEBD)"}]},
+    "shiori": {"fields": [{"name": "girl_no:1", "value": 0, "why": "OMIMAI reads D_800EEEBD (girl_no: 97/98 need D_800EEEBD)"}]},
     "ayako": {"fields": [{"name": "girl_no:1", "value": 3, "why": "as shiori, girl 3"}]},
     "mira": {"fields": [{"name": "girl_no:1", "value": 7, "why": "as shiori, girl 7"}]},
     "sick98": {"scene": 98, "fields": [{"name": "girl_no:1", "value": 0, "why": "byouki_hassei.c goto_step(98); girl_no as for 97"}]}
@@ -53,7 +53,7 @@
   {"id": "etc", "scene": 145, "overlay": "ETC", "base": "album",
    "album": {"date": "98/2/22", "set": {"girl.shiori.flags": "|0x0A", "girl.yuina.flags": "|0x0A", "girl.yukari.flags": "|0x0A"}},
    "variants": {
-    "epi_shiori": {"fields": [{"name": "now_girl:1", "value": 0, "why": "ETC 145/194/195/196 read now_girl (KONAMI-DEBUG-FACILITIES.md section 6); etc_roll_main.c / etc_album_exit.c goto_step(145)"}]},
+    "epi_shiori": {"fields": [{"name": "now_girl:1", "value": 0, "why": "ETC 145/194/195/196 read now_girl; etc_roll_main.c / etc_album_exit.c goto_step(145)"}]},
     "epi_yuina": {"fields": [{"name": "now_girl:1", "value": 2, "why": "as epi_shiori"}]},
     "epi_yukari": {"fields": [{"name": "now_girl:1", "value": 5, "why": "as epi_shiori"}]},
     "epi_miharu": {"fields": [{"name": "now_girl:1", "value": 11, "why": "as epi_shiori (Miharu)"}]},
@@ -76,7 +76,7 @@
   {"id": "shougatu", "scene": 83, "overlay": "SHOUGATU", "base": "album",
    "album": {"date": "96/12/29", "set": {"girl.shiori.flags": "|0x0A", "girl.yuina.flags": "|0x0A"}},
    "variants": {
-    "newyear_shiori": {"fields": [{"name": "now_girl:1", "value": 0, "why": "SHOUGATU 82/83/85 read now_girl (KONAMI-DEBUG-FACILITIES.md section 6); pre_syogatu1.c goto_step(83)"}]},
+    "newyear_shiori": {"fields": [{"name": "now_girl:1", "value": 0, "why": "SHOUGATU 82/83/85 read now_girl; pre_syogatu1.c goto_step(83)"}]},
     "newyear_yuina": {"fields": [{"name": "now_girl:1", "value": 2, "why": "as newyear_shiori"}]},
     "xmas_shiori": {"scene": 82, "album": {"date": "96/12/22", "set": {"girl.shiori.flags": "|0x0A"}},
                     "fields": [{"name": "now_girl:1", "value": 0, "why": "pre_xmas.c goto_step(82); now_girl as newyear_shiori"}]},
@@ -88,7 +88,7 @@
   {"id": "valen", "scene": 84, "overlay": "VALEN", "base": "album",
    "album": {"date": "97/2/9", "set": {"girl.shiori.flags": "|0x0A", "girl.yuina.flags": "|0x0A", "girl.shiori.tokimeki": 80}},
    "variants": {
-    "shiori": {"fields": [{"name": "now_girl:1", "value": 0, "why": "VALEN 84 reads now_girl (KONAMI-DEBUG-FACILITIES.md section 6); schedule_day_main.c case 49 goto_step(84)"}]},
+    "shiori": {"fields": [{"name": "now_girl:1", "value": 0, "why": "VALEN 84 reads now_girl; schedule_day_main.c case 49 goto_step(84)"}]},
     "yuina": {"fields": [{"name": "now_girl:1", "value": 2, "why": "as shiori"}]}
    },
    "input": {"kind": "explore", "seeds": [1], "vblanks": 6000},

@@ -2,7 +2,7 @@
 /* guide_rules_dates.c -- the guide's rules for phone calls, invitations and
  * dates (guide_model.h), transcribed from the matched C and read from the
  * player's game; checked against the game's functions by
- * pc/tests/guide_harness.c.  Evidence: docs/game-flows/MECHANICS-GUIDE.md.
+ * pc/tests/guide_harness.c.
  *
  * Overlay tables: an EXN is loaded at 0x80132000 with no header, so a
  * console address A of that overlay is byte A - 0x80132000 of

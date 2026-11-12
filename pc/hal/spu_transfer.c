@@ -1,6 +1,6 @@
 /* SPDX-License-Identifier: GPL-3.0-or-later */
 /* SPU transfer adapter. Timing is an explicit approximation of the
- * SCPH-5500 Interpreter probes in docs/pc-port/SPU-TRANSFERS.md.
+ * SCPH-5500 Interpreter probes.
  * Transfer, interrupt-handler work and kernel delivery are distinct stages;
  * no startup-frame target participates in scheduling.
  */
@@ -48,7 +48,7 @@ extern u16 spu_tsa;
  * when spu_dma_mode == 0, which _spu_w stores and _spu_r does not (it stores
  * 1).  The read exception is the write one less those two loops (2,679 /
  * 4,174); retail scene 17's SpuReads measure 2,616..2,703 to DeliverEvent
- * and 4,176..4,291 to the return (docs/pc-port/SPU-TRANSFERS.md). */
+ * and 4,176..4,291 to the return. */
 #define DMA_READ_IRQ_DELIVER_TICKS (DMA_IRQ_DELIVER_TICKS - 2u * SPU_WAITFS_TICKS)
 #define DMA_READ_IRQ_EXIT_TICKS    (DMA_IRQ_EXIT_TICKS - 2u * SPU_WAITFS_TICKS)
 extern int hal_irq_exception(u16 bit, u32 effect_at, void (*effect)(void), u32 exit_at);

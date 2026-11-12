@@ -1,6 +1,6 @@
 {
  "group": "endings",
- "doc": "The last planning night (98/2/22) on the typical profile with one ending's conditions met (docs/game-flows/ENDINGS-GUIDE.md 4, 9, 10, 12.2); the segment plays the entrance exams, the Feb-26 check, Feb 28 and graduation to the ending, and on to the staff roll / save / title. checkpoints.py checks each recipe against the guide's scoring model. Yoshio's ending is months.json m98_03.",
+ "doc": "The last planning night (98/2/22) on the typical profile with one ending's conditions met; the segment plays the entrance exams, the Feb-26 check, Feb 28 and graduation to the ending, and on to the staff roll / save / title. checkpoints.py checks each recipe against the scoring model. Yoshio's ending is months.json m98_03.",
  "checkpoints": [
   {
    "id": "end_00_shiori",

@@ -2,8 +2,8 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 """Explorer: seeded random, menu-aware pad input on the port, looking for faults.
 
-Coverage plan phase 4 (docs/pc-port/COVERAGE-PLAN.md).  Port only, no
-reference.  Each run boots the port from power-on, optionally plays a fixed
+Port only, no reference.  Each run boots the port from power-on,
+optionally plays a fixed
 prefix through the game's own screens (a new game to the first school day,
 or the title's Continue -> album 1 on a crafted card), then presses random
 buttons for the rest of its frame budget.  Nothing here changes game state:
@@ -253,8 +253,8 @@ def album_card(start, out, binary, timeout):
 
 DIRS = ['up', 'down', 'left', 'right']
 
-# the planner's icon centres (COVERAGE-SUITE.md, the raster sweep of the
-# hand): columns x -138 / -114 / -90 (icon 14: -66), rows y -43 / -28 / -10
+# the planner's icon centres (the raster sweep of the hand):
+# columns x -138 / -114 / -90 (icon 14: -66), rows y -43 / -28 / -10
 # / 14 / 29; row 1 has no middle icon.  Index = icon number.
 PLANNER_ICONS = ([(x, -43) for x in (-138, -114, -90)] + [(-138, -28), (-90, -28)] +
                  [(x, y) for y in (-10, 14) for x in (-138, -114, -90)] +

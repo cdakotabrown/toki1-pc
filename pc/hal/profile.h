@@ -8,7 +8,7 @@
  *             the retail comparisons check.
  *   enhanced  (the player default) the timing models that only reproduce the console's slowness
  *             off (instant loads, no frame overruns), the PC-side play
- *             features on.  docs/pc-port/ENHANCED-MODE.md.
+ *             features on.
  *
  * Selection, first match wins:
  *   1. the command line:   --profile=NAME, --profile NAME, --enhanced, --parity

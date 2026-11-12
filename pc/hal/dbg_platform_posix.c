@@ -34,9 +34,9 @@ extern char __data_start[], _end[];
 
 /* pc/src/main.c maps the MMIO window at 0x1F801000 after the HAL has
  * initialised, and with ASLR the brk heap can already span that address:
- * a malloc'd block (or a stdio buffer) could alias the SPU register mirror
- * (DEBUG-TOOLS.md "Fixed port issue").  Toolkit buffers therefore come
- * from mmap, and files go through open/read/write, never stdio. */
+ * a malloc'd block (or a stdio buffer) could alias the SPU register mirror.
+ * Toolkit buffers therefore come from mmap, and files go through
+ * open/read/write, never stdio. */
 void *dbg_mem_alloc(unsigned long n) {
     unsigned long *p = mmap(NULL, n + 16, PROT_READ | PROT_WRITE,
                             MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);

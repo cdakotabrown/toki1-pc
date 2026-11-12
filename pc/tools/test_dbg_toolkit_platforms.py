@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 """The debug toolkit end to end on Linux and, under Wine, on Windows
-(pc/hal/dbg_cmds.c, dbg_console.c, dbg_state.c over pc/hal/dbg_platform.h;
-docs/pc-port/DEBUG-TOOLS.md).  Until 2026-11-02 the Windows build answered
+(pc/hal/dbg_cmds.c, dbg_console.c, dbg_state.c over pc/hal/dbg_platform.h).
+Until 2026-11-02 the Windows build answered
 every one of these with "not available"; each test runs on both builds:
 
 * the live console on TCP: info, pause, step, peek, sym (a static by its

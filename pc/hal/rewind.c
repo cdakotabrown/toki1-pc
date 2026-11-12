@@ -1,6 +1,6 @@
 /* SPDX-License-Identifier: GPL-3.0-or-later */
-/* rewind.c -- the enhanced profile's rewind (docs/pc-port/ENHANCED-MODE.md
- * "Rewind"; player keys: PLAYER-GUIDE.md).
+/* rewind.c -- the enhanced profile's rewind (player keys:
+ * docs/pc-port/PLAYER-GUIDE.md).
  *
  * What it keeps.  Every [enhanced] rewind_interval_frames game frames, at
  * the main-loop boundary (pc/hal/dbg_cmds.c: no game code on the stack),
@@ -17,8 +17,7 @@
  * (a memcpy of ~TOTAL bytes, under the audio lock like a quicksave's
  * capture); a worker thread then codes HEAD xor SPARE, stores the delta and
  * makes the spare the new head.  A boundary while the worker is still busy
- * takes no snapshot (counted, `skipped`).  Measured numbers:
- * ENHANCED-MODE.md "Rewind".
+ * takes no snapshot (counted, `skipped`).
  *
  * Rewinding.  While the rewind key is held ([hotkeys] rewind), the
  * boundary does not return to the game: it restores the head (the newest

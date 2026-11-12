@@ -1,7 +1,7 @@
 /* SPDX-License-Identifier: GPL-3.0-or-later */
 /* spu_quality.c -- enhanced sound quality: the SPU's interpolation and
- * reverb precision, and the audio device's rate (docs/pc-port/ENHANCED-MODE.md
- * "Sound quality"; PLAYER-GUIDE.md "Sound quality").
+ * reverb precision, and the audio device's rate
+ * (docs/pc-port/PLAYER-GUIDE.md "Sound quality").
  *
  * Settings, never game state.  [audio] interpolation (gaussian | cubic |
  * sinc), reverb (original | hq) and output_rate (44100 | 48000), or

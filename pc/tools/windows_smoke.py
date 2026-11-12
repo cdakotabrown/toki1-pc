@@ -8,7 +8,7 @@ Both binaries run headless with the same environment the playthroughs use
 directories, for --frames game frames.  The Windows run must exit 0,
 recover from no fault, fold no pointer, and write a trace byte-identical to
 the Linux build's: the port is deterministic run to run, so any difference
-is a portability bug (docs/pc-port/WINDOWS-BUILD.md lists the ones found).
+is a portability bug.
 
     python3 pc/tools/windows_smoke.py [--frames 600] [--out build/windows-smoke]
         [--exe pc/build-win/tokimeki-pc.exe] [--linux pc/build/tokimeki-pc]

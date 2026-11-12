@@ -81,7 +81,7 @@ extern void vblank_function(s32);
  * The recovery buffer and the CRT entry points are declared here by their
  * symbols.  The frame argument is NULL: longjmp then restores the
  * registers without unwinding the game frames (the crash recovery jumps
- * out of a redirected fault, docs/pc-port/WINDOWS-BUILD.md "Faults"). */
+ * out of a redirected fault). */
 typedef unsigned long long pc_win_jmp_buf[32] __attribute__((aligned(16)));
 #define jmp_buf pc_win_jmp_buf
 extern int pc_crt_setjmp(void *buf, void *frame) __asm__("_setjmp")
@@ -354,7 +354,7 @@ static void crash_recover(int sig)
 
 #ifdef _WIN32
 /* ---- Windows: the same fault model through a vectored exception handler ----
- * (docs/pc-port/WINDOWS-BUILD.md "Faults").  Linux handles SIGSEGV/SIGBUS/
+ * Linux handles SIGSEGV/SIGBUS/
  * SIGFPE in crash_sigaction below; here an access violation (and the
  * misalignment / integer-divide exceptions) of the game's own code goes
  * through the same steps in the same order: the overlay call redirect, the
@@ -681,7 +681,7 @@ static void install_crash_handler(void) {
 
 #ifdef _WIN32
 /* ---- Windows: the same layout without a stack switch ----
- * (docs/pc-port/WINDOWS-BUILD.md "Address space").  The exe is linked at a
+ * The exe is linked at a
  * fixed image base of 0x400000 with no ASLR and a 64 MB main-thread stack
  * (pc/Makefile); Windows then places that stack, the CRT heap and every
  * VirtualAlloc bottom-up, far below 2 GB, so the game runs on the main
@@ -788,7 +788,7 @@ int main(int argc, char *argv[]) {
     mallopt(GLIBC_M_TOP_PAD, 64 << 20);
     stk = MAP_FAILED;
     {
-        /* Debug toolkit only (pc/hal/dbg_state.c, docs/pc-port/DEBUG-TOOLS.md):
+        /* Debug toolkit only (pc/hal/dbg_state.c):
          * with one of its variables set, the process runs without address
          * randomisation (re-executed once with ADDR_NO_RANDOMIZE) and the
          * game stack sits at a fixed address.  A save state is an image of
@@ -1050,8 +1050,7 @@ static int real_main(int argc, char *argv[]) {
                      * addresses (psx_globals.syms), so the fill writes PS1 RAM:
                      * from the Japanese file it put Japanese back over the
                      * English join_club_message strings, club names, cursor /
-                     * voice settings and save dialogs
-                     * (docs/translation/BROKEN-STRINGS-AUDIT.md section 1). */
+                     * voice settings and save dialogs. */
                     pc_retail_init_load(boot_exe);
                 }
                 fclose(rf);
@@ -1321,7 +1320,7 @@ static int real_main(int argc, char *argv[]) {
     }
     {
         /* pc/hal/dbg_console.c: the debug toolkit (save states, command
-         * scripts, live console; docs/pc-port/DEBUG-TOOLS.md).  Off unless
+         * scripts, live console).  Off unless
          * one of its PC_SAVESTATE / PC_LOADSTATE / PC_DBG_* variables or a
          * hotkey asks; then it acts only at dbg_frame_boundary() below. */
         extern void dbg_toolkit_init(void);

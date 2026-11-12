@@ -40,7 +40,7 @@ def calendar_ram(events):
 
 
 SYMS = {'cal_font_load_tbl0': TBL}
-# the game's season events (COVERAGE-INVENTORY.md 1.4) for 1995-96
+# the game's season events for 1995-96
 EVENTS = {(95, 7, 24): 6, (95, 9, 1): 10, (95, 12, 25): 14, (96, 1, 8): 16, (96, 3, 24): 20,
           (96, 4, 4): 2, (96, 7, 25): 6}
 

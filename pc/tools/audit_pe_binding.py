@@ -4,7 +4,7 @@
 binds to the definition the link keeps, as on Linux.
 
 Two PE/COFF behaviours differ from ELF and each broke the first Windows
-build (docs/pc-port/WINDOWS-BUILD.md "Symbol binding"):
+build:
 
   WEAK      a weak DEFINITION (a function defined where an
             `__attribute__((weak))` declaration of it is visible) is a COFF

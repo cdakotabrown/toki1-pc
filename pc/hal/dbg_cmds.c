@@ -330,8 +330,7 @@ static int run_command(char *line) {
     if (!strcmp(argv[0], "help")) {
         reply("ok commands: info sym peek poke goto pause resume step save load qsave qload "
               "qslot qlist qdel rewind rewind_to shot vram ram anchor debug gp0 echo winquit "
-              "winclose keys quit "
-              "(docs/pc-port/DEBUG-TOOLS.md)");
+              "winclose keys quit");
     } else if (!strcmp(argv[0], "info")) {
         cmd_info();
     } else if (!strcmp(argv[0], "sym") && argc == 2) {

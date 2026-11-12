@@ -1,6 +1,6 @@
 /* SPDX-License-Identifier: GPL-3.0-or-later */
 /* text_audit.c -- the drawn-text log of the English text audit
- * (tools/patch/audit_drawn_text.py; docs/translation/BROKEN-STRINGS-AUDIT.md).
+ * (tools/patch/audit_drawn_text.py).
  *
  * TOKI_TEXTLOG=<file> with language = en: every distinct string the patch
  * engine's set_kanji_string draws is appended to <file> as one JSON line

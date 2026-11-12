@@ -662,7 +662,7 @@ unsigned hal_cpu_cost_net(unsigned ticks, unsigned long long mark)
  * every register may hold one of its arguments (or a value its body reads
  * without declaring it): keep all of them.  On entry rsp is 16-aligned
  * (the function's own entry is 8 mod 16, the call pushes 8).
- * Windows (Microsoft x64 convention, docs/pc-port/WINDOWS-BUILD.md): the
+ * Windows (Microsoft x64 convention): the
  * volatile set is rax rcx rdx r8-r11 and xmm0-5, the arguments are rcx rdx
  * r8 r9 (the instrumented function's first one is the saved rcx), and
  * hal_cpu_cost_enter is owed 32 bytes of shadow space.  Frame: shadow

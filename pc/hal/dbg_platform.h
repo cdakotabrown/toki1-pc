@@ -1,7 +1,6 @@
 /* SPDX-License-Identifier: GPL-3.0-or-later */
 /* dbg_platform.h -- what the debug toolkit and the player's save states need
- * from the host OS, behind one small interface (docs/pc-port/DEBUG-TOOLS.md
- * "State format").
+ * from the host OS, behind one small interface.
  *
  *   pc/hal/dbg_platform_posix.c   Linux (ELF, procfs, mmap, ucontext, BSD
  *                                 sockets; macOS would add its Mach-O reader

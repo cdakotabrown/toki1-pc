@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 """translation_pack.py -- the PC English translation pack (TKTP).
 
-docs/pc-port/TRANSLATION-ON-PC.md.  The PS1 English patch build
+The PS1 English patch build
 (tools/patch/build_patched.py config/patch/english.json) writes a patched
 copy of every disc file it changes.  This tool turns "retail file -> patched
 file" into a RECIPE that holds only bytes this project authored:

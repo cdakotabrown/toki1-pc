@@ -61,7 +61,7 @@ unsigned long long seen_text_page_hash(const BacklogPage *p) {
 
 static void *mem_alloc(unsigned long n) {
 #ifdef _WIN32
-    /* no process-image save states on Windows (WINDOWS-BUILD.md), so the
+    /* no process-image save states on Windows, so the
      * mmap-outside-the-image rule has nothing to protect; zeroed pages */
     return VirtualAlloc(NULL, n, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
 #else

@@ -1,6 +1,6 @@
 /* SPDX-License-Identifier: GPL-3.0-or-later */
 /* test_translation.c -- the translation pack applier and the language layer
- * (pc/hal/translation.c, pc/hal/lang.c; docs/pc-port/TRANSLATION-ON-PC.md).
+ * (pc/hal/translation.c, pc/hal/lang.c).
  * No assets: the packs are built here, byte by byte, in the format
  * pc/tools/translation_pack.py writes.  Each property has a negative
  * control showing the check can fail. */

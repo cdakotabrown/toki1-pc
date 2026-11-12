@@ -4,7 +4,7 @@
 # pc/tools/playthrough/spring_events.txt), the instruction panel, the race
 # under the circle / L1 / R1 cycle of coverage item mg.taiiku.threelegged,
 # so the cue cards (Go! / Right / Left, SPOON / NININ / TAI_BG page art)
-# show.  For the visual sweep (docs/translation/VISUAL-SWEEP.md):
+# show.  For the visual sweep:
 #   python3 pc/tools/scenario.py pc/tools/scenarios/scene114_taiiku_threelegged_play.txt \
 #       --set TOKI_LANG=en --set PC_SWEEP_DIR=$PWD/build/sweep/runs/taiiku
 start album

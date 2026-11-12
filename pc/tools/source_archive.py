@@ -15,7 +15,7 @@ The archive holds, under one top directory named after the archive:
     the committed tree at HEAD, exactly as `git archive HEAD` exports it;
       when the port is built from separate checkouts (toki1-pc with a
       sibling toki1-decomp and, when present, toki1-english:
-      docs/REPO-SPLIT-PLAN.md, pc/tools/pc_paths.py), every one of them,
+      pc/tools/pc_paths.py), every one of them,
       each at its HEAD, side by side under <top>/toki1-pc/, <top>/toki1-decomp/,
       <top>/toki1-english/ -- the binary compiles the decompiled C of
       toki1-decomp, so that is part of its source;
@@ -159,12 +159,10 @@ def source_txt(commit, pin, dirty, commits=None):
         '                    pc/3rd/spu-core/upstream/.  pc/3rd/spu-core/.fetched marks',
         '                    the core as fetched, so the build needs no network.',
         '',
-        'Build (see pc/README.md, docs/pc-port/WINDOWS-BUILD.md and',
-        'docs/pc-port/LINUX-PACKAGE.md for the package builds):',
+        'Build (see pc/README.md):',
         '    make -f pc/Makefile all',
         'The English translation pack embedded in release binaries is built from',
-        'translation/ with pc/tools/translation_pack.py build',
-        '(docs/pc-port/TRANSLATION-ON-PC.md).',
+        'translation/ with pc/tools/translation_pack.py build.',
         '',
         'No game data is included; the program reads it from your own disc.',
     ]

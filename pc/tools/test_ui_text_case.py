@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-License-Identifier: GPL-3.0-or-later
-"""test_ui_text_case.py -- the PC layer's own screens write sentence case
-(docs/pc-port/ENHANCED-MODE.md "The PC layer's UI font and look", "Text
-style").
+"""test_ui_text_case.py -- the PC layer's own screens write sentence case.
 
     python3 pc/tools/test_ui_text_case.py
 

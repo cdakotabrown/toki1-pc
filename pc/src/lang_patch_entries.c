@@ -1,7 +1,7 @@
 /* SPDX-License-Identifier: GPL-3.0-or-later */
 /* lang_patch_entries.c -- English entry points of the routed patch hooks.
  *
- * docs/pc-port/TRANSLATION-ON-PC.md.  The generated stubs
+ * The generated stubs
  * (pc/tools/gen_lang_hooks.py -> pc/build/translation/gen/lang_hooks.c)
  * send a call of a hooked retail function here when g_hal_lang_en is set,
  * exactly where the console's patched executable has `j <patch function>`.

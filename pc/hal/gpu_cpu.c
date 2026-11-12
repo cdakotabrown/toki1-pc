@@ -8,8 +8,7 @@
 
 extern void hal_cpu_spend(u32 ticks);
 
-/* libgpu's own CPU work around one SDK call, in two measured phases (the
- * 2026-10-30 boot timing note in docs/pc-port/RENDER-PARITY-HANDOFF.md).
+/* libgpu's own CPU work around one SDK call, in two measured phases.
  * An _addque2 submission runs its entry work, set_alarm, then
  * SetIntrMask(0); the dispatch and the device kick
  * run masked; the saved mask is restored and the call returns. The

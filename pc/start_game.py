@@ -162,8 +162,7 @@ def main(argv=None):
     mode.add_argument('--windowed', action='store_true', help='start in a window')
     profile = player.add_mutually_exclusive_group()
     profile.add_argument('--profile', choices=('parity', 'enhanced'),
-                         help='run profile (default: the settings file, else enhanced; automated runs: parity); '
-                              'see docs/pc-port/ENHANCED-MODE.md')
+                         help='run profile (default: the settings file, else enhanced; automated runs: parity)')
     profile.add_argument('--enhanced', action='store_const', const='enhanced', dest='profile',
                          help='same as --profile enhanced: instant loads, steady frame rate, '
                               'fast-forward on the ` key')
@@ -269,8 +268,8 @@ def main(argv=None):
         if args.headless:
             parser.error('--resume is for interactive play, not --headless')
         if os.name == 'nt':
-            parser.error('--resume needs save states, which the Windows build does not have yet '
-                         '(docs/pc-port/WINDOWS-BUILD.md); your memory card saves work as usual')
+            parser.error('--resume needs save states, which the Windows build does not have yet; '
+                         'your memory card saves work as usual')
         resume = saves / 'quicksave' / 'resume.tks'
         if not resume.is_file():
             print(f'Nothing to resume ({resume} does not exist); starting normally.', flush=True)

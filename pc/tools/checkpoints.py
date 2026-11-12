@@ -6,7 +6,7 @@ A checkpoint is an album save on a memory card, crafted from a save the game
 itself wrote, plus a short playthrough script (a "segment") that starts by
 loading it through the title's Continue.  The port and the reference
 (`playthrough.py --retail --start-card`) load the same bytes the same way;
-nothing in a run pokes state or jumps scenes (docs/pc-port/COVERAGE-PLAN.md).
+nothing in a run pokes state or jumps scenes.
 
 The recipes are tracked (pc/tools/checkpoints/*.json); the cards and the
 generated scripts are not -- they derive from YOUR assets, under --out:
@@ -127,8 +127,7 @@ The "typical" profile (plausible values for a player on that date):
   - Yuko met from 95/7/2 (her 雑学 stages), Mio from 96/1/14, Yumi on
     96/4/4 (the calendar's debut), each with a few points and a small bomb.
 
-The ending recipes are checked against the scoring model of
-docs/game-flows/ENDINGS-GUIDE.md appendix B (tables read from
+The ending recipes are checked against the scoring model (tables read from
 disks/SLPS_000.65); see ending_model().
 """
 import argparse
@@ -750,7 +749,7 @@ def cdiv(a, b):
 
 def girl_percents(rec, rb=None):
     """-> (yuukou %, tokimeki %) per girl 0..12: get_h_yuukou /
-    get_h_tokimeki over a crafted record (ENDINGS-GUIDE.md appendix B: the
+    get_h_tokimeki over a crafted record (the
     gauge times the girl's weight, plus the tokimeki stat modifiers)"""
     rb = rb or exe_reader()
 
@@ -813,9 +812,9 @@ def zyotai(rec, g):
 
 
 def ending_model(rec):
-    """-> (now_girl, scores): the scoring pipeline of ENDINGS-GUIDE.md
-    appendix B (validated there on 240+ emulator states) over a crafted
-    record.  Miharu (a dice roll) is reported as 13 (the fallback)."""
+    """-> (now_girl, scores): the scoring pipeline (validated on 240+
+    emulator states) over a crafted record.  Miharu (a dice roll) is
+    reported as 13 (the fallback)."""
     rb = exe_reader()
 
     def sbs(a, n):

@@ -1,5 +1,5 @@
 # Every list of the title Options screen, each entry highlighted once
-# (docs/translation/VISUAL-SWEEP.md: the sub-lists are sprite frames of
+# (the sub-lists are sprite frames of
 # FUKUTEST/OPTION.NBN, invisible to the drawn-text log).  Navigation from
 # pc/tools/checkpoints/play/option_config.txt: with a pad the hand snaps to
 # the rows of menu 0 (now_icon) and the d-pad steps them; circle opens row

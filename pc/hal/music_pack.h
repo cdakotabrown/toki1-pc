@@ -1,7 +1,7 @@
 /* SPDX-License-Identifier: GPL-3.0-or-later */
 /* music_pack.h -- music packs: user-supplied files in place of the game's
- * sequenced music (pc/hal/music_pack.c; docs/pc-port/ENHANCED-MODE.md,
- * "Music packs"; docs/pc-port/PLAYER-GUIDE.md, "Music packs").
+ * sequenced music (pc/hal/music_pack.c; docs/pc-port/PLAYER-GUIDE.md,
+ * "Music packs").
  *
  * The game plays its songs through libsnd (SsSeqOpen / SsSeqPlay / ...,
  * matched C).  This module only READS libsnd's state: the score records

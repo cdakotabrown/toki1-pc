@@ -5,7 +5,7 @@
 The UI font is pc/font/latin12.txt -- the English patch's hand-authored
 12-px proportional Latin font (tools/patch/font/latin12.txt, toki1-english),
 kept in pc/font as an exact copy so the port builds without the English
-patch (docs/REPO-SPLIT-PLAN.md; pc/tools/test_ui_font.py fails when the two
+patch (pc/tools/test_ui_font.py fails when the two
 differ) -- plus the PC-only symbols of pc/font/ui_extra12.txt (same format;
 code points U+0080 and up only).  The build regenerates the tables whenever
 either text file or the generator changes (pc/Makefile).

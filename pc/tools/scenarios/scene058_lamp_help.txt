@@ -6,7 +6,7 @@
 # was played: bit 0 of bunkaken_flags (0x800F022F, TwinBee) and of
 # 0x800F0230 (Stardust Symphony EX, set by TACO's exit); both are SEEDED
 # here.  The help pages are kanji text (set_kanji_string), English through
-# the OLH strings, not TACOTEX art (docs/translation/VISUAL-SWEEP.md 3.1.2).
+# the OLH strings, not TACOTEX art.
 start album
 album date=96/8/10
 do poke 0x800F022F:1 1

@@ -4,7 +4,7 @@
 # record (0x800EEE80) and the girl (0x800EE79E) before the jump, and
 # 2,600 frames in the catch count / timer words the item seeds (SEEDED, so
 # the round ends with a catch to show).  For the visual sweep and gate
-# (docs/translation/VISUAL-SWEEP.md, config/patch/visual_reference.json):
+# (config/patch/visual_reference.json):
 #   python3 pc/tools/scenario.py pc/tools/scenarios/scene130_en_nichi_goldfish.txt \
 #       --set TOKI_LANG=en --set PC_SWEEP_DIR=$PWD/build/sweep/runs/kingyo
 start album

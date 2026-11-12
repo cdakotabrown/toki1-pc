@@ -1,5 +1,5 @@
 /* SPDX-License-Identifier: GPL-3.0-or-later */
-/* lang.h -- the game-text language layer (docs/pc-port/TRANSLATION-ON-PC.md).
+/* lang.h -- the game-text language layer.
  *
  * [game] language = ja | en (settings.ini) or TOKI_LANG=ja|en.  ja is the
  * retail game, bit for bit: every function here is a no-op while
@@ -59,8 +59,7 @@ void lang_menu_register(void);
  * identity.  Call sites use these, never the functions above directly. */
 /* lang.c defines PC_LANG_DEFINE before including this: on PE a definition
  * in a file that also sees a weak declaration of it becomes a COFF weak
- * external, which the linker does not bind (docs/pc-port/WINDOWS-BUILD.md
- * "Symbol binding", WEAK). */
+ * external, which the linker does not bind. */
 #ifdef PC_LANG_DEFINE
 #define PC_LANG_WEAK
 #else

@@ -1,8 +1,7 @@
 /* SPDX-License-Identifier: GPL-3.0-or-later */
 /* soundfont.h -- SoundFont mode (enhanced): the game's sequenced music
  * rendered through TinySoundFont with a user-supplied SF2 (pc/hal/soundfont.c;
- * docs/pc-port/ENHANCED-MODE.md "SoundFont mode"; PLAYER-GUIDE.md "SoundFont
- * mode").
+ * docs/pc-port/PLAYER-GUIDE.md "SoundFont mode").
  *
  * The game's libsnd keeps playing every song on the SPU; nothing here writes
  * PS1 memory or changes emulated time.  The note events are the SPU's own key

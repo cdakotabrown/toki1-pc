@@ -1,6 +1,6 @@
 {
  "group": "six",
- "comment": "The six steps scene_matrix.py enters from the title and that leave at once for want of state (91 93 94 115 117 118, DEBUG-TOOLS.md section 2).  Each is seeded from a RAM capture taken where the game itself called goto_step(N) in a checkpoint segment: the game-state block a card carries (restore_block) and the scene scratch block the card does not carry (0x8012B1B0..CF: Tkind work_tarao, Twhose event_girl_no, serifu_no, the battle id rpg_bat_arg, serifu_state; KONAMI-DEBUG-FACILITIES.md section 6) plus date_disp_flag (date_event_sched's return flag).  The base is the same checkpoint card, so the album the capture's run loaded is already in place.",
+ "comment": "The six steps scene_matrix.py enters from the title and that leave at once for want of state (91 93 94 115 117 118).  Each is seeded from a RAM capture taken where the game itself called goto_step(N) in a checkpoint segment: the game-state block a card carries (restore_block) and the scene scratch block the card does not carry (0x8012B1B0..CF: Tkind work_tarao, Twhose event_girl_no, serifu_no, the battle id rpg_bat_arg, serifu_state) plus date_disp_flag (date_event_sched's return flag).  The base is the same checkpoint card, so the album the capture's run loaded is already in place.",
  "captures": {
   "cap091_yukari": {"checkpoint": "g05_yukari", "when": "now_step:1=2 prev_step:1=91",
                     "note": "Yukari's first meeting (SHOUGATU 91) on the girls segment"},

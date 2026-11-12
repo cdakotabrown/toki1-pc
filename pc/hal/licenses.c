@@ -18,7 +18,7 @@
 
 /* The project's own licence: LICENSE of the checkout that holds the
  * decompiled C (toki1-decomp; pc/Makefile passes its path when that is a
- * sibling checkout, docs/REPO-SPLIT-PLAN.md). */
+ * sibling checkout). */
 #ifndef PC_PROJECT_LICENSE
 #define PC_PROJECT_LICENSE "LICENSE"
 #endif

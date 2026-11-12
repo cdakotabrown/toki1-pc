@@ -13,8 +13,7 @@
  * x86-64, and M_TOP_PAD grows the heap in 64 MB steps: a heap that started
  * below 0x1F801000 grew over it, and MAP_FIXED then silently replaced a
  * heap page with the register page -- malloc'd memory and the SPU/DMA
- * register mirror aliased (docs/pc-port/DEBUG-TOOLS.md, seen in a plain
- * power-on run).
+ * register mirror aliased (seen in a plain power-on run).
  *
  * Now:
  *  - pc_map_fixed_regions() is the first thing main() does.  Every range
@@ -47,7 +46,7 @@ typedef struct {
     const char *name;
 } Ps1Region;
 
-/* The PS1 scratchpad (0x1F800000) is not mapped: see DEBUG-TOOLS.md. */
+/* The PS1 scratchpad (0x1F800000) is not mapped. */
 static const Ps1Region k_regions[] = {
     { 0x1F801000u, 0x1000u,   "PSX MMIO (hardware registers)" },
     { 0x80000000u, 0x200000u, "PS1 RAM" },
@@ -55,7 +54,7 @@ static const Ps1Region k_regions[] = {
 #define N_REGIONS (sizeof k_regions / sizeof k_regions[0])
 
 #ifdef _WIN32
-/* Windows (docs/pc-port/WINDOWS-BUILD.md "Address space"): the same ranges
+/* Windows: the same ranges
  * from VirtualAlloc at fixed addresses.  An allocation base must be 64 KB
  * aligned, so the register page is reserved as the 64 KB at 0x1F800000 and
  * only the page at 0x1F801000 is committed: the rest (the PS1 scratchpad at

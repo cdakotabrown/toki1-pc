@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
-"""Where pc/tools finds the other parts of the project (docs/REPO-SPLIT-PLAN.md).
+"""Where pc/tools finds the other parts of the project.
 
 The PC port is published as toki1-pc next to toki1-decomp (the decompiled C,
 include/, config/, the decomp tools) and, optionally, toki1-english (the

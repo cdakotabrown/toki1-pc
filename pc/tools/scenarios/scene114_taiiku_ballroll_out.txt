@@ -7,8 +7,7 @@
 # (D_80149B80 = 1) and plays the course-out banner (TAMA.BIN: コース /
 # アウト, English "BALL" / "OUT!").  Pushing the ball out by play was tried
 # (one-sided pushes, a lone runner): the partner corrects it every time.
-# For the visual sweep and gate (docs/translation/VISUAL-SWEEP.md,
-# config/patch/visual_reference.json):
+# For the visual sweep and gate (config/patch/visual_reference.json):
 #   python3 pc/tools/scenario.py pc/tools/scenarios/scene114_taiiku_ballroll_out.txt \
 #       --set TOKI_LANG=en --set PC_SWEEP_DIR=$PWD/build/sweep/runs/taiiku
 start album

@@ -49,7 +49,7 @@ Classes of the first divergence:
   path           the step triple differs first, with equal rand seeds
   state          a traced value differs on the same step, equal seeds:
                  to be triaged
-Every non-rand class is a triage item (docs/pc-port/COVERAGE-PLAN.md).
+Every non-rand class is a triage item.
 """
 import argparse
 import json

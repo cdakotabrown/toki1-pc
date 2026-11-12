@@ -179,7 +179,7 @@ class WindowsVideoDriver(unittest.TestCase):
             self.assertNotIn('offscreen', log)
             self.assertIn('SDL_Init done (driver: windows)', log)
             # the manifest's DPI awareness reached the process (sharp at any
-            # display scaling; WINDOWS-BUILD.md "Real-hardware readiness")
+            # display scaling)
             self.assertIn('[HAL] DPI awareness: per-monitor v2', log)
         finally:
             cleanup()

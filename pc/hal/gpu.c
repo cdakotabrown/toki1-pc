@@ -66,7 +66,7 @@
  * feeds them the real state (see mdfn_blend_for and the GP0(E6h) handler).
  *
  * NEXT: the default flip is now gated only on VISUAL verification -- are the
- * extra pixels correct?  See docs/pc-port/PC-PORT-TODO.md item 1. */
+ * extra pixels correct? */
 static int g_use_mdfn_gpu = -1;
 static int mdfn_gpu_enabled(void) {
 #ifdef MDFN_GPU_BACKEND

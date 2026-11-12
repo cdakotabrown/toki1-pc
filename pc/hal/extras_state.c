@@ -1,8 +1,7 @@
 /* SPDX-License-Identifier: GPL-3.0-or-later */
 /* extras_state.c -- the extras' read-only view of the game
  * (pc/hal/extras_state.h).  Addresses and their meaning are from the
- * matched C and docs/game-flows/ENDINGS-GUIDE.md section 2 (each one
- * cited below); this file only reads them.
+ * matched C (each one cited below); this file only reads them.
  *
  * The disc-read ring is host bookkeeping about the machine's RAM, so a
  * state load resets it (extras.c ex_after_load); its statics are the
@@ -21,7 +20,7 @@
 #define A_NOW_STEP 0x800EF868u
 #define A_PREV_STEP 0x800EF86Eu
 /* the calendar: now_year/now_month/now_day/now_youbi 0x800EE79E..7A1,
- * pass_days 0x800EE7A2 (ENDINGS-GUIDE.md 2.3) */
+ * pass_days 0x800EE7A2 */
 #define A_YEAR 0x800EE79Eu
 #define A_PASS_DAYS 0x800EE7A2u
 /* screen_w.ending = now_girl: ending_select_init.c writes the ending here
@@ -55,7 +54,7 @@ const char *ex_girl_name(int g) { return g >= 0 && g < 16 ? k_names[g] : NULL; }
 const char *ex_girl_short(int g) { return g >= 0 && g < 16 ? k_short[g] : NULL; }
 
 /* the two-letter girl codes of the per-girl disc files (END_OBJ/END_xx,
- * LASTPHOT/LASTP_xx, EVENT/EV_xx..: ENDINGS-GUIDE.md section 11's table) */
+ * LASTPHOT/LASTP_xx, EVENT/EV_xx..) */
 int ex_girl_of_code(const char *c) {
     static const char *const codes[] = {
         "FU", "KI", "HI", "KA", "NI", "KO", "KY", "KG", "AS", "MI", "SA", "TA", "IJ", "YO",

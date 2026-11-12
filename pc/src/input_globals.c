@@ -24,7 +24,7 @@
  * against the block's own label.  Before this file, globals.c declared
  * each name as its own variable: pad_type then sat where mouse_pad_set
  * expected `rkey`, and every `cnt`/`rkey` write clobbered the detector's
- * mode byte (docs/pc-port/PC-PORT-MOUSE.md).
+ * mode byte.
  *
  * The same shape (struct-offset reads of unrelated globals) exists
  * elsewhere in the matched code -- step_directional_scroll_once reaches

@@ -249,8 +249,8 @@ void *overlay_resolve(u32 addr) {
 /* overlay_tramp: entered by `jmp` from a trampoline with %eax = the PS1
  * address; keeps the argument registers, resolves, and tail-jumps.
  * System V (Linux): six integer argument registers, the PS1 address goes to
- * overlay_resolve in %edi.  Microsoft x64 (Windows, docs/pc-port/
- * WINDOWS-BUILD.md "Calling convention"): four, %rcx %rdx %r8 %r9, the
+ * overlay_resolve in %edi.  Microsoft x64 (Windows):
+ * four, %rcx %rdx %r8 %r9, the
  * address in %ecx, and the callee is owed 32 bytes of shadow space; stack
  * arguments (the fifth on) stay where the caller put them because %rsp is
  * restored before the tail jump.  Neither saves %xmm0-3: PS1 code passes no
@@ -325,8 +325,8 @@ int hal_overlay_fault_redirect(void *ucv) {
  * The old `game_mode_step = overlay_dispatch` override (a PC reinvention of
  * the dispatch) is gone per the no-PC-custom-stuff-unless-required rule;
  * pc/hal/overlay_dispatch.c is retained only as the retail scene->EXN
- * reference table it was re-derived from (docs/game-flows/05-overlay-system.md)
- * and can be deleted once nothing reads it. */
+ * reference table it was re-derived from and can be deleted once nothing
+ * reads it. */
 void overlay_init(void) {
     printf("[HAL/Overlay] Environment ready (PS1 dispatch runs the scenes)\n");
 }

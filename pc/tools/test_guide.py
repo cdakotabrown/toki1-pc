@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # SPDX-License-Identifier: GPL-3.0-or-later
 """Tests of the game-mechanics guide (pc/hal/guide_view.c, guide_model.c,
-guide_rules.c, guide_text.c; docs/game-flows/MECHANICS-GUIDE.md).
+guide_rules.c, guide_text.c).
 
 RulesTests (pc/tests/guide_harness.c, needs pc/assets/raw/PSX.EXE for the
 game's tables): the guide's rules against the GAME'S OWN functions, compiled

@@ -963,9 +963,8 @@ static int g_grabbed = 0;   /* relative mouse mode engaged */
  * only the pointer position, which every backend reports correctly.
  *
  * Fingertip: with the cursor at (0,0) the hand sprite's fingertip is at
- * picture pixel (HAND_TIP_X0, HAND_TIP_Y0), measured from the scanout
- * (docs/pc-port/PC-PORT-MOUSE.md, "Absolute mode"); mouse_pad_set clamps
- * the cursor to x -150..140, y -100..100. */
+ * picture pixel (HAND_TIP_X0, HAND_TIP_Y0), measured from the scanout;
+ * mouse_pad_set clamps the cursor to x -150..140, y -100..100. */
 #define HAND_TIP_X0 162
 #define HAND_TIP_Y0 120
 #define CURSOR_MIN_X (-150)

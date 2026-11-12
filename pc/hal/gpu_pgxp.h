@@ -1,7 +1,6 @@
 /* SPDX-License-Identifier: GPL-3.0-or-later */
 /* gpu_pgxp.h -- sub-pixel vertex precision for the high-resolution shadow
- * (the enhanced profile's GPU_PGXP; docs/pc-port/ENHANCED-MODE.md,
- * "Sub-pixel vertex precision").
+ * (the enhanced profile's GPU_PGXP).
  *
  * The GTE's perspective step computes each screen coordinate as a 16.16
  * sum, SX = (n * IR1 + OFX) >> 16 (pc/hal/gte.c gte_rtp), and the game only

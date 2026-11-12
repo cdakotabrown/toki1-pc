@@ -11,8 +11,7 @@ Written from public documentation, not from the port's C:
 
 Checked against retail: all 12 title-card FT4 packets of a retail RAM image
 (scene 18, frame_counter 1105) are reproduced word for word by this model
-from that image's object coordinates and GsWSMATRIX
-(docs/pc-port/GTE-BUILDERS.md, 2026-10-30 geometry entry).
+from that image's object coordinates and GsWSMATRIX.
 """
 import math
 

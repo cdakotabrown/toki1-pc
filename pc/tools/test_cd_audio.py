@@ -9,7 +9,7 @@ when the SPU ran dry, a sector dropped when >10 frames are still queued),
 the decoder reset discarding what the SPU has not taken, Mute and the ATV
 matrix, and the real-time mixer's jitter margin (TOKI_XA_MARGIN_MS; the
 other tests pop the FIFO directly, so they run with the margin off).  On retail (scene 20, the surname voice line) the PCM is bit-exact
-with the reference emulator once aligned (docs/pc-port/CD-AUDIO.md)."""
+with the reference emulator once aligned."""
 import ctypes
 import os
 from pathlib import Path

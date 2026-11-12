@@ -1,8 +1,7 @@
 /* SPDX-License-Identifier: GPL-3.0-or-later */
 /* extras.h -- persistent extras: the endings seen, the gallery of
  * pictures, achievements (the enhanced profile's TOKI_EXTRAS;
- * docs/pc-port/ENHANCED-MODE.md "Extras", PLAYER-GUIDE.md "Extras:
- * endings, gallery, achievements").
+ * docs/pc-port/PLAYER-GUIDE.md "Extras: endings, gallery, achievements").
  *
  * Everything is OBSERVED: once per game frame the detectors read the game
  * (pc/hal/extras_state.h) and the gallery watches uploads and draws

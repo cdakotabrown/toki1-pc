@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 """Generate pc/ld/psx_globals.syms -- absolute PS1 addresses for every data symbol.
 
-The globals model (docs/pc-port/PC-PORT-TODO.md section 4): instead of one
+The globals model: instead of one
 independent C variable per D_xxxx (which cannot alias overlapping names like
 D_800EE740[4096] vs cal_kind_apr2, and has no initialized data), every data
 symbol becomes an ABSOLUTE address inside a 2 MB PS1 RAM block that

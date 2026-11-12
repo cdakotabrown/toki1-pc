@@ -6,8 +6,8 @@
  * Only decoded SDK clear commands currently contribute device work.
  * The unmasked clear entry and polling costs use measured CPU prefixes;
  * masked submission, raw queues, DMA/IRQ and arbitration remain unmodeled.
- * Poll costs approximate warm Interpreter observations; see
- * docs/pc-port/GPU-TIMING.md. They are not hardware cycle-exact timings.
+ * Poll costs approximate warm Interpreter observations. They are not
+ * hardware cycle-exact timings.
  */
 #include "hal.h"
 #include "gpu_queue.h"
@@ -81,7 +81,7 @@ void gpu_queue_work(u32 gpu_ticks)
  * DrawSync(0) before one waits out libgpu's 240-VBlank alarm (the loop
  * below: GPU timeout, then the queue reset), and a ResetGraph first aborts
  * it (gpu_queue_reset).  On the reference a TACO sub-step-10 frame lasted
- * 242 VBlanks there (seeded start taco-s1, SEEDED-STARTS.md); the port
+ * 242 VBlanks there (seeded start taco-s1); the port
  * finished the list at once.  GPU_OT_CYCLE_HANG=0 is the negative control
  * (the device is idle after the list, as before). */
 static int ot_cycle_hang_on(void)

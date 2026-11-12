@@ -8,7 +8,7 @@
 # kanji strings for the film / concert / events.  It is NOT Yoshio's phone
 # and never loads JOHO.NBN (that is TEL's per-girl profile card).
 # Sunday 1995-06-04 = the summer-1995 issue (config_screen_init sel 1).
-# For the visual sweep and gate (docs/translation/VISUAL-SWEEP.md 3.1.2):
+# For the visual sweep and gate:
 #   python3 pc/tools/scenario.py pc/tools/scenarios/scene070_magazine.txt \
 #       --set TOKI_LANG=en --set PC_SWEEP_DIR=$PWD/build/sweep/runs/mag
 start album

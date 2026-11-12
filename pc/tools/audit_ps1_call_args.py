@@ -53,8 +53,7 @@ Rows (one per call site):
                 fifth on in 8-byte stack slots, and the caller stores 4
                 bytes: the callee reads the slot's stale upper half
                 (SetDrawMode's `RECT *tw`, declared `s32` by its callers:
-                the first Windows new_game faulted on 0x00000b7300000002;
-                docs/pc-port/WINDOWS-BUILD.md "Calling convention").
+                the first Windows new_game faulted on 0x00000b7300000002).
   STACK-WIDTH   (--width) the same from the seventh argument on, which is
                 on the stack on Linux too.
 
@@ -432,8 +431,7 @@ def main(argv=None):
     ap.add_argument('--jobs', type=int, default=8)
     ap.add_argument('--source', nargs='+', help='audit these files with the game flags')
     ap.add_argument('--width', action='store_true',
-                    help='also check WIN64-STACK / STACK-WIDTH rows (a live one fails; '
-                         'docs/pc-port/WINDOWS-BUILD.md "Calling convention")')
+                    help='also check WIN64-STACK / STACK-WIDTH rows (a live one fails)')
     a = ap.parse_args(argv)
 
     if a.source:

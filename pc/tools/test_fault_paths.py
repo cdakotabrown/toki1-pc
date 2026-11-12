@@ -7,7 +7,7 @@ through a PS1 code address, a load or store on the PS1 zero page
 report and a longjmp to the main loop's recovery point), and a host stall
 (the watchdog: SIGALRM on Linux, a watchdog thread on Windows).  Linux does
 it in a signal handler, Windows in a vectored exception handler that
-redirects the faulting thread (docs/pc-port/WINDOWS-BUILD.md "Faults").
+redirects the faulting thread.
 PC_TEST_FAULT=VBLANK:KIND provokes each one at an emulated VBlank, game
 code on the stack:
 

@@ -750,7 +750,7 @@ int main(void)
 # whenever one of those even bytes was 0x46 ('F', whose arm copies tmpBuf
 # into work[n..]) it wrote 18 bytes over the canary: "stack smashing
 # detected" about 1 run in 100.  No game message has a line longer than
-# work[64] (RENDER-PARITY-HANDOFF.md, 2026-11-01).  Before each call the
+# work[64].  Before each call the
 # stack the frame will occupy is filled with 'F', at 16 stack alignments,
 # so a read of a frame byte the function did not write takes that arm on
 # every run rather than by chance.

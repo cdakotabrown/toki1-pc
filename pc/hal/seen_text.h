@@ -1,7 +1,6 @@
 /* SPDX-License-Identifier: GPL-3.0-or-later */
 /* seen_text.h -- the dialogue pages the player has read, in any session
- * (pc/hal/seen_text.c), for the enhanced profile's "skip read dialogue"
- * (docs/pc-port/ENHANCED-MODE.md "Skipping read dialogue").
+ * (pc/hal/seen_text.c), for the enhanced profile's "skip read dialogue".
  *
  * A page is identified by a 64-bit hash of its TEXT: the Shift-JIS codes
  * the backlog capture recovered for every glyph outside the speaker's name

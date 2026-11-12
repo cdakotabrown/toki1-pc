@@ -1,6 +1,5 @@
 /* SPDX-License-Identifier: GPL-3.0-or-later */
-/* soundfont.c -- SoundFont mode (soundfont.h; docs/pc-port/ENHANCED-MODE.md
- * "SoundFont mode").
+/* soundfont.c -- SoundFont mode (soundfont.h).
  *
  * ENHANCED-ONLY REPLACEMENT, READ-ONLY OBSERVER.  The game's libsnd keeps
  * keying the SPU's voices for every song; this module renders the same notes

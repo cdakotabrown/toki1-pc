@@ -1,7 +1,6 @@
 /* SPDX-License-Identifier: GPL-3.0-or-later */
 /* gpu_texrep.h -- texture dumping and replacement packs for the native
- * rasterizer (the enhanced profile's GPU_TEXTURES; docs/pc-port/
- * ENHANCED-MODE.md, "Texture dumping and replacement").
+ * rasterizer (the enhanced profile's GPU_TEXTURES).
  *
  * The unit of a texture is an UPLOAD: every LoadImage / GP0 A0h rectangle
  * (and the copy of a whole upload by MoveImage) is recorded as a source with the hash

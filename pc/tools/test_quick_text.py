@@ -4,7 +4,7 @@
 A confirm press while a dialogue page prints completes the page (held back
 from the game; check_end_k_tbl1 set to the page's end at the frame
 boundary); one while its voice line plays (voice_level 2) reaches the game
-as cross, the game's own cut.  docs/pc-port/ENHANCED-MODE.md "Quick text".
+as cross, the game's own cut.
 
 Harness (pc/tests/quick_text_harness.c, no game data): a synthetic text
 engine and the controller-port model -- completion at the frame end and
@@ -339,7 +339,7 @@ class OnThePort(unittest.TestCase):
         # request window of the same voice line is the same.  (The call's
         # last page speaks in two parts -- xa_wait_m chains xa_m_tbl2 -- and
         # the capture attaches the newest part: the second when it plays
-        # out, the first when the player cuts it; ENHANCED-MODE.md.)
+        # out, the first when the player cuts it.)
         same = [(a['voice'], b['voice']) for a, b in zip(pa, pb)
                 if 'voice' in a and a['voice']['file'] == b['voice']['file']]
         self.assertTrue(same)

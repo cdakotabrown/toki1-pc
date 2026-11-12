@@ -38,8 +38,7 @@ static void *checked(void *p, size_t n, const char *what)
         char msg[256];
         snprintf(msg, sizeof msg,
                  "[HEAP] FATAL: %s(%llu) returned %p, above 2 GB: game code "
-                 "keeps host addresses in 32-bit integers "
-                 "(docs/pc-port/WINDOWS-BUILD.md \"Address space\")\n",
+                 "keeps host addresses in 32-bit integers\n",
                  what, (unsigned long long)n, p);
         fputs(msg, stderr);
         fflush(stderr);

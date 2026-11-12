@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-License-Identifier: GPL-3.0-or-later
-"""test_linux_package.py -- the Linux player package's glibc floor
-(docs/pc-port/LINUX-PACKAGE.md).
+"""test_linux_package.py -- the Linux player package's glibc floor.
 
     python3 pc/tools/test_linux_package.py
 

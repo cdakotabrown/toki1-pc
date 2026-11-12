@@ -103,7 +103,7 @@ CLUBS = ('literature', 'drama', 'science', 'computer', 'art', 'brass', 'baseball
 GIRLS = ('shiori', 'mio', 'yuina', 'ayako', 'saki', 'yukari', 'nozomi', 'mira',
          'yuko', 'megumi', 'yumi', 'miharu', 'rei', 'yoshio')
 GIRL_FIELDS = {'tokimeki': (2, '<h'), 'yuukou': (6, '<h'), 'bomb': (10, '<h'), 'flags': (12, '<I'),
-               # docs/game-flows/ENDINGS-GUIDE.md 2.1: birthday (bits 0..3
+               # birthday (bits 0..3
                # month, 4..8 day, 9..10 blood type); +20 flags[0]; +21..+55
                # flags[1..35], the date-spot visit counters the ending sums
                # (spot.<k> is the byte at +20+k, k = 0..35)

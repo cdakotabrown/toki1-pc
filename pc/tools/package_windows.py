@@ -4,7 +4,7 @@
 
     python3 pc/tools/package_windows.py [--out build/tokimeki-pc-windows.zip]
 
-Contents (docs/pc-port/WINDOWS-BUILD.md "Package", PLAYER-GUIDE.md section 1):
+Contents (docs/pc-port/PLAYER-GUIDE.md section 1):
     tokimeki-pc/Heartthrob Memorial PC Enhanced.exe   (PLAYER_EXE)
                                     the game: ONE self-contained program
                                     (make -f pc/Makefile windows; SDL2 and the
@@ -102,10 +102,10 @@ def check_english(binary):
     """English is the player default (settings.c, 2026-11-05): a package
     whose binary carries no translation pack would start in Japanese with an
     error line.  The pack is embedded only when pc/build/translation/en.tktp
-    exists at link time (pc/Makefile TKTP=; docs/pc-port/TRANSLATION-ON-PC.md).
+    exists at link time (pc/Makefile TKTP=).
     The requirement holds when the English patch is part of the build
     (toki1-english present, pc/tools/pc_paths.py); without it the build is the
-    Japanese game (docs/REPO-SPLIT-PLAN.md), which this says out loud."""
+    Japanese game, which this says out loud."""
     if ENGLISH is None:
         print('package: toki1-english not found (../toki1-english, TOKI_ENGLISH_DIR): '
               'packaging the Japanese-only build, no English translation pack required')

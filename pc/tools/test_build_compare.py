@@ -1,9 +1,8 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 """pc/tools/build_compare.py: the comparison itself (trace rows, PS1 RAM words).
 
-The end-to-end check is a run: `build_compare.py SCRIPT --b <other binary>`
-(the 2026-10-31 runs are in docs/pc-port/RENDER-PARITY-HANDOFF.md).  These
-tests pin what counts as a difference: any trace field of any row, a
+The end-to-end check is a run: `build_compare.py SCRIPT --b <other binary>`.
+These tests pin what counts as a difference: any trace field of any row, a
 missing row, and any PS1 RAM word except one holding a host code address
 of the respective binary in both runs.
 """

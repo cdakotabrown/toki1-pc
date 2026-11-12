@@ -4,7 +4,7 @@
  * game's code (named with their function in each "Source:" line) or
  * tables read at run time from the player's game (the calendar from
  * CALROM.NBN, the exam bonuses from ETC.EXN, the date multipliers from
- * DATE.EXN).  Evidence: docs/game-flows/MECHANICS-GUIDE.md (MG).
+ * DATE.EXN).
  */
 #include <stdio.h>
 #include <string.h>
@@ -40,7 +40,7 @@ static const char *const k_mon[13] = {
 
 /* ---- the calendar ---- */
 
-/* the event numbers of the calendar file (schedule_make's arms; MG 5.1) */
+/* the event numbers of the calendar file (schedule_make's arms) */
 typedef struct {
     int ev;
     const char *name;
@@ -124,7 +124,7 @@ static void calendar_section(const GsvState *s) {
         P(HL, "Next: %s on %d %s %d.", k_events[next_ev].name, next_d + 1,
           k_mon[(next_k + 3) % 12 + 1], 95 + (next_k + 3) / 12);
     SRC("CALROM.NBN read from your disc (season_load_step 0x80072A58, cal_font_load "
-        "0x800689FC); schedule_make (0x8006D890) turns each event into the day's scene. MG 5.1");
+        "0x800689FC); schedule_make (0x8006D890) turns each event into the day's scene.");
 }
 
 void guide_page_events(const GsvState *s) {
@@ -157,7 +157,7 @@ void guide_page_events(const GsvState *s) {
     }
     SRC("score_grade_calc (ETC 0x80146D40), get_etc_hosei (ETC 0x801463F8, bonuses read "
         "from ETC.EXN), etc_week_rank_calc (ETC 0x801480BC), etc_week_result_disp (ETC "
-        "0x80147D60). MG 5.2");
+        "0x80147D60).");
 
     H("Clubs and matches");
     B(T, "Sessions count up by 1 a club day (2 a camp day). A club girl can be introduced "
@@ -171,7 +171,7 @@ void guide_page_events(const GsvState *s) {
     B(T, "3 Jan 1998: sports clubs with 10 wins play the final (won with 350 sessions: all "
       "girls +25, lost +18); culture clubs with 380 sessions get an award (+20).");
     SRC("week_day_main0 (0x8007470C), kangei_bukatu_para_set (KANGEI 0x80133A6C), RENSYU, "
-        "MASTER, schedule_make. MG 5.3");
+        "MASTER, schedule_make.");
 
     H("Random encounters");
     B(T, "Each term school day has a 1-in-4 after-school slot (at most two a week). A slot "
@@ -181,7 +181,7 @@ void guide_page_events(const GsvState *s) {
     B(T, "Saturday: after six good days of study the girl who admires that subject may "
       "come by (Humanities Mio, Science Yuina, Art Ayako, Trivia Yuko, Looks Mira).");
     SRC("schedule_make, schedule_girls_gakko (0x80070B94), girls_event_pick (0x8006FBF0), "
-        "get_param_top_girl (0x8006F5C8). MG 5.7");
+        "get_param_top_girl (0x8006F5C8).");
 
     H("Bomb events (every day)");
     B(T, "A girl's bomb at 61+: the rumour screen, once until it falls under 50.");
@@ -191,13 +191,13 @@ void guide_page_events(const GsvState *s) {
       "met girl loses tokimeki and friendship (her Girls page has the amounts). Never in "
       "1998 or in vacations; one girl a day, the lowest number first.");
     SRC("schedule_day_main (0x800713EC), girls_param_clamp (0x800710F8), get_tel_ring_girl / "
-        "tel_ring_timeout (TEL). MG 4");
+        "tel_ring_timeout (TEL).");
 
     H("Rei's story");
     B(T, "21+ calls to her: Rei's first event (in winter). 41+: Yoshio's kidnapping news "
       "(once per game; the first answer keeps her ending open). 65+: her third event.");
     if (live(s)) P(HL, "Now: %d calls.", s->rei_calls);
-    SRC("girls_event_pick (0x8006FBF0), geko_serifu_branch_step (GEKO 0x8013BF40). MG 5.4");
+    SRC("girls_event_pick (0x8006FBF0), geko_serifu_branch_step (GEKO 0x8013BF40).");
 
     H("Miharu");
     B(T, "Corridor meetings: 4%% per random-event slot (day 30+, 4 weeks apart, up to 5).");
@@ -206,7 +206,7 @@ void guide_page_events(const GsvState *s) {
     if (live(s))
         P(HL, "Now: %d meetings%s.", s->miharu_count,
           s->miharu_left ? ", she has said goodbye (no ending)" : "");
-    SRC("girls_event_pick, date_event_sched (DATE 0x80132728). MG 5.5");
+    SRC("girls_event_pick, date_event_sched (DATE 0x80132728).");
 
     H("The last weeks (1998)");
     B(T, "15 Feb: Miharu's farewell, only if two girls already score 501+ and she has 4+ "
@@ -218,7 +218,7 @@ void guide_page_events(const GsvState *s) {
     B(T, "28 Feb: Yuina's robot, if she is the strict top scorer with 500+.");
     B(T, "1 Mar: graduation. The ending is decided from that day's numbers.");
     SRC("final_year_event_check (0x8006EAE4), tel_ring0 (TEL 0x80134CD4), schedule_day_main, "
-        "geko_ranking_init (GEKO 0x80142014), girl2_top_check (0x800711D0). MG 5.6");
+        "geko_ranking_init (GEKO 0x80142014), girl2_top_check (0x800711D0).");
 }
 
 /* ---- RULES ---- */
@@ -262,7 +262,7 @@ void guide_page_rules(const GsvState *s) {
       "activity at x4).");
     B(T, "Some school days bring a first meeting, a girl's event or a walk home (Girls, "
       "Events).");
-    SRC("schedule_make (0x8006D890), schedule_day_main (0x800713EC). MG 1");
+    SRC("schedule_make (0x8006D890), schedule_day_main (0x800713EC).");
 
     H("Friendship and tokimeki");
     B(T, "Friendship fades by 1 when a week is planned on the 1st-6th of a month (Shiori: "
@@ -270,7 +270,7 @@ void guide_page_rules(const GsvState *s) {
     B(T, "A met girl under 10%% friendship gets +5 bomb at every term planning (neglect).");
     B(T, "Friendship, tokimeki and bomb stay within 0-128 (checked every day).");
     SRC("schdeule_girls_param (0x80070F50), girl_counter_periodic_decrement (0x80070D04), "
-        "syoushin_up (0x80070ED0), girls_param_clamp (0x800710F8). MG 3.1");
+        "syoushin_up (0x80070ED0), girls_param_clamp (0x800710F8).");
 
     H("Her mood");
     P(T, "The game sorts each girl by friendship%% (F) and tokimeki%% (T): F under 10: "
@@ -278,14 +278,14 @@ void guide_page_rules(const GsvState *s) {
     B(T, "Hostile, or a bomb of 60+: she will not walk home with you or ask you out, and "
       "refuses your call.");
     SRC("get_g_zyotai_h (0x80051F68), get_g_zyotai_s (0x80051E88), geko_judge (0x80070754), "
-        "date_sasoi_judge (0x80070910), tel_greet1 (TEL 0x80134F18). MG 6.1");
+        "date_sasoi_judge (0x80070910), tel_greet1 (TEL 0x80134F18).");
 
     H("Conversation answers");
     P(T, "Most choices (walks home, birthdays, trips, festivals) use one scale: best answer "
       "tokimeki +3, friendship +2, bomb -15; middle +2, +1, -10; worst 0, +1, bomb +10; "
       "refusing friendship -1, bomb +5.");
     SRC("date_serifu_param_add (DATE 0x80149F70), geko_serifu_para_set (GEKO 0x80137648) "
-        "and siblings. MG 6.2");
+        "and siblings.");
 
     H("Asking her out by phone");
     B(T, "From the holiday screen: one call a day. You can book a Sunday or holiday in the "
@@ -296,7 +296,7 @@ void guide_page_rules(const GsvState *s) {
     B(T, "Every call that gets that far: bomb -12, friendship +0..3. A no: stress +9, "
       "Guts +0..7.");
     SRC("tel_ring0 (TEL 0x80134CD4), tel_cal_menu_set (TEL 0x80136458), reserved_date_check, "
-        "tel_dialog20 (TEL 0x80136620). MG 6.3");
+        "tel_dialog20 (TEL 0x80136620).");
 
     H("On a date");
     P(T, "Each answer is graded best (0) to worst (4). Good answers gain more with high "
@@ -312,7 +312,7 @@ void guide_page_rules(const GsvState *s) {
     SRC("date_score_apply (DATE 0x8013C12C), date_rank_grade_get (DATE 0x8013C3AC, "
         "D_8015B780, D_8015B76C read from DATE.EXN), date_ans_serifu_run (DATE "
         "0x8013B434), date_para_you_check (DATE 0x8013F4D8), date_exit (DATE 0x8013CD8C), "
-        "tel_girl_adjust (TEL 0x80139D6C). MG 6.3");
+        "tel_girl_adjust (TEL 0x80139D6C).");
 
     H("She asks you");
     B(T, "In an after-school slot: a met girl with icon 33+, bomb under 60 and not "
@@ -334,7 +334,7 @@ void guide_page_rules(const GsvState *s) {
           guide_invite_day_ok() ? "" : " (but not today)");
     }
     SRC("schedule_make, schedule_girls_gakko (0x80070B94), date_sasoi_judge (0x80070910), "
-        "geko_judge (0x80070754). MG 6.5");
+        "geko_judge (0x80070754).");
 
     H("Places");
     B(T, "Open from the start: neighbourhood park, shopping street, zoo, library, game "
@@ -346,7 +346,7 @@ void guide_page_rules(const GsvState *s) {
     B(T, "Pool and beach only in the summer vacation, skating rink and ski slope only in "
       "the winter vacation, the shrine on 1-7 August.");
     SRC("parameter_init (0x80041BBC), basyo_flag_set (0x8006D1D4), tel_spot_menu_set (TEL "
-        "0x8013D758), get_vacation. MG 6.6");
+        "0x8013D758), get_vacation.");
 
     H("Illness");
     P(T, "Checked every Saturday after school. Stamina under 20: an injury when a random "
@@ -361,12 +361,12 @@ void guide_page_rules(const GsvState *s) {
     B(T, "Sick on a school day: a met girl with tokimeki 51%%+ may visit (63 in 256 per "
       "girl, one girl).");
     SRC("byouki_hassei (0x80072E30), byouki_kega_kaifuku, byouki_noiroze_kaifuku, "
-        "byouki_main7, parameter_up_down, get_grp_point. MG 1.4");
+        "byouki_main7, parameter_up_down, get_grp_point.");
 
     H("The ending");
     B(T, "Rei first: 70+ calls, the kidnapping accepted and Shiori not at 785.");
     B(T, "Then the met girl with the highest score of 500 or more (ties: the lower "
       "number, Shiori first).");
     B(T, "Nobody: Miharu's dice roll if you met her and she did not leave; else Yoshio.");
-    SRC("ending_select_init (ENDING 0x801330F4). MG 3.3");
+    SRC("ending_select_init (ENDING 0x801330F4).");
 }

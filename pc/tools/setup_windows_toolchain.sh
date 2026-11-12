@@ -1,7 +1,7 @@
 #!/bin/sh
 # SPDX-License-Identifier: GPL-3.0-or-later
 # setup_windows_toolchain.sh -- what `make -f pc/Makefile windows` needs, on a
-# Debian/Ubuntu host, without root (docs/pc-port/WINDOWS-BUILD.md).
+# Debian/Ubuntu host, without root.
 #
 #  1. MinGW-w64 gcc/g++ (posix threads).  If x86_64-w64-mingw32-gcc-posix is
 #     on PATH (sudo apt install gcc-mingw-w64-x86-64-posix

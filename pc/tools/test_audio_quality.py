@@ -2,8 +2,7 @@
 """Enhanced sound quality: the SPU's interpolation, the floating-point reverb,
 the SoundFont injection point of the SPU core, and the 48 kHz device
 resampler (pc/hal/spu_quality.c, pc/hal/audio_resample.c, the core patch in
-pc/3rd/SPU-CORE.md "Local patches"; docs/pc-port/ENHANCED-MODE.md
-"Sound quality").
+pc/3rd/SPU-CORE.md "Local patches").
 
   python -m unittest discover -s pc/tools -p test_audio_quality.py -v
 

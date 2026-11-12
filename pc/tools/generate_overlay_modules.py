@@ -119,7 +119,7 @@ def literals_to_ps1_data(ovl_name, content):
     port keeps PS1 data in the PS1 image -- a 32-bit PS1 address, translated
     by the English pack in place -- so each TXT_<ADDR> becomes the PS1 object
     at ADDR: its landed name, else D_<ADDR>, exactly the extern the matched C
-    used before the literal (docs/reference/OVERLAY-DATA-FROM-SOURCE.md)."""
+    used before the literal."""
     if 'TXT_' not in content:
         return content
     landed = _landed_overlay_data(ovl_name)

@@ -11,8 +11,8 @@ int pc_win_rename(const char *from, const char *to)
 }
 
 /* The process's DPI awareness and the window's DPI, for the log
- * (pc/hal/system.c after the window opens; docs/pc-port/WINDOWS-BUILD.md
- * "Real-hardware readiness").  The manifest asks for per-monitor v2, so the
+ * (pc/hal/system.c after the window opens).
+ * The manifest asks for per-monitor v2, so the
  * window stays sharp at 125-200 % scaling and when it moves to a monitor
  * of another scale; the presenter sizes everything in pixels.  The calls
  * are looked up at run time (Windows 10 1607+), so older systems log

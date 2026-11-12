@@ -6,8 +6,7 @@
  * pinned profile, extract every ISO9660 file (XA/STR sectors with their
  * subheaders, the external CD-DA extent from Track 2) and write the same
  * tree and the same assets.manifest.json, byte for byte, as the Python tool
- * (docs/pc-port/ASSET-BOOTSTRAP.md; equivalence test:
- * pc/tools/test_asset_setup_c.py).
+ * (equivalence test: pc/tools/test_asset_setup_c.py).
  *
  * No SDL here: the setup screen (pc/hal/setup_screen.c) runs it on a worker
  * thread and reads the progress; the command line (--prepare-assets,
@@ -18,8 +17,8 @@
  *   - a single-file BIN/CUE (both tracks in one .bin) is read through its
  *     CUE track offsets;
  *   - without Track 2 the setup can continue (allow_no_audio): Track 2 holds
- *     only the CD-DA extent CDROM/DADIR/TR02.DA, which the game never plays
- *     (docs/pc-port/CD-AUDIO.md).  The manifest then lists it under
+ *     only the CD-DA extent CDROM/DADIR/TR02.DA, which the game never plays.
+ *     The manifest then lists it under
  *     "omitted_files"; the Python tool does not accept such a tree;
  *   - each failure carries a code the setup screen turns into advice
  *     (wrong revision, cooked ISO, CHD/ECM/PBP, missing Track 2, space...).

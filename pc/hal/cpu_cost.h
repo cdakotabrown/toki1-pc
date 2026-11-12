@@ -9,7 +9,7 @@
  * stay strong: on Windows (PE/COFF) a weak definition becomes a weak
  * external that GNU ld may bind to another object's default of 0 -- the
  * first Windows build charged no BIOS/HAL time at all
- * (pc/tools/audit_pe_weak.py, docs/pc-port/WINDOWS-BUILD.md). */
+ * (pc/tools/audit_pe_weak.py). */
 #ifdef PC_CPU_COST_DEFINE
 #define PC_CPU_COST_WEAK
 #else

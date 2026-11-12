@@ -33,7 +33,7 @@ extern const unsigned pc_retail_init_manual_count;
  * one.  Most of these names link to their PS1 addresses
  * (pc/ld/psx_globals.syms), so `dst` is PS1 RAM itself: filling them from
  * the Japanese file in English mode wrote Japanese back over the English
- * executable's strings (docs/translation/BROKEN-STRINGS-AUDIT.md).  Returns
+ * executable's strings.  Returns
  * the number of entries filled, -1 when the file is not a PS-X EXE. */
 int pc_retail_init_load(const char *exe_path);
 

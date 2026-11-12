@@ -1,7 +1,7 @@
 #!/bin/bash
 # SPDX-License-Identifier: GPL-3.0-or-later
-# run_battery.sh -- the PC-port verification battery (docs/progress/REMAINING-WORK.md),
-# with the independent stages run in parallel.
+# run_battery.sh -- the PC-port verification battery, with the independent
+# stages run in parallel.
 #
 #   pc/tools/run_battery.sh [OUT_DIR]        (default build/battery)
 #

@@ -9,7 +9,7 @@ Unit harnesses compile the HAL file under test with pc/hal/profile.c:
     must keep the timed models;
 and, when the port is built and your assets are present, an enhanced
 new_game playthrough that must reach the same milestones as parity in fewer
-VBlanks.  docs/pc-port/ENHANCED-MODE.md.
+VBlanks.
 """
 import json
 import os

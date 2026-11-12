@@ -418,7 +418,7 @@ s32 GsTMDfastTNG4(u8 *prim, u8 *vtx, s32 packet, u16 count, s32 shift,
  * Lit builders, the "L" arm of TmdF3 / TmdTF3 / TmdTG3 (GsLIOFF = 0, not
  * the fog/LFG condition).  Reached: TACO (scene 144) gameplay draws every
  * one of them (pc/tools/tmd_census.py); no other lit arm and no GsTMDdiv*
- * run was reached (GTE-BUILDERS.md census).
+ * run was reached.
  *
  * Signature (from TmdF3/TmdTF3/TmdTG3, retail stack layout): prim, vtx,
  * normal table, packet, count, shift, ot.  Lit prim layouts: each vertex

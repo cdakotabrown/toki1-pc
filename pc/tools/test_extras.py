@@ -1,7 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 """The extras: endings seen, the gallery, achievements (pc/hal/extras.h;
-docs/pc-port/ENHANCED-MODE.md "Extras", PLAYER-GUIDE.md "Extras: endings,
-gallery, achievements").
+docs/pc-port/PLAYER-GUIDE.md "Extras: endings, gallery, achievements").
 
 1. pc/tests/extras_harness.c (no game, no assets): the detectors fed
    hand-built views -- a real ending decision, the OPTION ending viewer, a
@@ -316,7 +315,7 @@ class PortReadOnly(unittest.TestCase):
 
 @unittest.skipUnless(available(), 'needs the built port and pc/assets')
 @unittest.skipIf(game_platform.WINDOWS, 'PC_DBG_CMDS pokes and save states: the debug toolkit '
-                 'is not on the Windows build yet (WINDOWS-BUILD.md "Open limits")')
+                 'is not on the Windows build yet')
 class PortEndings(unittest.TestCase):
     """the ending decision in three seeded states, one shared record"""
 

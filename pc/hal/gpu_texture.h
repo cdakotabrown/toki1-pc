@@ -25,11 +25,9 @@
  * `% VRAM_WIDTH`).  Encoded Y plus u8 v cannot exceed row 511.  Hardware
  * cache behavior is not modelled here (texel_fetch in gpu.c does).
  *
- * Evidence: Psy-Q 2.5 LIBGPU.H getTPage/getClut document (SDK not vendored
- * since the 2026-11 cleanup)
- * the standard bit fields; docs/reference/PSX-HARDWARE-REFERENCE.md lists
- * 4/8-bit indexed and 15-bit direct formats.  The row-edge wrap is the
- * PSX-SPX VRAM edge rule (GPU "Wrapping"), corroborated by the reference
+ * Evidence: Psy-Q 2.5 LIBGPU.H getTPage/getClut document the standard bit
+ * fields (4/8-bit indexed and 15-bit direct formats).  The row-edge wrap is
+ * the PSX-SPX VRAM edge rule (GPU "Wrapping"), corroborated by the reference
  * emulators named above; neither source establishes reserved-depth behavior.
  * The reserved-depth zero result is explicit unsupported-input handling,
  * not a claim that hardware returns zero (old texel_fetch treated 3 as 2).

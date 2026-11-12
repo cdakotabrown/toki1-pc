@@ -2,8 +2,8 @@
 /* enhance.c -- the enhanced profile's play features that live at the HAL's
  * edges: fast-forward (pc/hal/system.c presents and paces through it) and
  * dialogue auto-advance (pc/hal/pad.c adds its confirm press).
- * Switches and settings: pc/hal/profile.c; user documentation:
- * docs/pc-port/ENHANCED-MODE.md.  Off under the parity profile: every entry
+ * Switches and settings: pc/hal/profile.c.
+ * Off under the parity profile: every entry
  * point below then returns the neutral value without touching any state.
  *
  * Nothing here writes game memory.  Auto-advance READS globals of the

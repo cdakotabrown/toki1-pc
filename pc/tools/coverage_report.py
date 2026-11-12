@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 """Reach coverage of the PC port: which game functions a test suite runs.
 
-Three subcommands (docs/pc-port/COVERAGE-PLAN.md, Phase 1):
+Three subcommands:
 
   build-reach [--out BIN]
       Link a copy of the port in which every game object (sources under

@@ -5,7 +5,7 @@
  * Press F2 to open scene select (type scene ID 0-255, Enter to jump).
  * Press F3 to dump current game state to console.
  * Press F5 to save a state, F9 to load it, F6 to pause, F10 to step a
- * frame (the debug toolkit, docs/pc-port/DEBUG-TOOLS.md).  In an
+ * frame (the debug toolkit).  In an
  * interactive run without PC_DBG_SLOT the presenter takes F5 / F9 first
  * for the player's quicksave (pc/hal/quicksave.c).
  *

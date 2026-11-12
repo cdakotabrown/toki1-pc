@@ -15,8 +15,8 @@
  * at sub_step 0 with sub_sub_step >= 1 has the decision in now_girl.  The
  * OPTION ending viewer enters step 99 at sub_step 3 (option_load_wait.c)
  * or 7/15 (option_ending_start.c) and never runs the decision: it is not
- * counted.  The 14 endings are now_girl 0..13 (ENDINGS-GUIDE.md section 1:
- * the eleven girls, Miharu, Rei, and Yoshio's "no girl" ending).
+ * counted.  The 14 endings are now_girl 0..13 (the eleven girls, Miharu,
+ * Rei, and Yoshio's "no girl" ending).
  *
  * Achievements: each is a fact the detectors read (the table below says
  * which); unlocked once, persisted with its time.
@@ -311,7 +311,7 @@ int ex_store_save(void) {
     if (!buf) return -1;
 #define PUT(...) (n += (size_t)snprintf(buf + n, cap - n, __VA_ARGS__))
     PUT("# Heartthrob Memorial PC Enhanced extras (pc/hal/extras.c): endings seen, achievements,\n"
-        "# the gallery. Format: pc/hal/extras.h / docs/pc-port/ENHANCED-MODE.md \"Extras\".\n"
+        "# the gallery. Format: pc/hal/extras.h.\n"
         "format 1\n");
     for (i = 0; i < S.nruns; i++) {
         const ExEndingRun *e = &S.runs[i];

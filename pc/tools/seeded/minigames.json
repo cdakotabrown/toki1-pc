@@ -1,6 +1,6 @@
 {
  "group": "minigames",
- "comment": "Minigame scenes the Continue path reaches slowly or not at all.  Base: an album crafted with checkpoints.craft (the typical profile at the date, plus `set`), loaded by the title's Continue.  Hand-built fields cite the C they were read from.  ret_step/ret_sub_step/ret_sub_sub_step is the return triple each caller writes before its goto_step (the calling step); here the planner the defined point sits on, 52/1/0, as master_basyo_serifu_main writes for TACO (DEBUG-TOOLS.md, scenario taco).",
+ "comment": "Minigame scenes the Continue path reaches slowly or not at all.  Base: an album crafted with checkpoints.craft (the typical profile at the date, plus `set`), loaded by the title's Continue.  Hand-built fields cite the C they were read from.  ret_step/ret_sub_step/ret_sub_sub_step is the return triple each caller writes before its goto_step (the calling step); here the planner the defined point sits on, 52/1/0, as master_basyo_serifu_main writes for TACO.",
  "starts": [
   {"id": "rpg_bat", "scene": 129, "overlay": "RPG_BAT", "base": "album",
    "album": {"date": "96/6/2", "set": {"girl.yuina.flags": "|0x0A", "girl.yuina.tokimeki": 60}},
@@ -37,7 +37,7 @@
   {"id": "tt", "scene": 208, "overlay": "TT", "base": "album",
    "album": {"date": "96/10/27", "set": {"club": "computer"}},
    "fields": [
-    {"name": "ret_step:1", "value": 52, "why": "game_main case 208 -> func_80079628 runs TT.EXN synchronously and returns to D_800EEE80..82 (KONAMI-DEBUG-FACILITIES.md section 6)"},
+    {"name": "ret_step:1", "value": 52, "why": "game_main case 208 -> func_80079628 runs TT.EXN synchronously and returns to D_800EEE80..82"},
     {"name": "ret_sub_step:1", "value": 1, "why": "as ret_step"},
     {"name": "ret_sub_sub_step:1", "value": 0, "why": "as ret_step"}
    ],
@@ -96,7 +96,7 @@
      "wait page_end now_step=144 now_sub_step=7 now_sub_sub_step=3 within 4000",
      "wait back_title now_step=144 now_sub_step=2 within 600"]},
    "comment": "From TACO's attract flight: Start to the title (sub-step 2), Start to the menu (3), Up twice (taco_select_step wraps 0 -> 4 -> 3, OPERATIONS) and Circle.  Sub-sub-step 0 (taco_cd_image_load) decodes 3D_1.BS; 1 and 2 (taco_main7_main1 / main2) scroll the two TACOTEX pages while the narration plays XA entries 0..2 and 3..9 of D_8015F450; 3 (taco_cmd_advance) goes back to the title.  Shots: page 1 every 60 frames, page 2 every 80 (the scroll moves a line every 2 frames, then every 4).",
-   "covers": ["TACO 144/7: the OPERATIONS screen (3D_1.BS backdrop, both TACOTEX tutorial pages with their XA narration, back to the title), shot every 40..80 frames on both machines (docs/pc-port/RENDER-PARITY-HANDOFF.md 2026-11-06)"]},
+   "covers": ["TACO 144/7: the OPERATIONS screen (3D_1.BS backdrop, both TACOTEX tutorial pages with their XA narration, back to the title), shot every 40..80 frames on both machines"]},
   {"id": "taiiku", "scene": 114, "overlay": "TAIIKU", "base": "album",
    "album": {"date": "96/6/2"},
    "input": {"kind": "explore", "seeds": [1], "vblanks": 9000},

@@ -1,4 +1,4 @@
-# English options menu (docs/translation/BROKEN-STRINGS-AUDIT.md): title ->
+# English options menu: title ->
 # Options -> every list (text speed, icon mode, mouse, menu mode, cursor
 # speed, voice), each opened and closed, with a screenshot.  The cursor-speed
 # and voice labels were among the 43 strings the PC port showed in Japanese

@@ -1,7 +1,7 @@
 /* SPDX-License-Identifier: GPL-3.0-or-later */
 /* extras_state.h -- read-only decoding of the game state the extras need
  * (pc/hal/extras.c: endings, achievements; pc/hal/extras_gallery.c:
- * pictures).  docs/pc-port/ENHANCED-MODE.md, "Extras".
+ * pictures).
  *
  * Everything here READS: PS1 RAM at fixed addresses (the matched C names
  * are given beside each address; addresses, not names, are the contract,

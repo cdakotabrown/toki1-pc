@@ -9,8 +9,7 @@ from an executable.  Most of those names link to their PS1 addresses
 read the JAPANESE executable, which put the Japanese bytes back over 43
 English strings and tables of the English executable -- the club-joining
 message ("Swimming部に□部した。"), the captain's club-day line, the
-options-menu labels, the save dialogs, the club-select names
-(docs/translation/BROKEN-STRINGS-AUDIT.md, class a).
+options-menu labels, the save dialogs, the club-select names.
 
 The test boots the game to the title menu and checks, for every such
 global whose English and Japanese bytes differ (and that the symbol ledger

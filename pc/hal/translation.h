@@ -1,7 +1,7 @@
 /* SPDX-License-Identifier: GPL-3.0-or-later */
 /* translation.h -- the embedded English translation pack and its applier.
  *
- * docs/pc-port/TRANSLATION-ON-PC.md.  The pack (format below) is built by
+ * The pack (format below) is built by
  * pc/tools/translation_pack.py from the repo's English patch build and is
  * compiled into the executable.  It carries only bytes this project
  * authored -- English text, our font, our lettering pixels, our compiled

@@ -39,7 +39,7 @@
 #define TEXREP_GAME_ID "SLPS-00065"
 /* Default dump floor, in texels: sources smaller than this are not dumped
  * (they are still replaced when a pack names them).  Measured on the three
- * playthroughs (ENHANCED-MODE.md): below it are the 16x12 text glyphs the
+ * playthroughs: below it are the 16x12 text glyphs the
  * game streams in per character, palette rows and 1-line strips. */
 #define TEXREP_DUMP_MIN_DEFAULT 256
 #define MAX_SOURCES 65536          /* ids 1..65535 in owner[] */

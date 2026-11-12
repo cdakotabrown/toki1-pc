@@ -3,7 +3,7 @@
 # config/patch/coverage_plan.json: x 60, y 52 -> 53 on the 3-px grid), the
 # instruction panel, then the race under the circle / L1 / R1 cycle the
 # campaign presses, so the cue cards (SPOON.BIN page 6: Go! / Right / Left)
-# show.  For the visual sweep (docs/translation/VISUAL-SWEEP.md):
+# show.  For the visual sweep:
 #   python3 pc/tools/scenario.py pc/tools/scenarios/scene114_taiiku_spoon_play.txt \
 #       --set TOKI_LANG=en --set PC_SWEEP_DIR=$PWD/build/sweep/runs/taiiku
 # The run is the state of scene114_taiiku_spoon.txt plus input; `expect`

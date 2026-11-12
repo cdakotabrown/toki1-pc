@@ -8,8 +8,7 @@
  * (constants of the code, written here as our own rule text).  Each rule
  * function below has a counterpart in the game, and
  * pc/tests/guide_harness.c runs both on the same RAM and compares them
- * (pc/tools/test_guide.py).  The written evidence -- function, address,
- * table -- is in docs/game-flows/MECHANICS-GUIDE.md.
+ * (pc/tools/test_guide.py).
  *
  * Read only: nothing here writes PS1 memory or calls game code.  SDL-free.
  */

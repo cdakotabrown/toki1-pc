@@ -122,8 +122,8 @@ def _run_posix(cmd, *, cwd, env, timeout, max_output, log_path, stop, watch_file
 
 
 def _run_windows(cmd, *, cwd, env, timeout, max_output, log_path, stop, watch_files):
-    """run() for a Windows Python (the player launcher's --headless,
-    docs/pc-port/WINDOWS-BUILD.md): select() cannot wait on a pipe there
+    """run() for a Windows Python (the player launcher's --headless):
+    select() cannot wait on a pipe there
     and there are no process groups, so a thread drains the merged output
     and the limits end the process itself (the game starts no children)."""
     import threading

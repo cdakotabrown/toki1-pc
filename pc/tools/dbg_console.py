@@ -13,7 +13,7 @@ Start the port with a console, then send commands:
 Each command gets one reply line (`ok ...` or `err ...`).  The game reads
 the console at its frame boundary, so a reply can take up to a frame (or the
 boot movie, which is one long frame).  Exit status: 1 if any reply was err.
-Commands: docs/pc-port/DEBUG-TOOLS.md (or send `help`).
+Commands: send `help`.
 """
 import argparse
 import socket

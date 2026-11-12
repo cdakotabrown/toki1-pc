@@ -3,7 +3,6 @@
 """Compatibility entry point for the single verified native asset engine.
 
 Usage: python3 pc/tools/extract_assets.py disc.cue /new/assets/directory
-See docs/pc-port/ASSET-BOOTSTRAP.md for supported images and cache guarantees.
 """
 from bootstrap_assets import main
 

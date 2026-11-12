@@ -476,7 +476,7 @@ long memcard_card_auto(long enabled)
 void memcard_new_card(void) { g_card_suppress_new = 1; }
 
 /* CARD_IO_TIMING=0 -- instant card I/O (the enhanced profile,
- * pc/hal/profile.c; docs/pc-port/ENHANCED-MODE.md).  A request is serviced
+ * pc/hal/profile.c).  A request is serviced
  * as soon as it is submitted (or the slot frees), not at its slot's turn
  * every second VBlank, and completes CARD_INSTANT_TICKS later with the
  * same events, statuses and data as the timed model.  A 64-sector album

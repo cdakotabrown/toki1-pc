@@ -7,8 +7,7 @@
  * the game's code, transcribed in pc/hal/guide_rules.c and checked
  * against the game's functions by pc/tests/guide_harness.c.  Each section
  * ends with a "Source:" line naming the function or table (shown only when
- * guide_show_sources is set: the harness, never the player's game); the full
- * evidence is docs/game-flows/MECHANICS-GUIDE.md (MG below).
+ * guide_show_sources is set: the harness, never the player's game).
  *
  * Read only; SDL-free (text is measured and wrapped with pc/hal/ui_font.c).
  */
@@ -62,7 +61,7 @@ static const char *const k_stat3[9] = {
 static const char *const k_act[8] = {
     "Humanities", "Science", "Art", "Sports", "Club", "Trivia", "Looks", "Rest",
 };
-/* basyo_pack >> 12 (gsv_club_name's order, MG 2) */
+/* basyo_pack >> 12 (gsv_club_name's order) */
 static const char *const k_club[12] = {
     "Literature", "Drama", "Science", "Computer", "Art", "Brass band", "Baseball",
     "Soccer", "Tennis", "Swimming", "Basketball", "None",
@@ -264,7 +263,7 @@ static void page_activities(const GsvState *s) {
           cur == 4 ? ": " : "", cur == 4 ? k_club[club >= 0 && club < 12 ? club : 11] : "");
     SRC("parameter_up_down (0x80074890) with the rows parameter_up_down_tbl0 "
         "(0x800BCDE0) and _tbl1 (0x800BCE28) read from your game; one point = 16 table "
-        "units. MG 1.1");
+        "units.");
 
     H("What changes the amounts");
     B(GUIDE_C_TEXT, "Gains are multiplied, losses never are: a negative entry always "
@@ -289,7 +288,7 @@ static void page_activities(const GsvState *s) {
     }
     SRC("parameter_up_down: holiday a1 = 4, poor a2 = 2, byouki_kind & 15 = 3 xdiv, 1/2 "
         "ydiv; parameter_change (0x80063A88) clamps; kangei_bukatu_para_set (KANGEI "
-        "0x80133A6C). MG 1.1-1.2");
+        "0x80133A6C).");
 
     H("Poor days (the biorhythm)");
     P(GUIDE_C_TEXT, "When the week is planned, each school day gets a hidden roll. "
@@ -316,7 +315,7 @@ static void page_activities(const GsvState *s) {
         }
     }
     SRC("biorhythm_sf_set (0x8006BE48) via schedule_make (0x8006D890), biorhythm_sf2 "
-        "(0x8006C3D4), get_pass_days (0x8006C7A0), rsin_tbl. MG 1.3");
+        "(0x8006C3D4), get_pass_days (0x8006C7A0), rsin_tbl.");
 }
 
 /* ---- GIRLS ---- */
@@ -382,7 +381,7 @@ static void debut_section(int g, const GsvState *s) {
         P(GUIDE_C_TEXT, "Your childhood friend: met from the first day. Her start "
           "(friendship, tokimeki, bomb) depends on your blood types: 45/10/10, "
           "50/20/0, 50/25/0 or 55/25/0.");
-        SRC("girl_rec_init (0x80041DEC), name_ent_girl_para_set (NAME_ENT 0x8013909C). MG 2.1");
+        SRC("girl_rec_init (0x80041DEC), name_ent_girl_para_set (NAME_ENT 0x8013909C).");
         return;
     }
     if (live(s)) P(met ? GUIDE_C_GOOD : GUIDE_C_WARN, met ? "You have met her." : "Not met yet.");
@@ -432,7 +431,7 @@ static void debut_section(int g, const GsvState *s) {
             }
         }
         SRC("schedule_make (0x8006D890), touzyou_check (0x8006EC08), touzyou_check2 "
-            "(0x8006EF68), touzyou_basyo_check (0x8006F2BC). MG 2.2");
+            "(0x8006EF68), touzyou_basyo_check (0x8006F2BC).");
         return;
     }
     switch (g) {
@@ -443,23 +442,23 @@ static void debut_section(int g, const GsvState *s) {
           "tokimeki raises hers, so this comes by itself.");
         SRC("shougatu_girl9_judge (SHOUGATU 0x80140BB0, the Christmas step 82), "
             "valen_list_init (VALEN 0x80132834), valen_result_serifu_set (VALEN "
-            "0x80133ABC). MG 2.3");
+            "0x80133ABC).");
         break;
     case 10:
         P(GUIDE_C_TEXT, "Yumi (Yoshio's sister) appears at the start of the second year "
           "(the April 1996 new-term event) and starts at friendship 40.");
-        SRC("schedule_make, calendar event 2 in 1996. MG 2.3");
+        SRC("schedule_make, calendar event 2 in 1996.");
         break;
     case 11:
         P(GUIDE_C_TEXT, "Miharu is never 'met'. You bump into her in the corridor: a "
           "4%% chance in each random-event slot from the 30th day on, at most once every "
           "4 weeks, five times in all, not while you are ill.");
-        SRC("girls_event_pick (0x8006FBF0), geko_girl11_serifuev_add (GEKO 0x80140F48). MG 2.4");
+        SRC("girls_event_pick (0x8006FBF0), geko_girl11_serifuev_add (GEKO 0x80140F48).");
         break;
     case 12:
         P(GUIDE_C_TEXT, "Rei is the student-council president; the game treats her as "
           "known from the start. Her story runs on phone calls to her.");
-        SRC("girl_rec_init; denwa_cnt (tel_dialog40, TEL 0x80138014). MG 2.4");
+        SRC("girl_rec_init; denwa_cnt (tel_dialog40, TEL 0x80138014).");
         break;
     }
 }
@@ -502,7 +501,7 @@ static void likes_section(int g, const GsvState *s) {
         P(GUIDE_C_HEAD, "Now: friendship %d%% (%d), tokimeki %d%% (%d).", s->girl[g].yuukou_pct,
           s->girl[g].yuukou, s->girl[g].tokimeki_pct, s->girl[g].tokimeki);
     SRC("get_h_yuukou (0x800530A8, get_h_yuukou_str0), get_h_tokimeki (0x80052A68, "
-        "_tbl0..9, h_tokimeki_mod_tbl). MG 3.1");
+        "_tbl0..9, h_tokimeki_mod_tbl).");
 }
 
 static void ending_section(int g, const GsvState *s) {
@@ -524,7 +523,7 @@ static void ending_section(int g, const GsvState *s) {
             P(s->girl[0].score ? GUIDE_C_GOOD : GUIDE_C_WARN, "Now: %s (icon %d, %d dates, "
               "bomb %d).", s->girl[0].score ? "you qualify" : "not yet", s->girl[0].icon,
               s->girl[0].dates, s->girl[0].bomb);
-        SRC("get_grp_point (0x80053280, get_grp_point_tbl0). MG 3.2");
+        SRC("get_grp_point (0x80053280, get_grp_point_tbl0).");
         return;
     }
     if (g == 11) {
@@ -532,7 +531,7 @@ static void ending_section(int g, const GsvState *s) {
           "corridor meetings (up to 5) and with her two date interruptions (a date in "
           "March-May and a date at the medal corner in June-August, after two "
           "meetings). Best case 41%%. Lost if her farewell (15 Feb 1998) happened.");
-        SRC("ending_select_init (ENDING 0x801330F4), thresholds at ENDING 0x8013C3E0. MG 3.4");
+        SRC("ending_select_init (ENDING 0x801330F4), thresholds at ENDING 0x8013C3E0.");
         return;
     }
     if (g == 12) {
@@ -543,7 +542,7 @@ static void ending_section(int g, const GsvState *s) {
             P(GUIDE_C_HEAD, "Now: %d calls, kidnapping answer %s.", s->rei_calls,
               s->rei_answer == 2 ? "accepted" : s->rei_answer == 1 ? "refused (route closed)"
                                                                      : "not asked yet");
-        SRC("ending_select_init; denwa_cnt; geko_serifu_branch_step (GEKO 0x8013BF40). MG 3.4");
+        SRC("ending_select_init; denwa_cnt; geko_serifu_branch_step (GEKO 0x8013BF40).");
         return;
     }
     P(GUIDE_C_TEXT, "Score = 4 x icon (the lower of friendship%% and tokimeki%%, in "
@@ -574,7 +573,7 @@ static void ending_section(int g, const GsvState *s) {
           "dates, bomb %d).", s->girl[g].score, s->girl[g].icon, s->girl[g].dates,
           s->girl[g].bomb);
     SRC("get_grp (0x800537F0), grp_table_calc (0x80053364, grp_table_calc_tbl0..4), "
-        "ending_select_init. MG 3.3");
+        "ending_select_init.");
 }
 
 static void bomb_section(int g, const GsvState *s) {
@@ -595,7 +594,7 @@ static void bomb_section(int g, const GsvState *s) {
         P(s->girl[g].bomb >= 61 ? GUIDE_C_BAD : s->girl[g].bomb >= 50 ? GUIDE_C_WARN
           : GUIDE_C_HEAD, "Now: bomb %d.", s->girl[g].bomb);
     SRC("schedule_day_main (0x800713EC), tel_ring_timeout (TEL, D_80144448 / D_80144454), "
-        "tel_girl_adjust (TEL 0x80139D6C, D_80144430). MG 4");
+        "tel_girl_adjust (TEL 0x80139D6C, D_80144430).");
 }
 
 /* the meeting places 0..20 (machiawase_menu_set_tbl0's order) */
@@ -659,7 +658,7 @@ static void dates_section(int g, const GsvState *s) {
     }
     SRC("tel_dialog20 (TEL 0x80136620) with tel_basyo_suki_tbl (TEL 0x801410C4), "
         "date_rank_grade_get (DATE 0x8013C3AC) with D_8015B780, date_sasoi_judge "
-        "(0x80070910), geko_judge (0x80070754); tables read from your disc. MG 6.3-6.5");
+        "(0x80070910), geko_judge (0x80070754); tables read from your disc.");
 }
 
 static void special_section(int g) {
@@ -689,7 +688,7 @@ static void special_section(int g) {
     if (g < GUIDE_NGIRLS && notes[g][0]) {
         H("Good to know");
         P(GUIDE_C_TEXT, "%s", notes[g]);
-        SRC("the per-girl notes of MG 3.5; suggestions: geko_girl_pick_init (GEKO). MG 6.4");
+        SRC("suggestions: geko_girl_pick_init (GEKO).");
     }
 }
 

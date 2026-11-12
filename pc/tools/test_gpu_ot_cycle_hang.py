@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 """A cyclic ordering table's DMA never ends (pc/hal/gpu_queue.c gpu_queue_hang).
 
-Found by the seeded start taco-s1 (docs/pc-port/SEEDED-STARTS.md): on the
+Found by the seeded start taco-s1: on the
 reference one TACO sub-step-10 frame lasted 242 VBlanks -- libgpu's DrawSync
 waiting out its 240-VBlank alarm behind the GPU walking a cyclic OT -- while
 the port, which draws the cycle once (gpu.c ot_cycle_entry), went on at once.

@@ -1,8 +1,7 @@
 #!/bin/sh
 # SPDX-License-Identifier: GPL-3.0-or-later
 # setup_linux_sdl.sh -- a static SDL2 for the Linux player package
-# (make -f pc/Makefile linux-package; docs/pc-port/WINDOWS-BUILD.md
-# "Linux player package").
+# (make -f pc/Makefile linux-package).
 #
 # The official SDL 2.32.10 source release, pinned and checked against the
 # SHA-256 GitHub publishes for the asset, built with CMake into

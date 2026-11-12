@@ -1,4 +1,4 @@
-# English tour (docs/pc-port/TRANSLATION-ON-PC.md): the new_game route with
+# English tour: the new_game route with
 # screenshots of the screens the English patch translates -- the title menu,
 # the album prompt, the name entry, the prologue's first dialogue pages.
 # Run it with the language switch; it also runs (Japanese) without:

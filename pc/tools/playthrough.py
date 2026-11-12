@@ -359,7 +359,7 @@ INPUT_CLOCK = 'vblank'   # --input-clock: how the port counts +N (pc/hal/trace.c
 AUDIO_MIX = 'game'       # --audio-mix: where the port mixes the SPU (see run_pc)
 # --start-card: a phase without keep-card starts from a copy of this 128 KiB
 # card image on both machines instead of a blank formatted card (a
-# checkpoint save, pc/tools/mcr_tool.py album-set; docs/pc-port/COVERAGE-PLAN.md)
+# checkpoint save, pc/tools/mcr_tool.py album-set)
 START_CARD = None
 PROFILE = None   # --profile: the port's run profile (pc/hal/profile.h); None = parity
 RUNNER = []      # --runner: a launcher before the binary ('wine' for the Windows build)
@@ -848,7 +848,7 @@ def main():
                     help='a program the port binary is started through, e.g. '
                          '`--runner wine` with the caller\'s own WINEPREFIX. Without '
                          'it a .exe --bin (or PC_TEST_PLATFORM=windows) runs under Wine '
-                         'in a private prefix per phase (docs/pc-port/WINDOWS-BUILD.md)')
+                         'in a private prefix per phase')
     ap.add_argument('--shots', action='store_true', help='write PC_INPUT `shot` screenshots')
     ap.add_argument('--vram', action='store_true',
                     help='with --shots: also the VRAM (u16le, the reference -dumpvram '
@@ -872,7 +872,7 @@ def main():
     ap.add_argument('--profile', choices=('parity', 'enhanced'),
                     help='the port\'s run profile (TOKI_PROFILE; pc/hal/profile.h). '
                          'Default: none set, i.e. parity. enhanced is not comparable '
-                         'with --retail (docs/pc-port/ENHANCED-MODE.md)')
+                         'with --retail')
     ap.add_argument('--set', action='append', default=[], metavar='NAME=VALUE',
                     help='a profile switch or setting for the port (TOKI_TEXT_AUTO=1, '
                          'GAME_CPU_COST=0, ...); repeatable, applied after the env strip')

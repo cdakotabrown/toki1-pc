@@ -41,7 +41,7 @@ class IrqTests(unittest.TestCase):
     def exercise(self, mode):
         # The interrupt mechanics are pinned in whole-tick frames with the
         # boot / BIOS CPU models off (their own tests: test_cd_clock
-        # ClockModelTests; the boot timeline: RENDER-PARITY-HANDOFF.md).
+        # ClockModelTests).
         env = dict(os.environ, VBLANK_EXACT_PERIOD='0', BOOT_CPU_COST='0',
                    BIOS_CPU_COST='0')
         run([str(self.binary), str(mode)], env=env, timeout=10).require_ok()

@@ -1,8 +1,7 @@
 /* SPDX-License-Identifier: GPL-3.0-or-later */
 /* pc_backlog.h -- the enhanced profile's dialogue backlog and voice replay.
  *
- * Three pieces, all in the PC layer (docs/pc-port/ENHANCED-MODE.md,
- * "Dialogue backlog"):
+ * Three pieces, all in the PC layer:
  *
  *   pc/hal/backlog_capture.c  watches the game (read only) and turns each
  *                             completed dialogue page into a BacklogPage:

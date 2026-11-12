@@ -398,7 +398,7 @@ void RotTransSV(SVECTOR *v0, SVECTOR *v1, s32 *flag) {
 /* ---- COP2 perspective pipeline ----------------------------------------
  * RTPS/RTPT, NCLIP and AVSZ3/AVSZ4 as the GTE computes them (psx-spx "GTE"
  * chapter; checked bit-exact against all 12 title-card FT4 packets in a
- * retail RAM image, docs/pc-port/GTE-BUILDERS.md 2026-10-30 geometry):
+ * retail RAM image):
  *
  *   MAC = (TR << 12 + R*V) >> 12, 44-bit overflow -> FLAG 30..25
  *   IR  = MAC saturated to -8000h..7FFFh             -> FLAG 24..22
@@ -643,7 +643,7 @@ s32 gte_cop2_ir0(void) {
  *   FIFO <- [sat8(MAC1 >> 4), sat8(MAC2 >> 4), sat8(MAC3 >> 4), CODE];
  *   IR = sat_lm(MAC)
  * Checked against retail: 785 TG3/TF3 packets of two TACO frames are
- * reproduced word for word (GTE-BUILDERS.md, lit-builder entry). */
+ * reproduced word for word. */
 static u32 g_rgbc;
 static u32 g_rgb_fifo[3];
 

@@ -10,8 +10,7 @@
 # so the run does not depend on the hand's seat geometry.  With the mode
 # still 1, taiiku_goal_check2 forces last place and taiiku_result5 drops
 # the stamp (class_w[112], 114/5/3).
-# For the visual sweep and gate (docs/translation/VISUAL-SWEEP.md,
-# config/patch/visual_reference.json):
+# For the visual sweep and gate (config/patch/visual_reference.json):
 #   python3 pc/tools/scenario.py pc/tools/scenarios/scene114_taiiku_kari_foul.txt \
 #       --set TOKI_LANG=en --set PC_SWEEP_DIR=$PWD/build/sweep/runs/kari
 start album

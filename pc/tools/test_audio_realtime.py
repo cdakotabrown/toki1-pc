@@ -2,8 +2,7 @@
 """The real-time audio device: what a player hears (2026-11-02 report from
 real Windows 11: "the audio is skipping in odd ways ... almost like it's
 missing a channel", music and sound effects broken from the first screen,
-both profiles).  docs/pc-port/RENDER-PARITY-HANDOFF.md, 2026-11-02
-"Real-time audio: lost key-ons".
+both profiles).
 
 Root cause: the SPU core latches KON/KOFF until its next sample batch and a
 second write replaces the first; the device thread mixed 1,024 frames per

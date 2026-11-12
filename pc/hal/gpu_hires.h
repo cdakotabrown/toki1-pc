@@ -1,7 +1,6 @@
 /* SPDX-License-Identifier: GPL-3.0-or-later */
 /* gpu_hires.h -- internal resolution scaling for the native rasterizer
- * (the enhanced profile's GPU_HIRES; docs/pc-port/ENHANCED-MODE.md,
- * "Internal resolution").
+ * (the enhanced profile's GPU_HIRES).
  *
  * The 1024x512 native VRAM (g_vram) stays the only VRAM the game sees:
  * every draw is still rasterized into it exactly as at 1x, and every read

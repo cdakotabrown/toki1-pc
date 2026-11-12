@@ -9,7 +9,7 @@
 # two English pieces, one on page 4 where the kanji were and one on page 0).
 # English "Looking Back on" + "High School" (src/patch/art/B_BUNGEI,
 # frame_layout).  For the visual sweep and gate
-# (docs/translation/VISUAL-SWEEP.md, config/patch/visual_reference.json):
+# (config/patch/visual_reference.json):
 #   python3 pc/tools/scenario.py pc/tools/scenarios/scene128_speech_topic.txt \
 #       --set TOKI_LANG=en --set PC_SWEEP_DIR=$PWD/build/sweep/runs/speech
 start album

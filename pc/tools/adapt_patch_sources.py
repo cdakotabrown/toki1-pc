@@ -4,7 +4,7 @@
 
 src/patch/main/*.c is the translation track's code: IDO-compiled for the
 console, where a pointer is 4 bytes.  The PC compiles the same files for
-LP64 (docs/pc-port/TRANSLATION-ON-PC.md).  Where the C reads or writes a
+LP64.  Where the C reads or writes a
 POINTER STORED IN PS1 MEMORY (a 4-byte cell: a retail pointer table, a
 pointer variable in the retail data, a class_w record field) it must go
 through a 4-byte cell on the PC, exactly the rewrite pc/tools/

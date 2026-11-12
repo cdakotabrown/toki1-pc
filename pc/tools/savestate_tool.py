@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-License-Identifier: GPL-3.0-or-later
-"""Inspect PC-port save states (pc/hal/dbg_state.c, docs/pc-port/DEBUG-TOOLS.md).
+"""Inspect PC-port save states (pc/hal/dbg_state.c).
 
     savestate_tool.py info STATE
     savestate_tool.py diff A B [--bin BIN] [--limit N]
@@ -296,8 +296,7 @@ def cmd_records(a):
 # (milliseconds since start: 0x1db8 in one power-on, 0x1ff2 in the next)
 # and differ between any two processes, with or without a save state.
 # Comparisons of Windows states leave bytes 12..23 of the 48 records out
-# (576 of PS1 RAM's 2 MB) and report them as host_noise
-# (docs/pc-port/DEBUG-TOOLS.md "Exactness").
+# (576 of PS1 RAM's 2 MB) and report them as host_noise.
 CDQ_QUE, CDQ_REC, CDQ_N = 0xE8DA8, 24, 48
 
 

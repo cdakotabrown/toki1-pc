@@ -4,7 +4,7 @@
 
     python3 pc/tools/package_linux.py [--out build/tokimeki-pc-linux-x86_64.tar.gz]
 
-Contents (docs/pc-port/LINUX-PACKAGE.md):
+Contents:
     tokimeki-pc/tokimeki-pc         ONE program (make -f pc/Makefile
                                     linux-package, built in the glibc 2.31
                                     root of setup_linux_pkg_root.sh): SDL2,
@@ -41,7 +41,7 @@ import source_archive  # noqa: E402
 GLIBC_LIBS = {'libc.so.6', 'libm.so.6', 'libdl.so.2', 'libpthread.so.0', 'librt.so.1',
               'ld-linux-x86-64.so.2'}
 # The newest glibc the package may ask for: 2.31 = Ubuntu 20.04, Debian 11,
-# and everything after them (docs/pc-port/LINUX-PACKAGE.md).
+# and everything after them.
 GLIBC_FLOOR = (2, 31)
 
 

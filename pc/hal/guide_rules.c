@@ -8,7 +8,7 @@
  * number the guide prints is the game's.  Tables are never copied here:
  * they are read at run time from PS1 RAM (the executable's data, which the
  * port loads from the player's PSX.EXE) through the named globals of
- * pc/ld/psx_globals.syms.  Evidence: docs/game-flows/MECHANICS-GUIDE.md.
+ * pc/ld/psx_globals.syms.
  *
  * Read only: no PS1 write, no game call.
  */

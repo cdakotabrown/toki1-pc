@@ -1,6 +1,5 @@
 /* SPDX-License-Identifier: GPL-3.0-or-later */
-/* lang.c -- the game-text language layer (see lang.h and
- * docs/pc-port/TRANSLATION-ON-PC.md).
+/* lang.c -- the game-text language layer (see lang.h).
  *
  * Japanese is the retail game: with g_hal_lang_en == 0 every entry point
  * here returns at once, the generated hook stubs jump straight to the

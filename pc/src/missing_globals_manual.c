@@ -28,7 +28,7 @@
  * from the build entirely.
  *
  * TODO: if root-counter values ever matter, back this with a real HAL timer
- * block instead of dead memory.  See docs/pc-port/PC-PORT-TODO.md.
+ * block instead of dead memory.
  */
 static s16 psx_root_counters[3 * 8];
 s16 *libapi_rcnt_regs_ptr = psx_root_counters;
@@ -45,8 +45,7 @@ s16 *libapi_rcnt_regs_ptr = psx_root_counters;
  * 1:1 to a PC symbol: 0x8013xxxx through the generated overlay_symtab,
  * 0x800xxxxx through config/level3_functions.json.  This is the
  * "pointer into PS1 RAM" class described at the top of this file -- the
- * long-term fix is the 2 MB RAM model with load-time relocation (see
- * docs/pc-port/PC-PORT-TODO.md section 4).
+ * long-term fix is the 2 MB RAM model with load-time relocation.
  */
 extern void KANGEI_kangei_sub_init();
 extern void KANGEI_kangei_girl_device_load();

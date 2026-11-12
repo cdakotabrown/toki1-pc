@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # SPDX-License-Identifier: GPL-3.0-or-later
 """Tests: the English translation pack, its content audit, the patch-engine
-adaptation and the hook routing (docs/pc-port/TRANSLATION-ON-PC.md).
+adaptation and the hook routing.
 
 The synthetic tests need nothing.  The real-pack tests run when the build
 machine has the pack (pc/build/translation/en.tktp, from

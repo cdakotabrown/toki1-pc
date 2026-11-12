@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # SPDX-License-Identifier: GPL-3.0-or-later
-"""test_visual_sweep.py -- the English visual gate (docs/translation/VISUAL-SWEEP.md).
+"""test_visual_sweep.py -- the English visual gate.
 
 The drawn-text audit (tools/patch/audit_drawn_text.py) sees every string the
 engine draws but not text baked into pictures; the Options sub-lists

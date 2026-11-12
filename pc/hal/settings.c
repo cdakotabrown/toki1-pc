@@ -332,9 +332,9 @@ static const KeyDef g_keys[] = {
 
     { "game", "language", T_ENUM, F(language), 0, 0, 0, language_names, "en",
       "Game text language: en (the project's English translation, the default;\n"
-      "built on first use from your own Japanese files into the data/en folder;\n"
-      "docs/pc-port/TRANSLATION-ON-PC.md) or ja (the original\n"
-      "Japanese). Takes effect on the next launch. TOKI_LANG=ja|en overrides it.\n"
+      "built on first use from your own Japanese files into the data/en folder)\n"
+      "or ja (the original Japanese). Takes effect on the next launch.\n"
+      "TOKI_LANG=ja|en overrides it.\n"
       "Automated runs ignore this file and play in Japanese." },
 };
 #define NKEYS ((int)(sizeof(g_keys) / sizeof(g_keys[0])))
@@ -375,7 +375,7 @@ static const char *section_comment(const char *section) {
         return "PC save states (docs/pc-port/PLAYER-GUIDE.md, \"Saves\"). The game's own\n"
                "memory-card saves are separate and always work.";
     if (!strcmp(section, "enhanced"))
-        return "PC-side play features of the enhanced profile (docs/pc-port/ENHANCED-MODE.md).";
+        return "PC-side play features of the enhanced profile.";
     if (!strcmp(section, "game"))
         return "Game options that apply in both profiles.";
     return NULL;
@@ -1006,7 +1006,7 @@ void pc_settings_load(PcSettings *s, pc_getenv_fn env, int create_missing) {
         snprintf(s->harness_reason, sizeof(s->harness_reason), "%s", why);
         s->file_path[0] = 0;
         /* the player default is enhanced (2026-11-04); automated runs stay
-         * on parity, the battery's oracle (docs/pc-port/ENHANCED-MODE.md) */
+         * on parity, the battery's oracle */
         snprintf(s->profile, sizeof(s->profile), "%s", "parity");
         /* the player default is English (2026-11-05); automated runs keep
          * the original Japanese, which every trace and test was taken in

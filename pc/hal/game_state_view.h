@@ -6,9 +6,7 @@
  * computed from them with the game's own rules, transcribed from the
  * matched C and checked against those functions themselves
  * (pc/tests/game_state_view_harness.c links get_grp & co. and compares).
- * Nothing here writes game memory or calls game code.  The evidence for
- * every field and table: docs/pc-port/ENHANCED-MODE.md, "Status at a
- * glance", and docs/game-flows/ENDINGS-GUIDE.md.
+ * Nothing here writes game memory or calls game code.
  *
  * SDL-free and allocation-free: gsv_read() fills a caller's struct.
  */

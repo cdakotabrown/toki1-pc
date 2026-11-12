@@ -164,7 +164,7 @@ typedef struct PcSettings {
     int skip_seen;              /* fast-forward also confirms dialogue pages read before (pc/hal/seen_text.c) */
     int quick_text;             /* confirm finishes a printing page, then cuts its voice (pc/hal/quick_text.c) */
     /* [game] */
-    int language;               /* 0 = ja, 1 = en (pc/hal/lang.c; docs/pc-port/TRANSLATION-ON-PC.md) */
+    int language;               /* 0 = ja, 1 = en (pc/hal/lang.c) */
 
     /* not settings: where they came from */
     int harness;                /* automated run: defaults only */

@@ -1,7 +1,6 @@
 /* SPDX-License-Identifier: GPL-3.0-or-later */
 /* quick_text.c -- "press to finish the line" ([enhanced] quick_text,
- * TOKI_QUICK_TEXT; enhanced only, off under parity).  User documentation:
- * docs/pc-port/ENHANCED-MODE.md "Quick text"; player keys:
+ * TOKI_QUICK_TEXT; enhanced only, off under parity).  Player keys:
  * docs/pc-port/PLAYER-GUIDE.md.
  *
  * What the console does (measured on the port under parity, Shiori's

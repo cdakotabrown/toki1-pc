@@ -2,9 +2,8 @@
 /* extras_gallery.c -- the gallery's eyes (pc/hal/extras.h): which pictures
  * the player has been shown, captured from the native VRAM at 1x.
  *
- * Two kinds, each measured on this game (docs/pc-port/ENHANCED-MODE.md
- * "Extras", the logs of date_save.txt, spring_events.txt and the seeded
- * GEKO 93 start):
+ * Two kinds, each measured on this game (the logs of date_save.txt,
+ * spring_events.txt and the seeded GEKO 93 start):
  *
  *  - STILLS: every background, date spot and close-up is a BS file of the
  *    disc's BS/ folder, read to 0x80162000 and decoded by the game's own

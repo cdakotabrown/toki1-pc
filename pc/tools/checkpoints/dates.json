@@ -1,6 +1,6 @@
 {
  "group": "dates",
- "doc": "A reserved date with each girl who can be dated (girls 0..10), on the planning night the week before: the reservation tel_dialog20 writes (reserve), her gauges at the \"best\" mood the date events read, met with her number; the segment plays the week, takes the holiday screen's heart icon on the date day, plays the date (its choices by DATE_MASH) and its date event (step 94, docs/pc-port/COVERAGE-INVENTORY.md 3.4), home to the night planner.  Places: the ones open from a new game or in the vacations (3.3).",
+ "doc": "A reserved date with each girl who can be dated (girls 0..10), on the planning night the week before: the reservation tel_dialog20 writes (reserve), her gauges at the \"best\" mood the date events read, met with her number; the segment plays the week, takes the holiday screen's heart icon on the date day, plays the date (its choices by DATE_MASH) and its date event (step 94), home to the night planner.  Places: the ones open from a new game or in the vacations.",
  "checkpoints": [
   {
    "id": "date_shiori_park",

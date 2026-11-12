@@ -16,7 +16,7 @@ records what the harness can observe:
            sample (boot-anchored or from the title, see the case)
 
 The port is deterministic run to run, so any difference is a portability
-bug (docs/pc-port/WINDOWS-BUILD.md "Linux vs Windows parity").
+bug.
 
     python3 pc/tools/windows_parity.py [--out build/windows-parity] [--jobs 12]
         [--only CASE,...] [--linux pc/build/tokimeki-pc]

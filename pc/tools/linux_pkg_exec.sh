@@ -1,7 +1,7 @@
 #!/bin/sh
 # SPDX-License-Identifier: GPL-3.0-or-later
 # linux_pkg_exec.sh -- run a command inside the Linux package's old
-# userland (docs/pc-port/LINUX-PACKAGE.md).
+# userland.
 #
 #     pc/tools/linux_pkg_exec.sh gcc -c foo.c -o foo.o      (build mode)
 #     pc/tools/linux_pkg_exec.sh --run GAME [ARGS...]       (run mode)

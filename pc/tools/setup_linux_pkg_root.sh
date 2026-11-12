@@ -1,7 +1,7 @@
 #!/bin/sh
 # SPDX-License-Identifier: GPL-3.0-or-later
 # setup_linux_pkg_root.sh -- the old userland the Linux player package is
-# built in, and a static SDL2 built inside it (docs/pc-port/LINUX-PACKAGE.md).
+# built in, and a static SDL2 built inside it.
 #
 #     pc/tools/setup_linux_pkg_root.sh
 #

@@ -5,8 +5,8 @@
  * automatic saves (pc/hal/save_auto.c).
  *
  * Every save is an ENTRY of <saves>/quicksave/, three files named by its id:
- * ID.tks (the state), ID.png (160x120 thumbnail), ID.ini (the index;
- * docs/pc-port/ENHANCED-MODE.md "Quicksave slots").  Ids:
+ * ID.tks (the state), ID.png (160x120 thumbnail), ID.ini (the index).
+ * Ids:
  *
  *   slot1..slot9   the quicksave slots (F5 / F9, ] / [)
  *   slot0          the automatic undo: the machine before the last load

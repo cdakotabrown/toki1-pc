@@ -3,7 +3,7 @@
 # of pc/tools/playthrough/date_save.txt.  While the card is written the
 # save icon (bottom right of the icon grid) shows the red badge セーブ中
 # (MAINROM.NBN page 5; English SAVE).  For the visual sweep and gate
-# (docs/translation/VISUAL-SWEEP.md, config/patch/visual_reference.json):
+# (config/patch/visual_reference.json):
 #   python3 pc/tools/scenario.py pc/tools/scenarios/scene052_save_badge.txt \
 #       --set TOKI_LANG=en --set PC_SWEEP_DIR=$PWD/build/sweep/runs/save
 start album

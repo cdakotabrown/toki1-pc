@@ -5,8 +5,7 @@
  * `@object`; the COFF assembler of the Windows build rejects that syntax
  * and spells a function `.def name; .scl 2; .type 32; .endef` (COFF has no
  * object type).  Use as string pieces:
- *     ".globl f\n" PC_ASM_TYPE_FN("f") "f:\n ..."
- * docs/pc-port/WINDOWS-BUILD.md. */
+ *     ".globl f\n" PC_ASM_TYPE_FN("f") "f:\n ..." */
 #ifndef PC_ASM_H
 #define PC_ASM_H
 

@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 """Save-state round-trip test: save at game frame N, load it in a new
 process, run to N+K, and require the machine to be exactly where an
-uninterrupted run is (pc/hal/dbg_state.c, docs/pc-port/DEBUG-TOOLS.md).
+uninterrupted run is (pc/hal/dbg_state.c).
 
 For each playthrough script (pc/tools/playthrough/*.txt, first phase: power-on
 with a new card) the script's state-anchored input is resolved once into

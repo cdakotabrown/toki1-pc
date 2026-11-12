@@ -22,7 +22,7 @@
  * the source of truth), so the default build no longer runs it.  The
  * faithful replacement serves the game's own libsnd requests from the
  * SEQ/VAB bytes it loaded: since 2026-10-30 the matched libsnd plays them
- * (pc/hal/spu.c, docs/pc-port/LIBSND-MUSIC.md).
+ * (pc/hal/spu.c).
  *
  * When enabled it runs once per frame from the main loop.  When the scene
  * id changes, it stops the current SEQ, loads the mapped one, and starts it

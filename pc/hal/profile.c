@@ -1,7 +1,6 @@
 /* SPDX-License-Identifier: GPL-3.0-or-later */
 /* profile.c -- the PC port's run profile (parity / enhanced) and the table
  * of switches it sets defaults for.  Interface and precedence: profile.h.
- * User documentation: docs/pc-port/ENHANCED-MODE.md.
  *
  * The table is the single definition of what Enhanced changes.  A timing
  * model listed here is on under parity -- its code path and its negative

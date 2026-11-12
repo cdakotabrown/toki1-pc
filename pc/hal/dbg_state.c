@@ -2,7 +2,6 @@
 /* dbg_state.c -- save states for the PC port: the debug toolkit's `save` /
  * `load`, and under the player's quicksaves, the save browser, autosaves,
  * the resume state (pc/hal/quicksave.c) and rewind (pc/hal/rewind.c).
- * Format and evidence: docs/pc-port/DEBUG-TOOLS.md "State format".
  *
  * What a state is: the emulated machine and the port's game-relevant
  * native state, named explicitly, at a main-loop boundary.
@@ -856,7 +855,7 @@ struct DbgStateSnap {
 
 /* One finished snapshot is kept as a spare: its buffers are already
  * faulted in, so the next capture's copy runs at memory speed (measured:
- * 7 ms into fresh pages, docs/pc-port/ENHANCED-MODE.md "Save write time").
+ * 7 ms into fresh pages).
  * The writer hands it back from its thread. */
 static DbgStateSnap *g_spare;
 

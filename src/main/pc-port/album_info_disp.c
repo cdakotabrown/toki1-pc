@@ -16,8 +16,7 @@
  *
  * @DivergesFrom: matched album_info_disp -- table read width only
  * (pc/tools/audit_ps1_wide_access.py WIDE-INDEX), and the English patch's
- * six strncat call-site redirects when [game] language = en
- * (docs/pc-port/TRANSLATION-ON-PC.md).
+ * six strncat call-site redirects when [game] language = en.
  */
 #include <stdint.h>
 /* strcpy/strncat -> the BIOS trampolines, as in the matched TU (pc-port

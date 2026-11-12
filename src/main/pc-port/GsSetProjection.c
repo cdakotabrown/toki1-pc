@@ -16,7 +16,7 @@
  * SetGeomScreen() receives whatever happens to be in the first argument
  * register -- and the projection distance (H) becomes garbage.  Symptom,
  * measured on scene 18: the title's quads projected to screen-filling
- * polygons instead of the logo (docs/pc-port/AV-PARITY-RECOVERY.md).
+ * polygons instead of the logo.
  *
  * Every caller passes 1000 (`title_init_View`, `initView`), and on the console
  * that value reaches GTE control register 26.  Passing it through explicitly

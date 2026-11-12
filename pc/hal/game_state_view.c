@@ -2,8 +2,7 @@
 /* game_state_view.c -- read-only decode of the game's state (game_state_view.h).
  *
  * Sources, all named PS1 globals (pc/ld/psx_globals.syms, linked at their
- * console addresses) -- the evidence for each is in docs/pc-port/
- * ENHANCED-MODE.md "Status at a glance" and docs/game-flows/ENDINGS-GUIDE.md:
+ * console addresses):
  *
  *   calendar   now_year/now_month/now_day/now_youbi, season_no, pass_days,
  *              cal_day_kind (this month and the next: {n, kind[31], m,
@@ -489,8 +488,8 @@ const char *gsv_stat_short(int k) {
     return k >= 0 && k < GSV_STATS ? n[k] : "?";
 }
 
-/* docs/pc-port/COVERAGE-INVENTORY.md 1.4 (the calendar trailers); 1, 7 and
- * 9 have no schedule_make arm and are not shown */
+/* the calendar trailers; 1, 7 and 9 have no schedule_make arm and are not
+ * shown */
 const char *gsv_cal_event_name(int ev) {
     switch (ev) {
     case 2: return "New school year";
@@ -547,7 +546,7 @@ const char *gsv_plan_name(int t) {
     }
 }
 
-/* the weekly activity (ENDINGS-GUIDE.md 6.6, parameter_up_down) */
+/* the weekly activity (parameter_up_down) */
 const char *gsv_activity_name(int a) {
     static const char *const n[8] = {
         "Humanities", "Science", "Art", "Sports", "Club", "Trivia", "Looks", "Rest",

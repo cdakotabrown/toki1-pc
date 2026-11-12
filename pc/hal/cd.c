@@ -227,8 +227,8 @@ static u8 drive_stat(void) {
 
 static u32 ticks_per_sector(void) { return g_double_speed ? MASTER_CLOCK / 150 : MASTER_CLOCK / 75; }
 
-/* CD_DRIVE_TIMING=0 -- instant loads (the enhanced profile, pc/hal/profile.c;
- * docs/pc-port/ENHANCED-MODE.md).  The mechanical times collapse to
+/* CD_DRIVE_TIMING=0 -- instant loads (the enhanced profile, pc/hal/profile.c).
+ * The mechanical times collapse to
  * INSTANT_TICKS: seeks and spin-up, speed changes, Pause, Init, Stop.  The
  * sectors of a data read (a CdRead of a cooked 2,048-byte file, not a libstr
  * stream) arrive INSTANT_TICKS apart instead of 1/150 s.  Everything else

@@ -3,7 +3,7 @@
 # mg.en_nichi.shooting's (config/patch/coverage_plan.json): the date record
 # (0x800EEE80) and the girl (0x800EE79E, the 1996 festival) before the
 # jump; the five shots are fired with circle.  For the visual sweep and
-# gate (docs/translation/VISUAL-SWEEP.md, config/patch/visual_reference.json):
+# gate (config/patch/visual_reference.json):
 #   python3 pc/tools/scenario.py pc/tools/scenarios/scene130_en_nichi_shooting.txt \
 #       --set TOKI_LANG=en --set PC_SWEEP_DIR=$PWD/build/sweep/runs/shateki
 start album

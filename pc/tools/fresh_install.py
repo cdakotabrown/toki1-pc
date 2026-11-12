@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 # SPDX-License-Identifier: GPL-3.0-or-later
 """fresh_install.py -- install the player package into empty folders, as a
-player would, and prove each first-run path works (docs/pc-port/ASSET-BOOTSTRAP.md
-"Fresh-install verification").
+player would, and prove each first-run path works.
 
     python3 pc/tools/fresh_install.py [--platform linux|windows|both]
         [--out build/fresh-install] [--only CASE,CASE] [--keep]
@@ -39,9 +38,8 @@ Screenshots (BMP) of every setup screen go to OUT/shots/PLATFORM/CASE/.
 playthrough's included, happens inside that root file system through
 pc/tools/linux_pkg_exec.sh --run (bwrap, no root): the package on an old
 distribution's glibc and nothing of the host's /usr.  `--userland default`
-is build/linux-pkg-root, the Ubuntu 20.04 root of setup_linux_pkg_root.sh
-(docs/pc-port/LINUX-PACKAGE.md).  The dev build's reference runs stay on
-the host.
+is build/linux-pkg-root, the Ubuntu 20.04 root of setup_linux_pkg_root.sh.
+The dev build's reference runs stay on the host.
 """
 import argparse
 import filecmp

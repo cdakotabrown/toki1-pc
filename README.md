@@ -80,7 +80,7 @@ windows`, `python3 pc/tools/package_windows.py`. For Linux:
 | `pc/tools/` | generators, audits, playthroughs, packagers, tests |
 | `pc/tests/` | native unit tests |
 | `pc/3rd/` | third-party code |
-| `docs/pc-port/` | player guide, the PC layer's state machines (other `docs/` files cited in comments are unpublished notes) |
+| `docs/pc-port/` | player guide, the PC layer's state machines |
 
 Rules for changing the port: `CLAUDE.md`.
 

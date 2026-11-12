@@ -9,8 +9,7 @@ record and the 48-byte matrix copies overran GsLIGHTWSMATRIX (0x80131740,
 s32.  The expected light matrix rows / colour columns follow libgs:
 row id = -v * 4096 / SquareRoot0(|v|^2) (C division), colour column id =
 c * 4096 / 255 -- with retail's SquareRoot0 these give the GsLIGHTWSMATRIX
-and LCM read out of a retail TACO save state (rows 4137 / 2904, LCM 4096;
-docs/pc-port/GTE-BUILDERS.md).
+and LCM read out of a retail TACO save state (rows 4137 / 2904, LCM 4096).
 
 The harness lays GsLIGHTWSMATRIX and _LC out contiguously as in PS1 RAM
 and fills the light records as the game does (TACO taco_light_init /

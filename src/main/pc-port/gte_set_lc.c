@@ -7,7 +7,7 @@
  * matched call relied on the compiler leaving %rdi untouched (it happened
  * to).  This adapter keeps the same copy (same order, same words) and
  * passes that pointer explicitly.  The resulting LCM was measured against
- * a retail TACO save state: LCM == _LC (docs/pc-port/GTE-BUILDERS.md).
+ * a retail TACO save state: LCM == _LC.
  */
 #include "types.h"
 #include "hal.h"

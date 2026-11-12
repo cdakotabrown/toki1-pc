@@ -52,8 +52,8 @@ class CdInitTests(unittest.TestCase):
             self.assertLess(interval.index('command 10 complete'),
                             interval.index('issue cmd 12'))
 
-    # Retail coordinates for the same five calls, from the authored probe
-    # (docs/pc-port/CD-INIT-RESULTS.json): elapsed ticks and the SDK Vblank
+    # Retail coordinates for the same five calls, from the authored probe:
+    # elapsed ticks and the SDK Vblank
     # crossings around each CdInit.  The probe runs as the boot executable, so
     # its first count is 1 where the native harness starts at 0; only the
     # deltas are comparable, and the cases are replayed with the same

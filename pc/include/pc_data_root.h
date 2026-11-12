@@ -72,7 +72,7 @@ extern char pc_portable_root[PC_ROOT_PATH_MAX];
  * Readers call pc_asset_dir() / pc_asset_path(): the module is a weak
  * reference there, so the unit-test harnesses that compile one HAL file
  * alone keep "./pc/assets".  data_root.c defines PC_DATA_ROOT_IMPL, so its
- * own definitions stay strong on PE (docs/pc-port/WINDOWS-BUILD.md "WEAK"). */
+ * own definitions stay strong on PE. */
 #ifdef PC_DATA_ROOT_IMPL
 #define PC_DR_WEAK
 #else

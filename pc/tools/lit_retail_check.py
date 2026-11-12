@@ -5,7 +5,7 @@
 usage: lit_retail_check.py RAM.bin STATE.sav|LABEL.gte [--bk0]
 
 RAM.bin and STATE.sav come from the same reference-emulator regtest run
-(-dumpram / -savestate; commands in docs/pc-port/GTE-BUILDERS.md).  The
+(-dumpram / -savestate).  The
 port's side is a PC_INPUT `shot` with PC_SHOT_VRAM=1 PC_PARITY_RAM=1:
 LABEL.ram and LABEL.gte (pc/hal/parity.c).  For
 every enabled object3d_sort slot (class_w) and TACO GsDOBJ2 it derives Lw

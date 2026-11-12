@@ -9,8 +9,8 @@
  * src/main/matched/overlay_load_init.c (the `switch (charId + 0U)` setting
  * newA2 = LBA, byte-verified matched C).  Scene ids not in any arm load
  * TACO (the retail `default` arm) -- including 18 and 64.  EVENT.EXN and
- * GYOZI.EXN have NO arm and are never loaded (stale builds on the disc,
- * docs/reference/DEAD-OVERLAYS-EVENT-GYOZI.md); do not add rows for them.
+ * GYOZI.EXN have NO arm and are never loaded (stale builds on the disc);
+ * do not add rows for them.
  * An earlier version of this table was written from guessed scene
  * semantics and disagreed with retail almost everywhere; if you touch it,
  * re-derive from the loader switch, not from descriptions.

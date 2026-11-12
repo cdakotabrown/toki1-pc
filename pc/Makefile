@@ -16,7 +16,7 @@ CC = gcc
 CXX = g++
 .DEFAULT_GOAL := all
 
-# ---- the other parts of the project (docs/REPO-SPLIT-PLAN.md) --------------
+# ---- the other parts of the project ----------------------------------------
 # The port compiles the decompiled C of toki1-decomp (src/main, src/overlay,
 # include/, config/) and, when it is there, the English patch of
 # toki1-english (src/patch, tools/patch, config/patch).  The same rule as
@@ -75,9 +75,8 @@ export TOKI_DECOMP_DIR := $(DECOMP_DIR)
 ifneq ($(ENGLISH_DIR),)
 export TOKI_ENGLISH_DIR := $(ENGLISH_DIR)
 endif
-# A sibling checkout is read, never written (docs/REPO-SPLIT-PLAN.md rule
-# 4): the Python this build runs from it (or that imports its modules)
-# writes no __pycache__ there.
+# A sibling checkout is read, never written: the Python this build runs
+# from it (or that imports its modules) writes no __pycache__ there.
 ifneq ($(D)$(E),)
 export PYTHONDONTWRITEBYTECODE := 1
 endif
@@ -93,8 +92,7 @@ ifeq ($(filter -j%,$(MAKEFLAGS)),)
 MAKEFLAGS += -j$(shell nproc 2>/dev/null || echo 4)
 endif
 # PLATFORM=windows cross-compiles pc/build-win/tokimeki-pc.exe with MinGW-w64
-# (`make -f pc/Makefile windows` is the shorthand).  Toolchain, SDL2 and the
-# portability notes: docs/pc-port/WINDOWS-BUILD.md.
+# (`make -f pc/Makefile windows` is the shorthand).
 PLATFORM ?= linux
 ifeq ($(PLATFORM),windows)
   # The posix-threads flavour of MinGW-w64 gcc (winpthreads: the HAL's
@@ -149,12 +147,12 @@ ifeq ($(PLATFORM),windows)
 # _POSIX_THREAD_SAFE_FUNCTIONS: MinGW's localtime_r/gmtime_r.
 # -ffunction-sections -fdata-sections: every global in a section of its own,
 # so pc/tools/pe_rebind_relocs.py can give each object ELF's binding of its
-# references to its own globals before the link (WINDOWS-BUILD.md "Symbol
-# binding": the COFF assembler binds them to the object's private copy).
+# references to its own globals before the link (the COFF assembler binds
+# them to the object's private copy).
 # pc/include/win holds the POSIX compatibility headers (dlfcn.h,
 # execinfo.h, sys/stat.h, windows.h) over pc/hal/win/*.c.
 SDL_CFLAGS = -I $(SDL2_WIN)/include
-# One self-contained exe (docs/pc-port/WINDOWS-BUILD.md "Single executable"):
+# One self-contained exe:
 # SDL2 is linked statically from the release's libSDL2.a, with the system
 # libraries its sdl2.pc lists (all part of every Windows 10/11 install;
 # pc/tools/test_windows_imports.py checks the import table).
@@ -172,8 +170,8 @@ CFLAGS += -DSDL_MAIN_HANDLED -D__USE_MINGW_ANSI_STDIO=1 -D_POSIX_THREAD_SAFE_FUN
           -include pc/include/win/pc_win_compat.h
 MDFN_CXXFLAGS += -D__USE_MINGW_ANSI_STDIO=1
 else ifeq ($(LINUX_PKG),1)
-# The Linux player package (`make -f pc/Makefile linux-package`;
-# docs/pc-port/LINUX-PACKAGE.md): linked against glibc 2.31 so it runs on
+# The Linux player package (`make -f pc/Makefile linux-package`):
+# linked against glibc 2.31 so it runs on
 # Ubuntu 20.04 / Debian 11 and everything newer.  The pinned Ubuntu 20.04
 # root of pc/tools/setup_linux_pkg_root.sh (gcc 9.4, glibc 2.31) is
 #   - the C compiler's system headers: the C is compiled by the HOST gcc,
@@ -229,7 +227,7 @@ endif
 # their PS1 addresses so the code reads the real EXN bytes (the model that made
 # OLH scene 58's end-sentinel work).  pc/tools/gen_psx_globals.py generates it.
 ifeq ($(PLATFORM),windows)
-# PE layout (docs/pc-port/WINDOWS-BUILD.md "Address space"): a fixed image
+# PE layout: a fixed image
 # base below 2 GB with no ASLR (no dynamicbase, no high-entropy VA), so code,
 # data, the 64 MB main-thread stack and the heap sit where an s32 holds them,
 # and the PS1 RAM at 0x80000000 is within rel32 reach of the code, as with
@@ -464,7 +462,7 @@ ARCHIVE_SRCS = $(addprefix $(ARCHIVE_DIR)/,$(addsuffix _painted.c,$(ARCHIVE_NAME
 # HAL and PC-specific sources
 HAL_SRCS = $(filter-out $(HAL_DIR)/mdfn_gpu_stub.c,$(wildcard $(HAL_DIR)/*.c))
 ifeq ($(PLATFORM),windows)
-# The debug toolkit and the save states (docs/pc-port/DEBUG-TOOLS.md) are
+# The debug toolkit and the save states are
 # portable C over a small host layer (pc/hal/dbg_platform.h): Linux's is
 # pc/hal/dbg_platform_posix.c, Windows' pc/hal/win/win_dbg_platform.c.
 WIN_HAL_DIR = $(HAL_DIR)/win
@@ -839,7 +837,7 @@ endif
 endif
 	@echo "Built: $@ ($$(ls -lh $@ | awk '{print $$5}'))"
 
-# ---- English translation (docs/pc-port/TRANSLATION-ON-PC.md) -------------
+# ---- English translation ---------------------------------------------------
 # The patch engine (src/patch/main, the PS1 English patch's C) compiled
 # natively, the generated hook stubs and pins, and -- when the build machine
 # has one -- the translation pack embedded in the executable.  Japanese is

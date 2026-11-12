@@ -1,8 +1,7 @@
 /* SPDX-License-Identifier: GPL-3.0-or-later */
 /* translation.c -- apply the embedded English translation pack.
  *
- * See translation.h for the format and docs/pc-port/TRANSLATION-ON-PC.md
- * for why it looks like this (no retail byte is stored in the pack; every
+ * See translation.h for the format (no retail byte is stored in the pack; every
  * byte that is not ours is taken from the player's own file).
  *
  * SDL-free and game-free: pc/tests/test_translation.c links it alone, and

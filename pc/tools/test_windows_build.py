@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
-"""The Windows build's toolchain-level fixes (docs/pc-port/WINDOWS-BUILD.md).
+"""The Windows build's toolchain-level fixes.
 
   * pe_rebind_relocs: a COFF object's references to a global it defines are
     rebound to the symbol, so the link's definition wins as on ELF --

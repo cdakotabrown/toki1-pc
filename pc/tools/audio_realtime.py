@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 # SPDX-License-Identifier: GPL-3.0-or-later
 """audio_realtime.py -- capture and check what the port's REAL-TIME audio
-device plays (docs/pc-port/RENDER-PARITY-HANDOFF.md, 2026-11-02 "Real-time
-audio").
+device plays.
 
 The playthroughs and the AV-parity tools hear the deterministic game-thread
 mix (pc/hal/parity.c, one VBlank's samples at each VBlank).  A player hears

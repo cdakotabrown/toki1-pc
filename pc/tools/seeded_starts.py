@@ -5,7 +5,7 @@ way on the port and on the reference, and compare (a COVERAGE TOOL).
 
 Every result this tool writes is tagged `seeded`.  It is not a normal run:
 the normal-run parity rule (no state writes and no scene jumps during a
-run, docs/pc-port/COVERAGE-PLAN.md) stays in force for every other suite.
+run) stays in force for every other suite.
 Here the state is written ONCE, at one defined point, on both machines,
 from the same bytes:
 
@@ -31,8 +31,8 @@ from the same bytes:
        - hand-built fields, each with the C it was read from (`why`);
        - the kernel rand seed (0x80009010; on the port g_psx_rand_seed,
          where the trace reads it), 1093 unless the recipe says otherwise:
-         the title's srand(vblnk_counter) value on the reference
-         (COVERAGE-SUITE.md), so both machines draw the same numbers;
+         the title's srand(vblnk_counter) value on the reference,
+         so both machines draw the same numbers;
        - the scene entry: the stores goto_step(N) makes
          (src/main/matched/goto_step.c) -- step_frame_cnt, step_state,
          step_counter = 0; now_step = N (or 2 with prev_step = N for the
@@ -67,7 +67,7 @@ divergences (`port-only` failures, `path` / `state` classes) are triaged.
         [--prior PRIOR_REPORT.json|LIST_DIR ...]
 
 Recipes: pc/tools/seeded/*.json ({"group": G, "captures": {...},
-"starts": [...]}); see docs/pc-port/SEEDED-STARTS.md.  Everything
+"starts": [...]}).  Everything
 game-derived (cards, captures, scripts, traces, RAM dumps, reach lists)
 lands under --out (default build/seeded).
 """
@@ -373,7 +373,7 @@ def seed_writes(r, out, probe=None):
         w.append(dict(name='rand_seed', addr=RAND_SEED[0], data=int(seed).to_bytes(4, 'little'),
                       src='hand-built',
                       why=('the kernel rand seed, both machines alike: srand(vblnk_counter) at '
-                           'the title gives 1093 on the reference (COVERAGE-SUITE.md)')))
+                           'the title gives 1093 on the reference')))
     if r.get('clocks', True):
         # the scenes reseed rand from the game's clocks: srand(frame_counter)
         # (wipe_disp.c, KANGEI kangei_class_init.c, GEKO geko_scene_init1.c,

@@ -1,6 +1,6 @@
 {
  "group": "clubs",
- "comment": "Club scenes: the club (basyo_pack bits 12..15, the album field `club`) decides what they show (KONAMI-DEBUG-FACILITIES.md section 6).  One start per club through the crafted album, entered with goto_step's stores: schedule_day_main.c case 36 picks 112 (club < 6) or 113, cases 37/38/39 go to 116/117/118, case 66 to 95.",
+ "comment": "Club scenes: the club (basyo_pack bits 12..15, the album field `club`) decides what they show.  One start per club through the crafted album, entered with goto_step's stores: schedule_day_main.c case 36 picks 112 (club < 6) or 113, cases 37/38/39 go to 116/117/118, case 66 to 95.",
  "starts": [
   {"id": "bunkasai", "scene": 112, "overlay": "BUNKASAI", "base": "album",
    "album": {"date": "96/10/27", "set": {}},

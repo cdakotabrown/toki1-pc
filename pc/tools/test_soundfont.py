@@ -1,7 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 """SoundFont mode (pc/hal/soundfont.c): the game's sequenced music through
-TinySoundFont from the game's own note events (enhanced; docs/pc-port/
-ENHANCED-MODE.md "SoundFont mode").
+TinySoundFont from the game's own note events (enhanced).
 
   python -m unittest discover -s pc/tools -p test_soundfont.py -v
 

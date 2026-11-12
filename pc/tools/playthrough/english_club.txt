@@ -1,4 +1,4 @@
-# English club join (docs/translation/BROKEN-STRINGS-AUDIT.md): english_tour.txt's
+# English club join: english_tour.txt's
 # new game (Latin names AB / CD / E) and spring_events.txt's first week, up
 # to joining the tennis club on Sun 9 Apr, with screenshots of the join
 # message ("Joined the Tennis Club.") and the captain's club-day line --

@@ -1600,7 +1600,7 @@ static int spu_mmio_owned_by_device(u32 off) {
  * the work area (spu_transfer.c).  They are forwarded like any register.
  * (Until 2026-10-31 the configuration calls were HAL stubs and these
  * registers were held back, after forwarding the output volume alone was
- * recorded as a constant tone in scene 64.  docs/pc-port/LIBSND-MUSIC.md.) */
+ * recorded as a constant tone in scene 64.) */
 #define SPUCNT_OFF 0x1AA
 #define SPUCNT_TRANSFER_MODE 0x0030u
 

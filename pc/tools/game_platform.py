@@ -20,8 +20,6 @@ One switch, the environment variable PC_TEST_PLATFORM:
 Paths need no translation for the game: Wine resolves an absolute Unix path
 through drive Z:, which maps "/".  host_path() gives the spelling the game
 prints (Z:\\...) for tests that compare logged paths.
-
-docs/pc-port/WINDOWS-BUILD.md "Running the test suite on Windows".
 """
 import fcntl
 import itertools

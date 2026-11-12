@@ -1,6 +1,6 @@
 {
  "group": "events",
- "doc": "The planning night before a fixed calendar event or a state-driven scene (docs/pc-port/COVERAGE-INVENTORY.md 1.2-1.4, 4) on the typical profile, with the state the event needs; the segment plays to the event, then on to the next night.",
+ "doc": "The planning night before a fixed calendar event or a state-driven scene on the typical profile, with the state the event needs; the segment plays to the event, then on to the next night.",
  "checkpoints": [
   {
    "id": "ev_exam95",

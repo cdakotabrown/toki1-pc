@@ -7,8 +7,7 @@
  *  - the RESUME state: on quit, offered at the next launch ([saves] resume,
  *    the launcher's --resume = TOKI_RESUME=1).
  *
- * Evidence for the two game moments (docs/pc-port/ENHANCED-MODE.md
- * "Autosave and resume"):
+ * Evidence for the two game moments:
  *  - The planner is now_step 0x34.  Each week the game enters it as
  *    0x34/0/0..3 (set-up and fade-in), then waits for the player in
  *    0x34/1/0 and leaves to 0x30 once the week is chosen.  Measured on
@@ -19,7 +18,7 @@
  *  - The ending is now_step 99: schedule_day_main's schedule_exit calls
  *    goto_step(99) the first time it runs with the date >= 1998-03-01, and
  *    the ending is chosen inside the ENDING overlay (ending_select_init),
- *    from the save block alone (docs/game-flows/ENDINGS-GUIDE.md section 1).
+ *    from the save block alone.
  *    A state taken at the first quiet boundary of step 99 therefore replays
  *    graduation day and the confession.
  *

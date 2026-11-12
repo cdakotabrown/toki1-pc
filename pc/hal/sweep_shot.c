@@ -1,6 +1,6 @@
 /* SPDX-License-Identifier: GPL-3.0-or-later */
-/* sweep_shot.c -- periodic, deduplicated screenshots for visual sweeps
- * (docs/translation/VISUAL-SWEEP.md).  Observation only: it reads the
+/* sweep_shot.c -- periodic, deduplicated screenshots for visual sweeps.
+ * Observation only: it reads the
  * displayed picture at the end of a frame and writes PNG files; it never
  * touches game state, timing or the trace.
  *
