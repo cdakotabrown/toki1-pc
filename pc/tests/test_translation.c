@@ -146,6 +146,13 @@ int test_translation_prepare(void) {
     snprintf(p, sizeof p, "%s/raw/DIR/F.BIN", assets);
     f = fopen(p, "rb"); CHECK(f && fread(got, 1, 16, f) == 16); fclose(f);
     CHECK(!memcmp(got, BASE, 16));
+    /* only the files the pack makes are ever read from the English tree
+     * (pc/hal/lang.c hal_lang_path): a file merely present there is not */
+    CHECK(translation_pack_lists_in(g_pack, g_n, "DIR/F.BIN") == 1);
+    CHECK(translation_pack_lists_in(g_pack, g_n, "dir/f.bin") == 1);
+    CHECK(translation_pack_lists_in(g_pack, g_n, "DIR/OTHER.BIN") == 0);
+    CHECK(translation_pack_lists_in(g_pack, g_n, "PSX.EXE") == 0);
+    CHECK(translation_pack_lists_in(NULL, 0, "DIR/F.BIN") == -1);
     /* a second run finds it up to date */
     CHECK(translation_prepare_pack(g_pack, g_n, assets, en, &r) == 0);
     CHECK(r.up_to_date == 1 && r.written == 0);

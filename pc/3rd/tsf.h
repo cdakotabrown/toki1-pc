@@ -84,6 +84,11 @@ struct tsf_stream
 
 	// Function pointer will be called to skip ahead over 'count' bytes (returns 1 on success, 0 on error)
 	int (*skip)(void* data, unsigned int count);
+
+	// [toki1-pc] the stream's length in bytes when known (0 = unknown): the
+	// RIFF header's size must fit in it, so no chunk size taken from the
+	// file can ask for more memory than the file holds
+	unsigned int total;
 };
 
 // Generic SoundFont loading method using the stream structure above
@@ -363,6 +368,11 @@ TSFDEF tsf* tsf_load_filename(const char* filename)
 		return TSF_NULL;
 	}
 	stream.data = f;
+	{
+		long end = (fseek(f, 0, SEEK_END) == 0) ? ftell(f) : -1;
+		if (end < 0 || end > 0x7fffffffL || fseek(f, 0, SEEK_SET) != 0) { fclose(f); return TSF_NULL; }
+		stream.total = (unsigned int)end;
+	}
 	res = tsf_load(&stream);
 	fclose(f);
 	return res;
@@ -379,6 +389,7 @@ TSFDEF tsf* tsf_load_memory(const void* buffer, int size)
 	f.buffer = (const char*)buffer;
 	f.total = size;
 	stream.data = &f;
+	stream.total = (unsigned int)size;
 	return tsf_load(&stream);
 }
 
@@ -492,6 +503,7 @@ static TSF_BOOL tsf_riffchunk_read(struct tsf_riffchunk* parent, struct tsf_riff
 	if (IsRiff && parent) return TSF_FALSE; //not allowed
 	if (!IsRiff && !IsList) return TSF_TRUE; //custom type without sub type
 	if (!stream->read(stream->data, &chunk->id, sizeof(tsf_fourcc)) || *chunk->id <= ' ' || *chunk->id >= 'z') return TSF_FALSE;
+	if (chunk->size < sizeof(tsf_fourcc)) return TSF_FALSE; // [toki1-pc] the size would wrap and unbound the children
 	chunk->size -= sizeof(tsf_fourcc);
 	return TSF_TRUE;
 }
@@ -782,7 +794,11 @@ static int tsf_load_presets(tsf* res, struct tsf_hydra *hydra, unsigned int font
 			}
 		}
 
-		preset->regions = (struct tsf_region*)TSF_MALLOC(preset->regionNum * sizeof(struct tsf_region));
+		// [toki1-pc] presets x instrument zones multiply: a small crafted file
+		// can count millions of regions; no real SoundFont has 65536 in a preset
+		if (preset->regionNum > 65536) preset->regionNum = -1;
+		preset->regions = preset->regionNum < 0 ? TSF_NULL :
+			(struct tsf_region*)TSF_MALLOC(preset->regionNum * sizeof(struct tsf_region));
 		if (!preset->regions)
 		{
 			int i; for (i = 0; i != res->presetNum; i++) TSF_FREE(res->presets[i].regions);
@@ -1398,7 +1414,8 @@ TSFDEF tsf* tsf_load(struct tsf_stream* stream)
 	float* floatBuffer = TSF_NULL;
 	tsf_u32 smplCount = 0;
 
-	if (!tsf_riffchunk_read(TSF_NULL, &chunkHead, stream) || !TSF_FourCCEquals(chunkHead.id, "sfbk"))
+	if (!tsf_riffchunk_read(TSF_NULL, &chunkHead, stream) || !TSF_FourCCEquals(chunkHead.id, "sfbk")
+		|| (stream->total && chunkHead.size > stream->total - 12)) // [toki1-pc] RIFF+size+"sfbk"
 	{
 		//if (e) *e = TSF_INVALID_NOSF2HEADER;
 		return res;

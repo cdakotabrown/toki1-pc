@@ -269,6 +269,10 @@ WRAP_SYMS = SetLineF2 SetLineF3 SetLineF4 SetLineG2 SetLineG3 SetLineG4 \
             SetPolyF3 SetPolyF4 SetPolyFT3 SetPolyFT4 SetPolyG3 SetPolyG4 \
             SetPolyGT3 SetPolyGT4 SetSprt SetSprt8 SetSprt16 \
             SetTile SetTile1 SetTile8 SetTile16 AddPrim AddPrims SetSemiTrans SetShadeTex
+# The two memory-card restores: the matched bodies run unchanged, then
+# pc/hal/save_sanitize.c brings the restored fields into the game's own
+# range (a shared save controls every byte and its checksum).
+WRAP_SYMS += save_game_restore save_work_restore
 LDFLAGS += $(foreach s,$(WRAP_SYMS),-Wl,--wrap=$(s))
 # Typed alias views of globals (now_year_v, cw96_active_a, girl0_flag_b, ...)
 # are the SAME object as D_<ADDR>: pc/tools/gen_missing_globals.py writes them

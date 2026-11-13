@@ -102,9 +102,9 @@ class CExtractorTests(unittest.TestCase):
         self.assertEqual(len(tree(c)), 12)        # 11 managed files + the manifest
 
     def test_negative_control_one_byte(self):
-        """The comparison is not blind: one flipped byte is found, and the C
-        full verification refuses the tree while the fast one (sizes only)
-        still accepts it -- the documented trade-off of every launch."""
+        """The comparison is not blind: one flipped byte is found, and both
+        C verifications refuse the tree: the fast one (every launch) hashes
+        every file but the audio/video streams."""
         image = self.root / 'disc.bin'
         profile = fixture(image)
         py, c = self.both(image, profile)
@@ -115,9 +115,70 @@ class CExtractorTests(unittest.TestCase):
         victim.write_bytes(bytes(data))
         self.assertEqual(differences(py, c), ['raw/CDROM/RAW.BIN'])
         self.assertNotEqual(self.c_verify(c, profile).returncode, 0)
-        self.assertEqual(self.c_verify(c, profile, fast=True).returncode, 0)
+        r = self.c_verify(c, profile, fast=True)
+        self.assertNotEqual(r.returncode, 0)
+        self.assertIn('missing or corrupt asset: raw/CDROM/RAW.BIN', r.stdout)
         with self.assertRaises(ValueError):
             assets.verify_cache(c, profile)
+
+    def test_fast_check_leaves_stream_contents_to_the_full_one(self):
+        # an XA stream (read only by the HAL's bounded decoders) is checked
+        # by size at launch, by content in the full verification
+        image = self.root / 'disc.bin'
+        profile = fixture(image)
+        py, c = self.both(image, profile)
+        victim = next(p for p in c.rglob('*.XA') if p.is_file())
+        data = bytearray(victim.read_bytes())
+        data[-1] ^= 1
+        os.unlink(victim)
+        victim.write_bytes(bytes(data))
+        self.assertEqual(self.c_verify(c, profile, fast=True).returncode, 0)
+        self.assertNotEqual(self.c_verify(c, profile).returncode, 0)
+
+    def test_manifest_rows_must_match_the_profile_digest(self):
+        """A manifest rewritten to match edited files (the hashes the checks
+        compare with) is refused: its rows must hash to the profile's
+        files_digest, the list the setup writes for the supported disc."""
+        import hashlib
+        import json
+        image = self.root / 'disc.bin'
+        profile = fixture(image)
+        py, c = self.both(image, profile)
+        manifest = c / 'assets.manifest.json'
+        rows = sorted((r['path'], r['size'], r['sha256']) for r in json.loads(manifest.read_text())['files']
+                      if r['path'].rsplit('/', 1)[-1] != 'TR02.DA')
+        digest = hashlib.sha256(''.join(f'{p}\t{z}\t{h}\n' for p, z, h in rows).encode()).hexdigest()
+
+        def verify(fast):
+            path = self.profile_file(profile)
+            with open(path, 'a') as fh:
+                fh.write(f'files_digest={digest}\n')
+            cmd = [str(self.cli), '--verify-assets', str(c), '--test-profile', str(path)]
+            return subprocess.run(cmd + (['--fast'] if fast else []), capture_output=True, text=True)
+
+        self.assertEqual(verify(True).returncode, 0, verify(True).stdout)
+        self.assertEqual(verify(False).returncode, 0)
+        # edit a file and the manifest's record of it consistently
+        victim = c / 'raw/CDROM/RAW.BIN'
+        data = bytearray(victim.read_bytes())
+        data[0] ^= 1
+        os.unlink(victim)
+        victim.write_bytes(bytes(data))
+        new = hashlib.sha256(bytes(data)).hexdigest()
+        doc = json.loads(manifest.read_text())
+        old = next(r['sha256'] for r in doc['files'] if r['path'] == 'raw/CDROM/RAW.BIN')
+        for r in doc['files']:
+            if r['sha256'] == old:
+                r['sha256'] = new
+        for alias in (p for p in c.rglob('*') if p.is_file() and p != victim and p != manifest):
+            if hashlib.sha256(alias.read_bytes()).hexdigest() == old:
+                os.unlink(alias)
+                alias.write_bytes(bytes(data))
+        manifest.write_text(json.dumps(doc))
+        for fast in (True, False):
+            r = verify(fast)
+            self.assertNotEqual(r.returncode, 0)
+            self.assertIn("does not list this disc's files", r.stdout)
 
     def test_cue_input(self):
         image = self.root / 'disc.bin'

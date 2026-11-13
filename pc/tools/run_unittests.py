@@ -17,6 +17,7 @@ Exit status is non-zero when any file fails or errors.  Each file's full
 output is kept in --log (default build/unittests/<module>.log).
 """
 import argparse
+import ast
 import concurrent.futures as cf
 import glob
 import json
@@ -31,7 +32,23 @@ TOOLS = os.path.join(ROOT, 'pc', 'tools')
 TIMES = os.path.join(ROOT, 'build', 'unittest-times.json')
 
 
-CLASS = re.compile(r'^class (\w+)\(.*TestCase\)', re.M)
+def test_classes(path):
+    """the module-level classes of a test file that are TestCases: a base
+    named TestCase, or a class of the same file that is one (a subclass of
+    a shared base -- `class FooWindows(Foo)` -- is a test class too; a
+    regex on `TestCase)` missed those, and a split file silently dropped
+    their tests, 2026-11-13)"""
+    tree = ast.parse(open(path, encoding='utf-8').read())
+    found = []
+    for node in tree.body:
+        if not isinstance(node, ast.ClassDef):
+            continue
+        for b in node.bases:
+            name = b.attr if isinstance(b, ast.Attribute) else getattr(b, 'id', None)
+            if name == 'TestCase' or name in found:
+                found.append(node.name)
+                break
+    return found
 
 
 def units(module, split):
@@ -39,7 +56,7 @@ def units(module, split):
     than `split` seconds and holds several TestCase classes runs one job
     per class (the slowest files boot the game many times)."""
     if split is not None:
-        classes = CLASS.findall(open(os.path.join(TOOLS, module + '.py')).read())
+        classes = test_classes(os.path.join(TOOLS, module + '.py'))
         if len(classes) > 1:
             return [('%s.%s' % (module, c), module, c) for c in classes]
     return [(module, module, None)]

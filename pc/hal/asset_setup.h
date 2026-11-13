@@ -52,6 +52,14 @@ typedef struct {
     int64_t cdda_lba;
     int64_t cdda_size;
     int64_t preserved_subheader_lba;
+    /* SHA-256 (hex) of the managed-file list an extraction of this disc
+     * writes into its manifest: every row but the optional Track 2 file
+     * (TR02.DA, raw/ and its alias), sorted by path, one
+     * "path\tsize\tsha256\n" line each.  The disc and the extraction are
+     * fixed, so the list is too: a manifest whose rows do not hash to this
+     * was not written by the setup (as_verify).  "" skips the check (the
+     * test fixtures' profiles). */
+    char files_digest[65];
 } AsProfile;
 
 extern const AsProfile as_supported_profile;
@@ -97,7 +105,8 @@ typedef struct {
     volatile int64_t done, total;
     int allow_no_audio;             /* 1: continue when Track 2 is missing; 2: also
                                        when it is present but differs */
-    int fast_verify;                /* as_verify: sizes and structure only */
+    int fast_verify;                /* as_verify: sizes and structure, and the contents of
+                                     * every file but the streams (as_stream_file) */
     /* results */
     int files;                      /* managed files in the manifest */
     int anomalies;                  /* preserved source anomalies */
@@ -113,10 +122,16 @@ int as_prepare(const char *image, const char *audio_track, const char *dest,
                const AsProfile *profile, AsCtl *ctl, AsError *err);
 
 /* Python's verify_cache: the full check hashes every managed file;
- * ctl->fast_verify checks the manifest, the inventory, every file's
- * presence and size, and the executable's SHA1 (fast enough for every
+ * ctl->fast_verify checks the manifest (its rows against the profile's
+ * files_digest), the inventory, every file's presence and size, the
+ * contents of every file but the audio/video streams (~120 MB, about a
+ * third of a second), and the executable's SHA1 (fast enough for every
  * launch).  ctl may be NULL (full). */
 int as_verify(const char *dest, const AsProfile *profile, AsCtl *ctl, AsError *err);
+/* 1 for the audio/video streams (.XA, .STR, .DA): read only by the HAL's
+ * bounded stream decoders, never as data the game code walks; the fast
+ * check leaves their contents to the full one. */
+int as_stream_file(const char *path);
 
 /* Only open the image and run the identity gate (sizes, SHA1s, filesystem
  * inventory, executable): what the setup does before extracting. */

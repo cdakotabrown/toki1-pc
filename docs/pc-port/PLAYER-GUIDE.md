@@ -382,7 +382,9 @@ in the settings menu switches it, on restart). For the original Japanese set
 `language = ja`. The English translation is built into the game; on the first English start
 it is applied to **your own** extracted Japanese files and written to
 `data/en/` (about 2 seconds; only the ~160 changed
-files, about 13 MB). Later starts only check it. Japanese stays exactly as
+files, about 13 MB). Later starts check each of those files against the
+translation's own hash, and the game reads only those files from
+`data/en/`: anything else put there is ignored. Japanese stays exactly as
 it was, and you can switch back and forth with a restart. The memory card is
 shared by both languages, but a name typed on the English (Latin) key page is
 stored in Latin letters, which the original Japanese text engine was never
@@ -488,7 +490,10 @@ can be undone by selecting slot 0 and pressing F9. F5 never writes slot 0.
   (`data/.state.key`) and refuses any it did not sign. A quicksave someone
   sends you does not load (`was not saved by this installation`), and that is
   on purpose: a crafted one could run code on your computer. To share a
-  game, share the memory card (`saves/card1.mcr`).
+  game, share the memory card (`saves/card1.mcr`): the game reads a card's
+  saves as data, and checks every field it uses as an index or a name
+  length as the save loads (a save it did not write is brought into range
+  and the log says so).
 - A quickload never rolls back your **memory card**: albums you saved in the
   game after the quicksave stay on the card. The game's own screens show
   the card as the game last read it, so after a quickload, check the album
@@ -1196,7 +1201,7 @@ controller) is `[controller]` (section 2).
 | Setup: "Track 2 (CD audio) is missing" / "... differs" | Press C to continue without it: the game never plays that track. Or add a good Track 2 `.bin` and press R. |
 | Setup: "Not enough free disk space" | Needed and free space are shown (about 1.5 GB while extracting). Free some space or move the folder, then R. |
 | Setup: "The game data cannot be written" | Move the folder somewhere you own (Desktop, Documents), or add `user-data.txt` beside the program to use the per-user folder. |
-| At launch: "The game data is damaged or incomplete" | Each launch checks every data file's presence and size. Enter moves the damaged files into `data.damaged-N` (never deleted; the log and `data/en/` stay) and extracts again from `disk/`. |
+| At launch: "The game data is damaged or incomplete" | Each launch checks every data file's presence and size, and the contents of every file but the music and movie streams (about 120 MB, under a second): a changed or replaced game file is refused, so the game never runs on data it did not extract itself. Enter moves the damaged files into `data.damaged-N` (never deleted; the log and `data/en/` stay) and extracts again from `disk/`. |
 | Anything else / to check everything | Read `data/tokimeki-pc.log` (`.log.old` is the run before). Settings menu (Ctrl+O) > GAME DATA AND ABOUT > VERIFY GAME DATA, or `tokimeki-pc --check`, re-hashes the disc and every extracted file and writes a report to the log. |
 | `Build failed` | Install a compiler and SDL2 dev files (`build-essential libsdl2-dev`). |
 | No window appears (Linux) | The launcher warns when neither `DISPLAY` nor `WAYLAND_DISPLAY` is set; start it from a desktop session. On WSL, WSLg works; `./run_game.sh --vcxsrv` uses an X server on Windows instead. |

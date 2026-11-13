@@ -38,6 +38,7 @@ const AsProfile as_supported_profile = {
     24, 690176, "2d8d474816e4bf937b09dc3b017f550f7ce4e14b", 1372,
     45151344, "6cdd8500168ab4ecb18b78ef7589586d26bc4501",
     150, 298664, 39008256, 121080,
+    "f53bcf2e1ce683998c47a9d67f8d33e713330211d1d16a1cbdcc7e6b246612e5",
 };
 
 /* ------------------------------------------------------------------ */
@@ -1377,6 +1378,33 @@ static const Row *find_row(const Rows *sorted, const char *path) {
     return NULL;
 }
 
+int as_stream_file(const char *path) {
+    const char *x = suffix_of(path);
+    return ieq(x, ".xa") || ieq(x, ".str") || ieq(x, ".da");
+}
+
+static const char *base_of(const char *path) {
+    const char *b = strrchr(path, '/');
+    return b ? b + 1 : path;
+}
+
+/* the profile's files_digest over the manifest rows (sorted by row_cmp) */
+static void rows_digest(const Rows *rows, char hex[65]) {
+    PcSha256 c;
+    uint8_t d[32];
+    char line[PATH_N + 96];
+    int k, n;
+    pc_sha256_init(&c);
+    for (k = 0; k < rows->n; k++) {
+        if (!strcmp(base_of(rows->r[k].path), base_of(AS_CDDA_NAME))) continue;
+        n = snprintf(line, sizeof line, "%s\t%lld\t%s\n", rows->r[k].path,
+                     (long long)rows->r[k].size, rows->r[k].sha256);
+        pc_sha256_update(&c, line, (size_t)n);
+    }
+    pc_sha256_final(&c, d);
+    pc_hash_hex(d, 32, hex);
+}
+
 int as_verify(const char *dest, const AsProfile *profile, AsCtl *ctl, AsError *err) {
     const AsProfile *p = profile ? profile : &as_supported_profile;
     int fast = ctl && ctl->fast_verify;
@@ -1496,6 +1524,19 @@ int as_verify(const char *dest, const AsProfile *profile, AsCtl *ctl, AsError *e
         }
     }
     if (expected_n != rows.n) { rc = fail(err, AS_E_MANIFEST, "unexpected managed files in asset manifest"); goto out; }
+    /* the rows themselves: the hashes below are checked against them, so
+     * they must be the ones the setup writes for this disc */
+    if (p->files_digest[0]) {
+        rows_digest(&rows, hex);
+        if (strcmp(hex, p->files_digest)) {
+            if (err) {
+                snprintf(err->expected, sizeof err->expected, "%s", p->files_digest);
+                snprintf(err->found, sizeof err->found, "%s", hex);
+            }
+            rc = fail(err, AS_E_MANIFEST, "asset manifest does not list this disc's files");
+            goto out;
+        }
+    }
     if (ctl) {
         ctl->phase = AS_PH_VERIFY;
         if (!fast) { ctl->total = ctl->done + total; }
@@ -1513,8 +1554,8 @@ int as_verify(const char *dest, const AsProfile *profile, AsCtl *ctl, AsError *e
             rc = fail(err, AS_E_CORRUPT, "missing or corrupt asset: %s", rows.r[k].path);
             goto out;
         }
-        if (fast) continue;
-        if ((rc = file_digest(path, 1, hex, ctl, err))) goto out;
+        if (fast && as_stream_file(rows.r[k].path)) continue;
+        if ((rc = file_digest(path, 1, hex, fast ? NULL : ctl, err))) goto out;
         if (strcmp(hex, rows.r[k].sha256)) {
             if (err) {
                 snprintf(err->expected, sizeof err->expected, "%s", rows.r[k].sha256);
@@ -1932,7 +1973,7 @@ static int load_test_profile(const char *path, AsProfile *p) {
 #define STR(k) if (!strcmp(line, #k)) snprintf(p->k, sizeof p->k, "%s", v);
         NUM(track_size) STR(track_sha1) NUM(exe_lba) NUM(exe_size) STR(exe_sha1) NUM(file_count)
         NUM(audio_size) STR(audio_sha1) NUM(audio_skip) NUM(cdda_lba) NUM(cdda_size)
-        NUM(preserved_subheader_lba)
+        NUM(preserved_subheader_lba) STR(files_digest)
 #undef NUM
 #undef STR
     }

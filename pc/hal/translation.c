@@ -14,6 +14,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <strings.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 #ifdef _WIN32
@@ -488,6 +489,57 @@ static int prepare_locked(const unsigned char *pack, size_t pack_size,
         free(out);
     }
     return (res->missing_base || res->bad_base || res->failed) ? -1 : 0;
+}
+
+/* The files the embedded pack makes, by path below raw/ (sorted, case
+ * folded once): the only English files the game may read in place of the
+ * Japanese ones (pc/hal/lang.c hal_lang_path).  Anything else found in the
+ * English tree is not ours and is never served.  Host data: dbg_state.c
+ * lists this file in KEEP_FILES. */
+static char **g_listed;
+static size_t g_nlisted;
+static int g_listed_state;          /* 0 not built, 1 built, -1 no pack */
+
+static int listed_cmp(const void *a, const void *b) {
+    return strcasecmp(*(char *const *)a, *(char *const *)b);
+}
+
+static void build_listed(void) {
+    size_t size = 0;
+    const unsigned char *pack = translation_pack_data(&size);
+    Rd r;
+    unsigned int n, i;
+    g_listed_state = -1;
+    if (!pack || !open_pack(pack, size, &r, &n)) return;
+    g_listed = (char **)calloc(n ? n : 1, sizeof *g_listed);
+    if (!g_listed) return;
+    for (i = 0; i < n; i++) {
+        Entry e;
+        if (!next_entry(&r, &e)) break;
+        if (e.path[0] == '@') continue;
+        if (!(g_listed[g_nlisted] = strdup(e.path))) break;
+        g_nlisted++;
+    }
+    qsort(g_listed, g_nlisted, sizeof *g_listed, listed_cmp);
+    g_listed_state = 1;
+}
+
+int translation_pack_lists_in(const unsigned char *pack, size_t size, const char *rel) {
+    Rd r;
+    unsigned int n, i;
+    if (!pack || !open_pack(pack, size, &r, &n)) return -1;
+    for (i = 0; i < n; i++) {
+        Entry e;
+        if (!next_entry(&r, &e)) return 0;
+        if (e.path[0] != '@' && !strcasecmp(e.path, rel)) return 1;
+    }
+    return 0;
+}
+
+int translation_pack_lists(const char *rel) {
+    if (!g_listed_state) build_listed();
+    if (g_listed_state < 0) return -1;
+    return bsearch(&rel, g_listed, g_nlisted, sizeof *g_listed, listed_cmp) != NULL;
 }
 
 int translation_prepare(const char *assets_root, const char *out_root) {

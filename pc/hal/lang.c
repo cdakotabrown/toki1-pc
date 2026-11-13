@@ -109,6 +109,10 @@ const char *hal_lang_path(const char *path, char *buf, size_t n) {
     for (p = path; (p = strstr(p, "raw/")) != NULL; p++)
         if (p == path || p[-1] == '/') raw = p;
     if (!raw || raw == path) return path;
+    /* only a file the pack makes (and translation_prepare checked against
+     * the pack's hash at this boot): any other file in the English tree is
+     * not one of ours, and the game reads the verified Japanese one */
+    if (translation_pack_lists(raw + 4) == 0) return path;
     snprintf(buf, n, "%s/%s", g_en_root, raw);
     if (access(buf, R_OK) == 0) return buf;
     return path;

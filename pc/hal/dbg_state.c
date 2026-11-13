@@ -329,6 +329,9 @@ static const char *const KEEP_FILES[] = {
      * install's secret.  A state that held it would hand anyone it is
      * shared with the key to forge states; never saved, never restored. */
     "state_sign.c",
+    /* The list of the files the embedded translation pack makes
+     * (pc/hal/translation.c): a cache of constant pack data, host side. */
+    "translation.c",
     NULL
 };
 

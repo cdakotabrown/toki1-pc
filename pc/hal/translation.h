@@ -69,6 +69,12 @@ int translation_prepare_pack(const unsigned char *pack, size_t pack_size,
                              TranslationResult *res);
 int translation_prepare(const char *assets_root, const char *out_root);
 
+/* 1 when the embedded pack makes raw/<rel>, 0 when it does not, -1 when
+ * this build has no pack (pc/hal/lang.c hal_lang_path). */
+int translation_pack_lists(const char *rel);
+/* the same for a given pack (no cache; the tests) */
+int translation_pack_lists_in(const unsigned char *pack, size_t size, const char *rel);
+
 /* Apply one file's recipe in memory (tests).  Returns a malloc'd buffer of
  * *out_size bytes, or NULL (bad base hash / malformed). */
 unsigned char *translation_apply_file(const unsigned char *pack, size_t pack_size,
