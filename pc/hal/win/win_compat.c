@@ -4,6 +4,29 @@
 #include <stdint.h>
 #include <stdio.h>
 
+/* The PE load-configuration directory, for one field: DependentLoadFlags.
+ * The loader resolves this exe's static imports (version.dll, winmm.dll and
+ * the other system DLLs SDL2 links) from System32 only, never from the
+ * exe's own folder: a DLL of the same name planted beside the program (a
+ * Downloads folder) is not loaded.  Windows 10 1607+ reads the field;
+ * older systems ignore it.  GNU ld points the directory at this symbol.
+ * pc_win_harden (main, first thing) covers the libraries loaded later. */
+const IMAGE_LOAD_CONFIG_DIRECTORY64 _load_config_used = {
+    .Size = sizeof(IMAGE_LOAD_CONFIG_DIRECTORY64),
+    .DependentLoadFlags = LOAD_LIBRARY_SEARCH_SYSTEM32,
+};
+
+/* LoadLibrary by bare name (SDL2: XInput, hid, opengl32, d3d...) searches
+ * System32 only from here on; the program loads nothing of its own. */
+void pc_win_harden(void)
+{
+    typedef BOOL (WINAPI *SetDirsFn)(DWORD);
+    HMODULE k = GetModuleHandleA("kernel32.dll");
+    SetDirsFn set = k ? (SetDirsFn)(void *)GetProcAddress(k, "SetDefaultDllDirectories") : NULL;
+    if (set) set(LOAD_LIBRARY_SEARCH_SYSTEM32);
+    SetDllDirectoryA("");     /* and never the current directory */
+}
+
 #undef rename
 int pc_win_rename(const char *from, const char *to)
 {

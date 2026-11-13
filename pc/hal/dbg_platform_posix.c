@@ -67,7 +67,14 @@ unsigned char *dbg_read_file(const char *path, unsigned long *len) {
     buf = dbg_mem_alloc(cap);
     while (buf) {
         ssize_t r;
-        if (n + 1 >= cap) { cap *= 2; buf = dbg_mem_realloc(buf, cap); if (!buf) break; }
+        if (n + 1 >= cap) {
+            /* no state or file this reads comes near 1 GiB; the doubling
+             * must not wrap a 32-bit unsigned long (Windows) */
+            if (cap >= (1UL << 30)) { dbg_mem_free(buf); buf = NULL; break; }
+            cap *= 2;
+            buf = dbg_mem_realloc(buf, cap);
+            if (!buf) break;
+        }
         r = read(fd, buf + n, cap - n - 1);
         if (r < 0) { dbg_mem_free(buf); buf = NULL; break; }
         if (r == 0) break;

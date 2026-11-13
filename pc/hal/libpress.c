@@ -70,6 +70,7 @@ typedef struct {
     u8  hdr[STRHDR];
     u8 *data;
     u32 size;
+    u32 cap;            /* chunks the data buffer holds (the first sector's count) */
     u32 w, h;
     u32 last_sector;    /* index in the .STR of the frame's last chunk: the frame is complete once the drive has read it */
 } StrFrame;
@@ -165,16 +166,30 @@ static int load_stream(const char *path) {
         if (status != 0x0160 || type != 0x8001 || nchunks == 0)
             continue;                                   /* XA audio / padding */
         if ((int)frame != cur_frame) {
-            if (g_nframes == g_cap) { g_cap = g_cap ? g_cap * 2 : 256; g_frames = realloc(g_frames, g_cap * sizeof *g_frames); }
-            fr = &g_frames[g_nframes++];
+            if (g_nframes == g_cap) {
+                int cap = g_cap ? g_cap * 2 : 256;
+                StrFrame *grown = realloc(g_frames, (size_t)cap * sizeof *g_frames);
+                if (!grown) break;
+                g_frames = grown;
+                g_cap = cap;
+            }
+            fr = &g_frames[g_nframes];
             memset(fr, 0, sizeof *fr);
             memcpy(fr->hdr, h, STRHDR);
-            fr->size = fsize; fr->w = w; fr->h = hh;
             fr->data = calloc(1, (size_t)nchunks * PAYLOAD + 16);
+            if (!fr->data) break;
+            g_nframes++;
+            fr->cap = nchunks;
+            /* the decoder reads `size` bytes: never more than the buffer */
+            fr->size = fsize < (u32)nchunks * PAYLOAD ? fsize : (u32)nchunks * PAYLOAD;
+            fr->w = w; fr->h = hh;
             cur_frame = (int)frame;
         }
+        if (!g_nframes) continue;
         fr = &g_frames[g_nframes - 1];
-        if ((u32)chunk < nchunks)
+        /* a later sector's own chunk count is not the buffer's: bound the
+         * chunk by the count the buffer was made for */
+        if ((u32)chunk < nchunks && (u32)chunk < fr->cap)
             memcpy(fr->data + (size_t)chunk * PAYLOAD, h + STRHDR, PAYLOAD);
         fr->last_sector = (u32)(off / SECTOR_RAW);
     }

@@ -227,6 +227,38 @@ class QuicksaveRoundTrip(unittest.TestCase):
         self.assertEqual(listing[8], ' 8  Scene 18/1/0  01-02 03:04')
 
 
+    def test_only_this_installations_states_load(self):
+        # a state is restored byte for byte over native memory (function
+        # pointers, the game stack), so a load accepts only a state signed
+        # with this installation's key (pc/hal/state_sign.c): a changed
+        # byte, a missing signature, or a valid-looking signature made with
+        # another key are all refused before the file is parsed
+        import hashlib
+        import hmac
+        saves = os.path.join(self.tmp, 'saves-sign')
+        qs = Path(saves) / 'quicksave'
+        d, text = self.run_case('sign-save', 'at 200 qsave 2\nafter 1 quit\n', saves=saves)
+        self.assertIn('[QUICKSAVE] slot 2 saved', text)
+        good = (qs / 'slot2.tks').read_bytes()
+        self.assertEqual(good[-40:-32], b'TKSIGv01')
+        # the key itself is never in a state (state_sign.c is a KEEP file)
+        key = (ASSETS / '.state.key').read_bytes()
+        self.assertEqual(len(key), 32)
+        self.assertNotIn(key, good)
+        self.assertNotIn(key[:16], good)
+        tampered = bytearray(good)
+        tampered[len(good) // 2] ^= 0x01
+        foreign = good[:-40] + b'TKSIGv01' + hmac.new(os.urandom(32), good[:-40], hashlib.sha256).digest()
+        for slot, data in ((3, bytes(tampered)), (4, good[:-40]), (5, foreign)):
+            (qs / f'slot{slot}.tks').write_bytes(data)
+            shutil.copy(qs / 'slot2.ini', qs / f'slot{slot}.ini')
+        d, text = self.run_case('sign-load', 'at 200 qload 3\nafter 1 qload 4\nafter 1 qload 5\n'
+                                'after 1 qload 2\nafter 1 quit\n', saves=saves)
+        for slot in (3, 4, 5):
+            self.assertIn(f'[QUICKSAVE] Load slot {slot} failed', text)
+        self.assertEqual(text.count('was not saved by this installation'), 3, text[-3000:])
+        self.assertIn('[QUICKSAVE] slot 2 loaded', text)
+
 
 @unittest.skipUnless(WIN_BINARY.is_file() and WINE and (ASSETS / 'raw/PSX.EXE').is_file(),
                      'needs the Windows build, Wine and pc/assets')

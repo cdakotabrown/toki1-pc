@@ -34,6 +34,8 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 DEFAULT_BIN = os.path.join(ROOT, 'pc/build/tokimeki-pc')
 PAGE = 4096
+SIG_MAGIC = b'TKSIGv01'          # pc/hal/state_sign.h
+SIG_LEN = 8 + 32
 
 
 class StateError(Exception):
@@ -80,6 +82,10 @@ def read_state(path):
         data = fh.read()
     if data[:8] not in (b'TOKISTv1', b'TOKISTv2'):
         raise StateError(f'{path}: not a state file')
+    # the installation's signature (pc/hal/state_sign.c): 8-byte magic and
+    # an HMAC after the last section; this tool reads, it does not verify
+    if len(data) >= 8 + SIG_LEN and data[-SIG_LEN:-SIG_LEN + 8] == SIG_MAGIC:
+        data = data[:-SIG_LEN]
     pos = 8
     out = dict(format=int(data[7:8].decode()), info={}, maps='', keep=[], regions={}, records={})
     while pos + 32 <= len(data):

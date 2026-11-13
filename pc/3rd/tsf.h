@@ -705,6 +705,26 @@ static void tsf_region_envtosecs(struct tsf_envelope* p, TSF_BOOL sustainIsGain)
 	else p->sustain = 1.0f - (p->sustain / 1000.0f);
 }
 
+/* [toki1-pc] every cross-reference of the hydra tables checked before
+ * tsf_load_presets walks them: each list's start index is non-decreasing
+ * and its terminal record stays inside the table it points into (the
+ * walks read entry[1] of each record), so a crafted .sf2 cannot send the
+ * loader outside its arrays. */
+static int tsf_hydra_valid(const struct tsf_hydra *h)
+{
+	int i;
+	if (h->phdrNum < 2 || h->pbagNum < 1 || h->pgenNum < 1 || h->instNum < 1 || h->ibagNum < 1 || h->igenNum < 1 || h->shdrNum < 1) return 0;
+	for (i = 0; i + 1 < h->phdrNum; i++) if (h->phdrs[i].presetBagNdx > h->phdrs[i + 1].presetBagNdx) return 0;
+	if (h->phdrs[h->phdrNum - 1].presetBagNdx > h->pbagNum - 1) return 0;
+	for (i = 0; i + 1 < h->pbagNum; i++) if (h->pbags[i].genNdx > h->pbags[i + 1].genNdx) return 0;
+	if (h->pbags[h->pbagNum - 1].genNdx > h->pgenNum) return 0;
+	for (i = 0; i + 1 < h->instNum; i++) if (h->insts[i].instBagNdx > h->insts[i + 1].instBagNdx) return 0;
+	if (h->insts[h->instNum - 1].instBagNdx > h->ibagNum - 1) return 0;
+	for (i = 0; i + 1 < h->ibagNum; i++) if (h->ibags[i].instGenNdx > h->ibags[i + 1].instGenNdx) return 0;
+	if (h->ibags[h->ibagNum - 1].instGenNdx > h->igenNum) return 0;
+	return 1;
+}
+
 static int tsf_load_presets(tsf* res, struct tsf_hydra *hydra, unsigned int fontSampleCount)
 {
 	enum { GenInstrument = 41, GenKeyRange = 43, GenVelRange = 44, GenSampleID = 53 };
@@ -747,7 +767,7 @@ static int tsf_load_presets(tsf* res, struct tsf_hydra *hydra, unsigned int font
 				if (ppgen->genOper == GenKeyRange) { plokey = ppgen->genAmount.range.lo; phikey = ppgen->genAmount.range.hi; continue; }
 				if (ppgen->genOper == GenVelRange) { plovel = ppgen->genAmount.range.lo; phivel = ppgen->genAmount.range.hi; continue; }
 				if (ppgen->genOper != GenInstrument) continue;
-				if (ppgen->genAmount.wordAmount >= hydra->instNum) continue;
+				if (ppgen->genAmount.wordAmount >= hydra->instNum - 1) continue;
 				pinst = hydra->insts + ppgen->genAmount.wordAmount;
 				for (pibag = hydra->ibags + pinst->instBagNdx, pibagEnd = hydra->ibags + pinst[1].instBagNdx; pibag != pibagEnd; pibag++)
 				{
@@ -786,7 +806,7 @@ static int tsf_load_presets(tsf* res, struct tsf_hydra *hydra, unsigned int font
 				{
 					struct tsf_region instRegion;
 					tsf_u16 whichInst = ppgen->genAmount.wordAmount;
-					if (whichInst >= hydra->instNum) continue;
+					if (whichInst >= hydra->instNum - 1) continue;
 
 					tsf_region_clear(&instRegion, TSF_FALSE);
 					pinst = &hydra->insts[whichInst];
@@ -800,6 +820,10 @@ static int tsf_load_presets(tsf* res, struct tsf_hydra *hydra, unsigned int font
 							if (pigen->genOper == GenSampleID)
 							{
 								struct tsf_hydra_shdr* pshdr;
+
+								// [toki1-pc] a sample that exists, and room counted for the region
+								if (pigen->genAmount.wordAmount >= hydra->shdrNum) continue;
+								if (region_index >= preset->regionNum) continue;
 
 								//preset region key and vel ranges are a filter for the zone regions
 								if (zoneRegion.hikey < presetRegion.lokey || zoneRegion.lokey > presetRegion.hikey) continue;
@@ -833,6 +857,11 @@ static int tsf_load_presets(tsf* res, struct tsf_hydra *hydra, unsigned int font
 								zoneRegion.sample_rate = pshdr->sampleRate;
 								if (zoneRegion.end && zoneRegion.end < fontSampleCount) zoneRegion.end++;
 								else zoneRegion.end = fontSampleCount;
+								// [toki1-pc] playback reads input[offset..end] and loops in
+								// [loop_start, loop_end]: keep them all inside the samples
+								if (zoneRegion.offset > zoneRegion.end) zoneRegion.offset = zoneRegion.end;
+								if (zoneRegion.loop_end > fontSampleCount) zoneRegion.loop_end = fontSampleCount;
+								if (zoneRegion.loop_start > zoneRegion.loop_end) zoneRegion.loop_start = zoneRegion.loop_end;
 
 								preset->regions[region_index] = zoneRegion;
 								region_index++;
@@ -860,6 +889,7 @@ static int tsf_load_presets(tsf* res, struct tsf_hydra *hydra, unsigned int font
 			if (ppbag == hydra->pbags + pphdr->presetBagNdx && !hadGenInstrument)
 				globalRegion = presetRegion;
 		}
+		preset->regionNum = region_index;   // [toki1-pc] only the regions written
 	}
 	return 1;
 }
@@ -1386,9 +1416,11 @@ TSFDEF tsf* tsf_load(struct tsf_stream* stream)
 				#define HandleChunk(chunkName) (TSF_FourCCEquals(chunk.id, #chunkName) && !(chunk.size % chunkName##SizeInFile)) \
 					{ \
 						int num = chunk.size / chunkName##SizeInFile, i; \
+						if (hydra.chunkName##s) goto out_of_memory; /* [toki1-pc] a second copy */ \
 						hydra.chunkName##Num = num; \
-						hydra.chunkName##s = (struct tsf_hydra_##chunkName*)TSF_MALLOC(num * sizeof(struct tsf_hydra_##chunkName)); \
+						hydra.chunkName##s = (struct tsf_hydra_##chunkName*)TSF_MALLOC(num * sizeof(struct tsf_hydra_##chunkName) + 1); \
 						if (!hydra.chunkName##s) goto out_of_memory; \
+						TSF_MEMSET(hydra.chunkName##s, 0, num * sizeof(struct tsf_hydra_##chunkName)); /* [toki1-pc] */ \
 						for (i = 0; i < num; ++i) tsf_hydra_read_##chunkName(&hydra.chunkName##s[i], stream); \
 					}
 				enum
@@ -1434,6 +1466,15 @@ TSFDEF tsf* tsf_load(struct tsf_stream* stream)
 		#ifdef STB_VORBIS_INCLUDE_STB_VORBIS_H
 		if (!floatBuffer && !tsf_decode_sf3_samples(rawBuffer, &floatBuffer, &smplCount, &hydra)) goto out_of_memory;
 		#endif
+		// [toki1-pc] the hydra's cross-references checked first, and one
+		// silent sample after the end (the interpolation reads input[pos + 1])
+		if (!tsf_hydra_valid(&hydra) || smplCount == 0) goto out_of_memory;
+		{
+			float *padded = (float*)TSF_REALLOC(floatBuffer, ((size_t)smplCount + 1) * sizeof(float));
+			if (!padded) goto out_of_memory;
+			padded[smplCount] = 0.0f;
+			floatBuffer = padded;
+		}
 		res = (tsf*)TSF_MALLOC(sizeof(tsf));
 		if (res) TSF_MEMSET(res, 0, sizeof(tsf));
 		if (!res || !tsf_load_presets(res, &hydra, smplCount)) goto out_of_memory;

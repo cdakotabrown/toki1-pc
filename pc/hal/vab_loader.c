@@ -225,6 +225,10 @@ VabBank *vab_load(const char *vh_path, const char *vb_path, u32 spu_base_addr)
 
     prog_table_off = VAB_HEADER_SIZE;
     tone_table_off = prog_table_off + VAB_MAX_PROGRAMS * VAB_PROG_STRIDE;
+    if (tone_table_off > vh_size) {          /* the program table is all there */
+        fprintf(stderr, "vab_load: VH too small for its program table (%u bytes)\n", vh_size);
+        goto fail;
+    }
 
     /* Initialize program table and count tone rows we expect. */
     tone_rows = 0;

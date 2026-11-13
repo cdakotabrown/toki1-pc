@@ -92,6 +92,15 @@ void dbg_console_poll(void) {
             if (len && line[len - 1] == '\r') line[len - 1] = 0;
             memmove(g_inbuf, nl + 1, g_inlen - len - 1);
             g_inlen -= len + 1;
+            /* a web page can POST to 127.0.0.1:PORT and have its body
+             * read as commands: an HTTP request line ends the connection
+             * before anything after it runs */
+            if (!g_stdin_console && strstr(line, "HTTP/")) {
+                dbg_sock_close(g_client);
+                g_client = -1;
+                g_inlen = 0;
+                return;
+            }
             dbg_run_line(line, g_stdin_console ? -1 : g_client);
             if (g_client < 0) return;
         }
@@ -102,7 +111,16 @@ void dbg_console_poll(void) {
             g_inlen = 0;
             return;
         }
-        if (g_inlen >= sizeof g_inbuf - 1) g_inlen = 0;   /* overlong line */
+        if (g_inlen >= sizeof g_inbuf - 1) {       /* overlong line */
+            g_inlen = 0;
+            /* (a socket client is dropped: a long HTTP request line must
+             * not slip past the check above) */
+            if (!g_stdin_console) {
+                dbg_sock_close(g_client);
+                g_client = -1;
+                return;
+            }
+        }
         r = dbg_sock_recv(g_client, g_inbuf + g_inlen, sizeof g_inbuf - 1 - g_inlen);
         if (r == -1) return;                       /* nothing yet */
         if (r <= 0) { g_eof = 1; continue; }

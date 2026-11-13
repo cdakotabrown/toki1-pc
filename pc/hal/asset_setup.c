@@ -185,6 +185,23 @@ static int is_absolute(const char *p) {
     return p[0] == '/';
 }
 
+/* A CUE FILE name must stay beside the .cue: no absolute path, drive,
+ * network share (\\host\share: Windows would send the user's NTLM
+ * credentials to it just to stat the file, and the setup scans the
+ * Downloads folder for .cue files on its own), stream name or "..".
+ * Disc dumps name their tracks by file name alone. */
+static int cue_name_ok(const char *name) {
+    const char *c = name;
+    if (!name[0] || name[0] == '/' || name[0] == '\\' || strchr(name, ':')) return 0;
+    while (*c) {
+        size_t len = strcspn(c, "/\\");
+        if (len == 2 && c[0] == '.' && c[1] == '.') return 0;
+        c += len;
+        if (*c) c++;
+    }
+    return 1;
+}
+
 static void cue_join(char *out, size_t n, const char *cue, const char *name) {
     char dir[PATH_N];
     const char *base;
@@ -283,6 +300,10 @@ static int parse_cue(const char *cue, CueTrack tr[100], AsError *err) {
             if (!match_file(p, name, sizeof name, fmt, sizeof fmt)) {
                 free(text);
                 return fail(err, AS_E_CUE, "invalid CUE FILE record");
+            }
+            if (!cue_name_ok(name)) {
+                free(text);
+                return fail(err, AS_E_CUE, "the CUE names a file outside its own folder");
             }
             snprintf(cur_file, sizeof cur_file, "%s", name);
             for (len = 0; fmt[len]; len++) fmt[len] = (char)toupper((unsigned char)fmt[len]);

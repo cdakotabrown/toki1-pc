@@ -483,6 +483,12 @@ can be undone by selecting slot 0 and pressing F9. F5 never writes slot 0.
   rebuild the port, older quicksaves are refused (`Load slot 1 failed`);
   your memory card is unaffected. Use the game's own save (the memory card)
   for anything you want to keep across updates.
+- It loads only on the **computer that made it**: a quicksave is a snapshot
+  of the running program, so the game signs each one with a key of its own
+  (`data/.state.key`) and refuses any it did not sign. A quicksave someone
+  sends you does not load (`was not saved by this installation`), and that is
+  on purpose: a crafted one could run code on your computer. To share a
+  game, share the memory card (`saves/card1.mcr`).
 - A quickload never rolls back your **memory card**: albums you saved in the
   game after the quicksave stay on the card. The game's own screens show
   the card as the game last read it, so after a quickload, check the album

@@ -243,6 +243,23 @@ class CExtractorTests(unittest.TestCase):
                 cue.write_text(text)
                 self.assert_both_refuse(cue, profile)
 
+    def test_c_refuses_cue_files_outside_its_folder(self):
+        # an absolute path, a network share (Windows would send NTLM
+        # credentials to stat it) or ".." in a FILE record: the program
+        # refuses the .cue before it touches the named file
+        image = self.root / 'disc.bin'
+        profile = fixture(image)
+        (self.root / 'sub').mkdir()
+        for name in (str(image), '\\\\host\\share\\disc.bin', '//host/share/disc.bin',
+                     'C:disc.bin', 'sub/../disc.bin', '../disc.bin'):
+            with self.subTest(name=name):
+                cue = self.root / 'sub' / 'disc.cue'
+                cue.write_text(f'FILE "{name}" BINARY\n  TRACK 01 MODE2/2352\n    INDEX 01 00:00:00\n')
+                r = self.c(cue, self.root / 'c' / 'assets', profile)
+                self.assertNotEqual(r.returncode, 0, r.stdout)
+                self.assertIn('outside its own folder', r.stdout)
+                self.assertFalse((self.root / 'c' / 'assets').exists())
+
     def test_refuses_unsafe_and_colliding_names(self):
         # OPTION.EXN: a second one in CDROM/ collides with EXEDIR's in overlays/
         for name in ('CON.TXT', 'LPT1', 'A?B', 'TRAIL.', 'OPTION.EXN'):

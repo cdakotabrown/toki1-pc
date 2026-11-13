@@ -755,8 +755,8 @@ typedef struct
    uint16 coupling_steps;
    MappingChannel *chan;
    uint8  submaps;
-   uint8  submap_floor[15]; // varies
-   uint8  submap_residue[15]; // varies
+   uint8  submap_floor[16]; // varies [toki1-pc] submaps is 1..16
+   uint8  submap_residue[16]; // varies [toki1-pc] submaps is 1..16
 } Mapping;
 
 typedef struct
@@ -949,15 +949,20 @@ static void *make_block_array(void *mem, int count, int size)
 
 static void *setup_malloc(vorb *f, int sz)
 {
+   // [toki1-pc] GHSL-2023-165..170 (CVE-2023-45675..45680): sizes computed
+   // from header fields can be negative or wrap; refuse them, and hand out
+   // zeroed memory so an error path's vorbis_deinit never frees garbage.
+   if (sz < 0 || sz > 0x7fffff00) return NULL;
    sz = (sz+7) & ~7; // round up to nearest 8 for alignment of future allocs.
    f->setup_memory_required += sz;
    if (f->alloc.alloc_buffer) {
       void *p = (char *) f->alloc.alloc_buffer + f->setup_offset;
       if (f->setup_offset + sz > f->temp_offset) return NULL;
       f->setup_offset += sz;
+      memset(p, 0, sz);
       return p;
    }
-   return sz ? malloc(sz) : NULL;
+   return sz ? calloc(1, sz) : NULL;
 }
 
 static void setup_free(vorb *f, void *p)
@@ -968,6 +973,7 @@ static void setup_free(vorb *f, void *p)
 
 static void *setup_temp_malloc(vorb *f, int sz)
 {
+   if (sz < 0 || sz > 0x7fffff00) return NULL;   // [toki1-pc] as setup_malloc
    sz = (sz+7) & ~7; // round up to nearest 8 for alignment of future allocs.
    if (f->alloc.alloc_buffer) {
       if (f->temp_offset - sz < f->setup_offset) return NULL;
@@ -3650,6 +3656,8 @@ static int start_decoder(vorb *f)
    if (!vorbis_validate(header))                    return error(f, VORBIS_invalid_setup);
    //file vendor
    len = get32_packet(f);
+   // [toki1-pc] CVE-2023-45676/45677: a length the packet cannot hold
+   if (len < 0 || len > (1 << 24))                  return error(f, VORBIS_invalid_setup);
    f->vendor = (char*)setup_malloc(f, sizeof(char) * (len+1));
    if (f->vendor == NULL)                           return error(f, VORBIS_outofmem);
    for(i=0; i < len; ++i) {
@@ -3659,6 +3667,11 @@ static int start_decoder(vorb *f)
    //user comments
    f->comment_list_length = get32_packet(f);
    f->comment_list = NULL;
+   // [toki1-pc] CVE-2023-45675: the count times sizeof(char*) must not wrap
+   if (f->comment_list_length < 0 || f->comment_list_length > (1 << 20)) {
+      f->comment_list_length = 0;
+      return error(f, VORBIS_invalid_setup);
+   }
    if (f->comment_list_length > 0)
    {
       f->comment_list = (char**) setup_malloc(f, sizeof(char*) * (f->comment_list_length));
@@ -3667,6 +3680,7 @@ static int start_decoder(vorb *f)
 
    for(i=0; i < f->comment_list_length; ++i) {
       len = get32_packet(f);
+      if (len < 0 || len > (1 << 24))               return error(f, VORBIS_invalid_setup);
       f->comment_list[i] = (char*)setup_malloc(f, sizeof(char) * (len+1));
       if (f->comment_list[i] == NULL)               return error(f, VORBIS_outofmem);
 
@@ -4210,6 +4224,7 @@ static void vorbis_deinit(stb_vorbis *p)
    int i,j;
 
    setup_free(p, p->vendor);
+   if (p->comment_list)   // [toki1-pc] CVE-2023-45680: NULL after a failed allocation
    for (i=0; i < p->comment_list_length; ++i) {
       setup_free(p, p->comment_list[i]);
    }

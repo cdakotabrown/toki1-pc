@@ -12,6 +12,20 @@
  * Each block: length(4) + x(2) + y(2) + w(2) + h(2) + data
  */
 
+/* A TIM block (length, x, y, w, h, then w*h halfwords) that lies inside
+ * the file: data/textures/ is a folder the player can put files in. */
+static int tim_block_ok(const u8 *data, s32 size, s32 off) {
+    u32 len;
+    s32 w, h;
+    if (off < 0 || off > size - 12) return 0;
+    len = *(const u32 *)&data[off];
+    w = *(const s16 *)&data[off + 8];
+    h = *(const s16 *)&data[off + 10];
+    if (len < 12 || len > (u32)(size - off)) return 0;
+    if (w <= 0 || h <= 0 || w > 1024 || h > 512) return 0;
+    return (u32)w * (u32)h * 2u <= len - 12;
+}
+
 s32 tim_load_file(const char *path) {
     FILE *f;
     u8 *data;
@@ -31,9 +45,10 @@ s32 tim_load_file(const char *path) {
     size = ftell(f);
     fseek(f, 0, SEEK_SET);
 
+    if (size < 8 || size > (16 << 20)) { fclose(f); return -1; }
     data = (u8 *)malloc(size);
     if (!data) { fclose(f); return -1; }
-    fread(data, 1, size, f);
+    if (fread(data, 1, size, f) != (size_t)size) { fclose(f); free(data); return -1; }
     fclose(f);
 
     magic = *(u32 *)&data[0];
@@ -54,6 +69,11 @@ s32 tim_load_file(const char *path) {
      *
      * IMPORTANT: TIM files may store 256-color CLUTs as 16x16 blocks, but PS1
      * clut_lookup expects them as 256x1 rows. Reformat to 256x1 if needed. */
+    if (has_clut && !tim_block_ok(data, size, off)) {
+        printf("[TIM] Bad CLUT block in %s\n", path);
+        free(data);
+        return -1;
+    }
     if (has_clut) {
         u32 clut_len = *(u32 *)&data[off];
         s16 orig_x = *(s16 *)&data[off + 4];
@@ -65,7 +85,7 @@ s32 tim_load_file(const char *path) {
         printf("[TIM] CLUT: orig=(%d,%d) size=%dx%d\n", orig_x, orig_y, tim_w, tim_h);
 
         /* If CLUT is 16x16, reformat to 256x1 for PS1 clut_lookup compatibility */
-        if (tim_w == 16 && tim_h == 16) {
+        if (tim_w == 16 && tim_h == 16) {   /* (tim_block_ok: 512 bytes are there) */
             u16 linear_clut[256];
             s32 i;
             for (i = 0; i < 256; i++) {
@@ -95,6 +115,11 @@ s32 tim_load_file(const char *path) {
         off += clut_len;
     }
 
+    if (!tim_block_ok(data, size, off)) {
+        printf("[TIM] Bad pixel block in %s\n", path);
+        free(data);
+        return -1;
+    }
     /* Load pixel data — place at VRAM (640,0) to avoid display area overlap */
     {
         u32 pix_len = *(u32 *)&data[off];

@@ -694,7 +694,9 @@ static int real_main(int argc, char *argv[]);
 
 int main(int argc, char *argv[]) {
     extern int pc_map_fixed_regions(void);
+    extern void pc_win_harden(void);
     volatile char here;
+    pc_win_harden();             /* DLLs from System32 only (win_compat.c) */
     _fmode = _O_BINARY;
     _setmode(_fileno(stdin), _O_BINARY);
     _setmode(_fileno(stdout), _O_BINARY);

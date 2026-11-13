@@ -81,6 +81,8 @@
 #include "types.h"
 #include "dbg_toolkit.h"
 #include "dbg_platform.h"
+#include "state_sign.h"
+#include "pc_data_root.h"
 
 extern s32 frame_counter;
 extern u8 now_step, now_sub_step, now_sub_sub_step, now_girl;
@@ -211,6 +213,7 @@ const char *dbg_sym_name(const void *addr, char *buf, size_t cap) {
 int dbg_addr_ok(const void *addr, unsigned long bytes) {
     unsigned long a = (unsigned long)addr, r[8][2];
     int i, n;
+    if (a + bytes < a) return 0;
     if (a >= PRAM_BASE && a + bytes <= PRAM_BASE + PRAM_SIZE) return 1;
     if (a >= MMIO_BASE && a + bytes <= MMIO_BASE + MMIO_SIZE) return 1;
     n = dbg_plat_data_ranges(r, 8);
@@ -322,6 +325,10 @@ static const char *const KEEP_FILES[] = {
      * disc files (guide_rules*.c: EXN tables, never PS1 RAM).  Reference
      * UI and a cache of constant disc data; nothing the game reads. */
     "guide_view.c", "guide_model.c", "guide_rules.c", "guide_rules_dates.c",
+    /* The save-state signing key (pc/hal/state_sign.c, 2026-11-13): the
+     * install's secret.  A state that held it would hand anyone it is
+     * shared with the key to forge states; never saved, never restored. */
+    "state_sign.c",
     NULL
 };
 
@@ -1028,6 +1035,18 @@ int dbg_state_write(DbgStateSnap *s, const char *path, const char **why) {
         put_paged(&o, s->natv + r->off, r->size);
     }
     if (s->stsz) write_section(&o, "STAK", FLAG_PAGED, s->stlo, s->stak, s->stsz);
+    /* this install's signature (pc/hal/state_sign.c): a load accepts only
+     * a state written here */
+    if (o.ok) {
+        uint8_t trailer[STATE_TRAILER_LEN];
+        if (state_sign_trailer(o.p, o.n, trailer)) {
+            free(o.p);
+            snprintf(msg, sizeof msg, "cannot sign the state: no key in %s", pc_asset_dir());
+            dbg_state_snap_free(s);
+            return -1;
+        }
+        out_put(&o, trailer, sizeof trailer);
+    }
     ok = o.ok && dbg_write_file(tmp, o.p, o.n);
     free(o.p);
     if (!ok || dbg_replace_file(tmp, path)) {
@@ -1150,6 +1169,18 @@ int dbg_state_load(const char *path, const char **why) {
     if (!build_records()) FAIL("%s", g_unavail);
     file = dbg_read_file(path, &n);
     if (!file || n < 8) FAIL("cannot read %s", path);
+    /* nothing of the file is parsed before its signature checks out: a
+     * state is restored byte for byte over native memory */
+    {
+        unsigned long body;
+        int v = state_verify(file, n, &body);
+        if (v == -2 && !force_load())
+            FAIL("cannot check %s: no state key in %s", path, pc_asset_dir());
+        if (v && !force_load())
+            FAIL("%s was not saved by this installation (save states are machine snapshots and "
+                 "only load where they were made; share the memory card instead)", path);
+        n = body;
+    }
     if (!memcmp(file, "TOKISTv1", 8))
         FAIL("%s is a state of an older build (format 1: a process image)", path);
     if (memcmp(file, "TOKISTv2", 8)) FAIL("%s is not a state file", path);
@@ -1174,6 +1205,8 @@ int dbg_state_load(const char *path, const char **why) {
         nsec++;
     }
     if (!sinfo || !snatv || !sram || !smmio) FAIL("%s: truncated or missing sections", path);
+    if (sinfo->size != sinfo->stored || (sinfo->flags & FLAG_PAGED))
+        FAIL("%s: corrupt INFO section", path);
     if (!info_value(sinfo, "platform", plat, sizeof plat)) plat[0] = 0;
     if (!info_value(sinfo, "build_id", bid, sizeof bid)) bid[0] = 0;
     if (strcmp(bid, dbg_plat_build_id()) && !force_load())
@@ -1192,6 +1225,8 @@ int dbg_state_load(const char *path, const char **why) {
         if (qe - q < 4) FAIL("%s: corrupt NATV section", path);
         memcpy(&count, q, 4);
         q += 4;
+        /* every record takes at least its 26-byte head */
+        if (count > (unsigned long)(qe - q) / 26) FAIL("%s: corrupt NATV section", path);
         in = malloc((unsigned long)(count ? count : 1) * sizeof *in);
         seen = malloc((unsigned long)(g_nrecs ? g_nrecs : 1));
         if (!in || !seen) FAIL("out of memory");
